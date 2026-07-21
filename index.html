@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyPortfolio | Student Web Developer</title>
+  <meta name="description" content="Personal portfolio showcasing Trip Planner, Weather Dashboard, and Mood Home projects.">
+
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Skip link for keyboard/screen-reader users -->
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- ============ NAVIGATION BAR ============ -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav" aria-label="Main navigation">
+    <div class="container">
+      <a class="navbar-brand" href="#home">MyPortfolio</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center" id="navLinks">
+          <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+          <li class="nav-item">
+            <button id="darkModeToggle" class="btn btn-dark-toggle ms-lg-3" type="button"
+              aria-label="Toggle dark mode" aria-pressed="false">
+              <span id="darkModeIcon" aria-hidden="true">🌙</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main-content">
+
+    <!-- ============ HERO SECTION ============ -->
+    <header id="home" class="hero-section d-flex align-items-center text-center">
+      <div class="container">
+        <h1 class="hero-title">Hello, I'm <span class="hero-name">Your Name</span></h1>
+        <p class="hero-subtitle">Full Stack Developer &amp; Creative Thinker</p>
+        <p class="hero-tagline">Building amazing web experiences</p>
+        <a href="#portfolio" class="btn btn-hero mt-3">View My Work</a>
+      </div>
+    </header>
+
+    <!-- ============ PORTFOLIO SECTION ============ -->
+    <section id="portfolio" class="portfolio-section py-5">
+      <div class="container">
+        <div class="text-center mb-5">
+          <h2 class="section-title">⭐ My Projects</h2>
+          <div class="section-underline mx-auto"></div>
+        </div>
+
+        <div class="row g-4">
+          <!-- Trip Planner Card -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card project-card h-100">
+              <img src="https://picsum.photos/seed/1/400/250" class="card-img-top" alt="Trip Planner project preview">
+              <div class="card-body d-flex flex-column">
+                <h3 class="card-title project-title" tabindex="0" role="button"
+                  data-color="#FFF3E0" data-project="Trip Planner"
+                  aria-label="Trip Planner, click to change portfolio background color">Trip Planner</h3>
+                <p class="card-text flex-grow-1">A travel planning app that helps you create multi-city trips with real-time weather-aware suggestions.</p>
+                <button type="button" class="btn btn-view-details mt-auto" data-bs-toggle="modal" data-bs-target="#tripPlannerModal">
+                  View Details
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Weather Dashboard Card -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card project-card h-100">
+              <img src="https://picsum.photos/seed/2/400/250" class="card-img-top" alt="Weather Dashboard project preview">
+              <div class="card-body d-flex flex-column">
+                <h3 class="card-title project-title" tabindex="0" role="button"
+                  data-color="#E3F2FD" data-project="Weather Dashboard"
+                  aria-label="Weather Dashboard, click to change portfolio background color">Weather Dashboard</h3>
+                <p class="card-text flex-grow-1">An interactive weather dashboard with live maps, 5-day forecasts, and dynamic time-of-day backgrounds.</p>
+                <button type="button" class="btn btn-view-details mt-auto" data-bs-toggle="modal" data-bs-target="#weatherDashboardModal">
+                  View Details
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mood Home Card -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card project-card h-100">
+              <img src="https://picsum.photos/seed/3/400/250" class="card-img-top" alt="Mood Home project preview">
+              <div class="card-body d-flex flex-column">
+                <h3 class="card-title project-title" tabindex="0" role="button"
+                  data-color="#FCE4EC" data-project="Mood Home"
+                  aria-label="Mood Home, click to change portfolio background color">Mood Home</h3>
+                <p class="card-text flex-grow-1">A full-stack couples app for mood tracking, playful mini-games, and shared photo memories.</p>
+                <button type="button" class="btn btn-view-details mt-auto" data-bs-toggle="modal" data-bs-target="#moodHomeModal">
+                  View Details
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT SECTION ============ -->
+    <section id="about" class="about-section py-5">
+      <div class="container">
+        <div class="text-center mb-4">
+          <h2 class="section-title">About Me</h2>
+          <div class="section-underline mx-auto"></div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-lg-8 text-center">
+            <p class="about-text">
+              I'm a student developer who enjoys turning ideas into clean, functional web experiences.
+              I love working across the stack &mdash; from crafting responsive interfaces to wiring up
+              APIs and databases &mdash; and I'm always looking for the next interesting problem to solve.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT SECTION ============ -->
+    <section id="contact" class="contact-section py-5">
+      <div class="container">
+        <div class="text-center mb-5">
+          <h2 class="section-title">Get In Touch</h2>
+          <div class="section-underline mx-auto"></div>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="col-12 col-lg-7">
+            <div class="email-card">
+              <div class="email-card-header">
+                <i class="fa-solid fa-envelope-open-text" aria-hidden="true"></i>
+                <span>New Message</span>
+              </div>
+
+              <form id="contactForm" class="email-form needs-validation" novalidate aria-describedby="formSuccessMsg">
+                <div class="mb-3">
+                  <label for="contactName" class="form-label">Your Name</label>
+                  <input type="text" class="form-control" id="contactName" name="from_name" required
+                    aria-required="true" placeholder="Jane Doe">
+                  <div class="invalid-feedback">Please enter your name.</div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="contactEmail" class="form-label">Your Email</label>
+                  <input type="email" class="form-control" id="contactEmail" name="from_email" required
+                    aria-required="true" placeholder="jane@example.com">
+                  <div class="invalid-feedback">Please enter a valid email address.</div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="contactSubject" class="form-label">Subject</label>
+                  <input type="text" class="form-control" id="contactSubject" name="subject" required
+                    aria-required="true" placeholder="Let's work together">
+                  <div class="invalid-feedback">Please enter a subject.</div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="contactMessage" class="form-label">Message</label>
+                  <textarea class="form-control" id="contactMessage" name="message" rows="5" required
+                    aria-required="true" placeholder="Type your message here..."></textarea>
+                  <div class="invalid-feedback">Please enter a message.</div>
+                </div>
+
+                <button type="submit" class="btn btn-send w-100" id="sendMessageBtn">
+                  📤 Send Message
+                </button>
+
+                <div id="formSuccessMsg" class="alert alert-success mt-3 d-none" role="alert" aria-live="polite">
+                  <i class="fa-solid fa-circle-check me-2" aria-hidden="true"></i>
+                  Your message has been sent successfully!
+                </div>
+                <div id="formErrorMsg" class="alert alert-danger mt-3 d-none" role="alert" aria-live="polite">
+                  <i class="fa-solid fa-circle-exclamation me-2" aria-hidden="true"></i>
+                  Something went wrong. Please try again later.
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ PROJECT MODALS ============ -->
+
+  <!-- Trip Planner Modal -->
+  <div class="modal fade" id="tripPlannerModal" tabindex="-1" aria-labelledby="tripPlannerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="tripPlannerModalLabel">Trip Planner</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3 mb-4">
+            <div class="col-12 col-sm-4">
+              <img src="https://picsum.photos/seed/4/400/250" class="img-fluid rounded modal-screenshot" alt="Trip Planner Dashboard screenshot">
+              <p class="screenshot-caption">Dashboard</p>
+            </div>
+            <div class="col-12 col-sm-4">
+              <img src="https://picsum.photos/seed/5/400/250" class="img-fluid rounded modal-screenshot" alt="Trip Planner Trip Form screenshot">
+              <p class="screenshot-caption">Trip Form</p>
+            </div>
+            <div class="col-12 col-sm-4">
+              <img src="https://picsum.photos/seed/6/400/250" class="img-fluid rounded modal-screenshot" alt="Trip Planner Weather View screenshot">
+              <p class="screenshot-caption">Weather View</p>
+            </div>
+          </div>
+
+          <h3 class="modal-section-heading">Technologies</h3>
+          <div class="tech-badges mb-3">
+            <span class="badge tech-badge">HTML/CSS</span>
+            <span class="badge tech-badge">Vanilla JS</span>
+            <span class="badge tech-badge">OpenWeatherMap API</span>
+            <span class="badge tech-badge">LocalStorage</span>
+          </div>
+
+          <h3 class="modal-section-heading">Features</h3>
+          <ul class="modal-features mb-3">
+            <li>Create trips with multiple destinations</li>
+            <li>Multi-city stop planning</li>
+            <li>5-day weather forecast per stop</li>
+            <li>Smart weather-based packing suggestions</li>
+          </ul>
+
+          <div class="row modal-meta">
+            <div class="col-6"><strong>Duration:</strong> 1 week</div>
+            <div class="col-6"><strong>Role:</strong> Frontend Developer</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a href="#" class="btn btn-outline-secondary" target="_blank" rel="noopener">
+            <i class="fa-brands fa-github me-1" aria-hidden="true"></i> GitHub
+          </a>
+          <a href="#" class="btn btn-view-details" target="_blank" rel="noopener">
+            <i class="fa-solid fa-arrow-up-right-from-square me-1" aria-hidden="true"></i> Live Demo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Weather Dashboard Modal -->
+  <div class="modal fade" id="weatherDashboardModal" tabindex="-1" aria-labelledby="weatherDashboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="weatherDashboardModalLabel">Weather Dashboard</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3 mb-4">
+            <div class="col-12 col-sm-4">
+              <img src="https://picsum.photos/seed/7/400/250" class="img-fluid rounded modal-screenshot" alt="Weather Dashboard Main View screenshot">
+              <p class="screenshot-caption">Main View</p>
+            </div>
+            <div class="col-12 col-sm-4">
+              <img src="https://picsum.photos/seed/8/400/250" class="img-fluid rounded modal-screenshot" alt="Weather Dashboard Weather Map screenshot">
+              <p class="screenshot-caption">Weather Map</p>
+            </div>
+            <div class="col-12 col-sm-4">
+              <img src="https://picsum.photos/seed/9/400/250" class="img-fluid rounded modal-screenshot" alt="Weather Dashboard Forecast screenshot">
+              <p class="screenshot-caption">Forecast</p>
+            </div>
+          </div>
+
+          <h3 class="modal-section-heading">Technologies</h3>
+          <div class="tech-badges mb-3">
+            <span class="badge tech-badge">HTML/CSS</span>
+            <span class="badge tech-badge">Vanilla JS</span>
+            <span class="badge tech-badge">OpenWeatherMap API</span>
+            <span class="badge tech-badge">Leaflet/OSM</span>
+            <span class="badge tech-badge">CSS Animations</span>
+          </div>
+
+          <h3 class="modal-section-heading">Features</h3>
+          <ul class="modal-features mb-3">
+            <li>Search weather by city</li>
+            <li>5-day forecast view</li>
+            <li>Interactive weather map</li>
+            <li>Dynamic time-of-day backgrounds</li>
+          </ul>
+
+          <div class="row modal-meta">
+            <div class="col-6"><strong>Duration:</strong> 2 weeks</div>
+            <div class="col-6"><strong>Role:</strong> Frontend Developer</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a href="#" class="btn btn-outline-secondary" target="_blank" rel="noopener">
+            <i class="fa-brands fa-github me-1" aria-hidden="true"></i> GitHub
+          </a>
+          <a href="#" class="btn btn-view-details" target="_blank" rel="noopener">
+            <i class="fa-solid fa-arrow-up-right-from-square me-1" aria-hidden="true"></i> Live Demo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mood Home Modal -->
+  <div class="modal fade" id="moodHomeModal" tabindex="-1" aria-labelledby="moodHomeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="moodHomeModalLabel">Mood Home</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3 mb-4">
+            <div class="col-12 col-sm-4">
+              <img src="https://picsum.photos/seed/10/400/250" class="img-fluid rounded modal-screenshot" alt="Mood Home Dashboard screenshot">
+              <p class="screenshot-caption">Dashboard</p>
+            </div>
+            <div class="col-12 col-sm-4">
+              <img src="https://picsum.photos/seed/11/400/250" class="img-fluid rounded modal-screenshot" alt="Mood Home Playground screenshot">
+              <p class="screenshot-caption">Playground</p>
+            </div>
+            <div class="col-12 col-sm-4">
+              <img src="https://picsum.photos/seed/12/400/250" class="img-fluid rounded modal-screenshot" alt="Mood Home Photo Gallery screenshot">
+              <p class="screenshot-caption">Photo Gallery</p>
+            </div>
+          </div>
+
+          <h3 class="modal-section-heading">Technologies</h3>
+          <div class="tech-badges mb-3">
+            <span class="badge tech-badge">HTML/CSS</span>
+            <span class="badge tech-badge">Vanilla JS</span>
+            <span class="badge tech-badge">Supabase</span>
+            <span class="badge tech-badge">PostgreSQL</span>
+            <span class="badge tech-badge">RLS</span>
+          </div>
+
+          <h3 class="modal-section-heading">Features</h3>
+          <ul class="modal-features mb-3">
+            <li>Couple signup and pairing</li>
+            <li>Daily mood tracking</li>
+            <li>Interactive playground / mini-games</li>
+            <li>Shared photo gallery</li>
+            <li>Strict per-couple data isolation via RLS</li>
+          </ul>
+
+          <div class="row modal-meta">
+            <div class="col-6"><strong>Duration:</strong> 2 months</div>
+            <div class="col-6"><strong>Role:</strong> Full Stack Developer</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a href="#" class="btn btn-outline-secondary" target="_blank" rel="noopener">
+            <i class="fa-brands fa-github me-1" aria-hidden="true"></i> GitHub
+          </a>
+          <a href="#" class="btn btn-view-details" target="_blank" rel="noopener">
+            <i class="fa-solid fa-arrow-up-right-from-square me-1" aria-hidden="true"></i> Live Demo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer py-4">
+    <div class="container text-center">
+      <div class="footer-social mb-3">
+        <a href="#" class="social-link" aria-label="Facebook" target="_blank" rel="noopener">
+          <i class="fa-brands fa-facebook" aria-hidden="true"></i><span class="social-label">Facebook</span>
+        </a>
+        <a href="#" class="social-link" aria-label="GitHub" target="_blank" rel="noopener">
+          <i class="fa-brands fa-github" aria-hidden="true"></i><span class="social-label">GitHub</span>
+        </a>
+        <a href="#" class="social-link" aria-label="Instagram" target="_blank" rel="noopener">
+          <i class="fa-brands fa-instagram" aria-hidden="true"></i><span class="social-label">Instagram</span>
+        </a>
+      </div>
+
+      <nav class="footer-links mb-3" aria-label="Footer quick navigation">
+        <a href="#home">Home</a>
+        <span aria-hidden="true">&middot;</span>
+        <a href="#portfolio">Portfolio</a>
+        <span aria-hidden="true">&middot;</span>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <p class="footer-copyright mb-0">
+        &copy; <span id="copyrightYear"></span> Your Name. All Rights Reserved.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ============ BACK TO TOP BUTTON ============ -->
+  <button id="backToTopBtn" type="button" aria-label="Back to top" title="Back to top">
+    <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+  </button>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <!-- Custom JS -->
+  <script src="js/script.js"></script>
+</body>
+</html>

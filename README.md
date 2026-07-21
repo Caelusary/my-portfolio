@@ -65,8 +65,7 @@ To use the form with your own EmailJS account, replace these three values with y
 
 The following content is currently placeholder/sample data and will need to be filled in before this is a "real" portfolio:
 
-- Hero name (`Your Name`) and footer name/copyright.
-- Social links (Facebook, GitHub, Instagram) and per-project GitHub/Live Demo links in the modals — currently `#`.
+- Per-project GitHub/Live Demo links in the modals — currently `#`.
 - Project screenshots — currently placeholder images from `picsum.photos`.
 - TODO: live deployment URL (not yet deployed anywhere as far as this repository shows).
 

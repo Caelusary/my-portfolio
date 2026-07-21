@@ -6,9 +6,12 @@ const EMAILJS_PUBLIC_KEY = 'V-b5rP4yFb6ZoE5xE';
 const EMAILJS_SERVICE_ID = 'service_lvv2185';
 const EMAILJS_TEMPLATE_ID = 'template_5hyd0k3';
 
+let currentLang = 'en';
+
 document.addEventListener('DOMContentLoaded', () => {
   initEmailJS();
   initDarkMode();
+  initLanguageToggle();
   initNavScrollEffect();
   initScrollSpy();
   initSmoothScroll();
@@ -48,6 +51,57 @@ function initDarkMode() {
     applyTheme(isDark);
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
   });
+}
+
+/* =========================================================
+   LANGUAGE TOGGLE (EN / FIL, persisted via localStorage)
+   ========================================================= */
+function getTranslation(key) {
+  const entry = translations[key];
+  if (!entry) return key;
+  return entry[currentLang] || entry.en || key;
+}
+
+function applyTranslations(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+
+  document.querySelectorAll('[data-i18n]').forEach((el) => {
+    el.textContent = getTranslation(el.dataset.i18n);
+  });
+
+  document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+    el.placeholder = getTranslation(el.dataset.i18nPlaceholder);
+  });
+
+  document.querySelectorAll('[data-i18n-aria-label]').forEach((el) => {
+    el.setAttribute('aria-label', getTranslation(el.dataset.i18nAriaLabel));
+  });
+
+  document.querySelectorAll('[data-i18n-title]').forEach((el) => {
+    el.title = getTranslation(el.dataset.i18nTitle);
+  });
+}
+
+function initLanguageToggle() {
+  const buttons = document.querySelectorAll('.lang-btn');
+  const storedLang = localStorage.getItem('lang') || 'en';
+
+  const setLang = (lang) => {
+    applyTranslations(lang);
+    buttons.forEach((btn) => {
+      const isActive = btn.dataset.lang === lang;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-pressed', String(isActive));
+    });
+    localStorage.setItem('lang', lang);
+  };
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => setLang(btn.dataset.lang));
+  });
+
+  setLang(storedLang);
 }
 
 /* =========================================================
@@ -142,6 +196,7 @@ function initProjectBackgroundChange() {
 function initContactForm() {
   const form = document.getElementById('contactForm');
   const sendBtn = document.getElementById('sendMessageBtn');
+  const sendBtnText = document.getElementById('sendBtnText');
   const successMsg = document.getElementById('formSuccessMsg');
   const errorMsg = document.getElementById('formErrorMsg');
   const fields = form.querySelectorAll('input[required], textarea[required]');
@@ -178,7 +233,7 @@ function initContactForm() {
     }
 
     sendBtn.disabled = true;
-    sendBtn.textContent = 'Sending...';
+    sendBtnText.textContent = getTranslation('contact.sending');
 
     emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form)
       .then(() => {
@@ -190,7 +245,7 @@ function initContactForm() {
       })
       .finally(() => {
         sendBtn.disabled = false;
-        sendBtn.textContent = '📤 Send Message';
+        sendBtnText.textContent = getTranslation('contact.sendBtn');
       });
   });
 

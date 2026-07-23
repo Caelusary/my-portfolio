@@ -3,55 +3,78 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MyPortfolio | Student Web Developer</title>
-  <meta name="description" content="Personal portfolio showcasing Trip Planner, Weather Dashboard, and Mood Home projects.">
+  <title>Zachary Scott | Full-Stack Developer &amp; Creative Thinker</title>
+  <meta name="description" content="Personal portfolio of Zachary Scott — Full-Stack Developer &amp; Creative Thinker — showcasing Trip Planner, Weather Dashboard, and Twogether projects.">
 
-  <!-- Google Fonts: Poppins -->
+  <!-- Google Fonts: Space Grotesk (headings) + Inter (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-  <!-- Custom CSS -->
+  <!-- Tailwind CSS (CDN build) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['"Space Grotesk"', 'sans-serif']
+          },
+          colors: {
+            herobase: '#0A0A1A'
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Custom CSS (only what Tailwind utilities can't express) -->
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="font-sans transition-colors duration-300">
 
   <!-- Skip link for keyboard/screen-reader users -->
   <a class="skip-link" href="#main-content" data-i18n="a11y.skipLink">Skip to main content</a>
 
+  <!-- Scroll progress indicator -->
+  <div id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- Custom cursor (JS enables only on fine-pointer, hover-capable, non-reduced-motion devices) -->
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
   <!-- ============ NAVIGATION BAR ============ -->
-  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav" aria-label="Main navigation">
-    <div class="container">
-      <a class="navbar-brand" href="#home">MyPortfolio</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+  <nav id="mainNav" class="fixed top-0 inset-x-0 z-40 transition-colors duration-300" aria-label="Main navigation">
+    <div class="max-w-6xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
+      <a href="#home" class="nav-logo">
+        <span class="nav-logo-mark" aria-hidden="true">ZS</span>
+        <span class="hidden sm:inline">Zachary Scott</span>
+      </a>
+
+      <button id="navToggle" class="md:hidden text-white p-2" aria-controls="navLinks" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars text-xl" aria-hidden="true"></i>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto align-items-lg-center" id="navLinks">
-          <li class="nav-item"><a class="nav-link" href="#home" data-i18n="nav.home">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="#portfolio" data-i18n="nav.portfolio">Portfolio</a></li>
-          <li class="nav-item"><a class="nav-link" href="#about" data-i18n="nav.about">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="#contact" data-i18n="nav.contact">Contact</a></li>
-          <li class="nav-item">
-            <div class="lang-switch" role="group" data-i18n-aria-label="a11y.langSelector" aria-label="Language selector">
-              <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
-              <button type="button" class="lang-btn" data-lang="tl" aria-pressed="false">FIL</button>
-            </div>
-          </li>
-          <li class="nav-item">
-            <button id="darkModeToggle" class="btn btn-dark-toggle ms-lg-2" type="button"
-              data-i18n-aria-label="a11y.darkModeToggle" aria-label="Toggle dark mode" aria-pressed="false">
-              <span id="darkModeIcon" aria-hidden="true">🌙</span>
-            </button>
-          </li>
-        </ul>
+
+      <div id="navLinks" class="hidden md:flex flex-col md:flex-row md:items-center gap-1 md:gap-2 absolute md:static top-16 inset-x-0 bg-slate-900/95 md:bg-transparent backdrop-blur md:backdrop-blur-none px-4 md:px-0 py-4 md:py-0">
+        <a href="#home" class="nav-link" data-i18n="nav.home">Home</a>
+        <a href="#portfolio" class="nav-link" data-i18n="nav.portfolio">Portfolio</a>
+        <a href="#about" class="nav-link" data-i18n="nav.about">About</a>
+        <a href="#contact" class="nav-link" data-i18n="nav.contact">Contact</a>
+
+        <div class="lang-switch mt-2 md:mt-0 md:ml-2" role="group" data-i18n-aria-label="a11y.langSelector" aria-label="Language selector">
+          <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+          <button type="button" class="lang-btn" data-lang="tl" aria-pressed="false">FIL</button>
+        </div>
+
+        <button id="darkModeToggle" class="btn-dark-toggle mt-2 md:mt-0 md:ml-2" type="button"
+          data-i18n-aria-label="a11y.darkModeToggle" aria-label="Toggle dark mode" aria-pressed="false">
+          <span id="darkModeIcon" aria-hidden="true">🌙</span>
+        </button>
       </div>
     </div>
   </nav>
@@ -59,152 +82,240 @@
   <main id="main-content">
 
     <!-- ============ HERO SECTION ============ -->
-    <header id="home" class="hero-section d-flex align-items-center text-center">
-      <div class="container">
-        <h1 class="hero-title"><span data-i18n="hero.greeting">Hello, I'm</span> <span class="hero-name">Zachary Scott D. Ruiz</span></h1>
-        <p class="hero-subtitle" data-i18n="hero.subtitle">Full Stack Developer &amp; Creative Thinker</p>
-        <p class="hero-tagline" data-i18n="hero.tagline">Building amazing web experiences</p>
-        <a href="#portfolio" class="btn btn-hero mt-3" data-i18n="hero.cta">View My Work</a>
+    <header id="home" class="relative overflow-hidden min-h-screen flex items-center bg-herobase text-white pt-20">
+      <canvas id="heroCanvas" class="absolute inset-0 w-full h-full -z-10" aria-hidden="true"></canvas>
+      <div class="hero-overlay absolute inset-0" aria-hidden="true"></div>
+      <div class="hero-mouse-glow" id="heroMouseGlow" aria-hidden="true"></div>
+      <div id="codeParticles" class="absolute inset-0 overflow-hidden" aria-hidden="true"></div>
+
+      <div class="max-w-6xl mx-auto px-4 md:px-6 w-full">
+        <img src="images/profile-hero.jpg" class="hero-photo" id="heroPhoto" alt="Portrait of Zachary Scott D. Ruiz">
+        <div class="relative z-10 lg:max-w-xl text-center lg:text-left reveal">
+          <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold leading-[1.05] tracking-tight">
+            <span class="hero-name" id="heroName">Zachary Scott</span>
+          </h1>
+          <p class="mt-6 text-xl md:text-2xl font-medium text-white/90" data-i18n="hero.subtitle">Full Stack Developer &amp; Creative Thinker</p>
+          <p class="mt-2 text-base md:text-lg text-white/70 font-light" data-i18n="hero.tagline">I craft high-performance web experiences that blend code with design.</p>
+          <div class="mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-4">
+            <a href="#portfolio" class="btn-hero" data-i18n="hero.cta">View My Work</a>
+            <a href="#contact" class="btn-hero-outline" data-i18n="hero.ctaSecondary">Let's Talk</a>
+          </div>
+          <div class="hero-socials mt-8 justify-center lg:justify-start">
+            <a href="https://www.facebook.com/zacharyscott.ruiz" aria-label="Facebook" target="_blank" rel="noopener"><i class="fa-brands fa-facebook" aria-hidden="true"></i></a>
+            <a href="https://github.com/Caelusary" aria-label="GitHub" target="_blank" rel="noopener"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
+            <a href="https://www.instagram.com/definitely_notzach" aria-label="Instagram" target="_blank" rel="noopener"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+            <a href="tel:+639454632859" aria-label="Call" title="(63) 9454632859"><i class="fa-solid fa-phone" aria-hidden="true"></i></a>
+          </div>
+        </div>
       </div>
     </header>
 
     <!-- ============ PORTFOLIO SECTION ============ -->
-    <section id="portfolio" class="portfolio-section py-5">
-      <div class="container">
-        <div class="text-center mb-5">
+    <section id="portfolio" class="portfolio-section py-20 md:py-28">
+      <div class="max-w-6xl mx-auto px-4 md:px-6">
+        <div class="text-center mb-16 reveal">
           <h2 class="section-title">⭐ <span data-i18n="portfolio.title">My Projects</span></h2>
           <div class="section-underline mx-auto"></div>
         </div>
 
-        <div class="row g-4">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
           <!-- Trip Planner Card -->
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="card project-card h-100">
-              <img src="https://picsum.photos/seed/1/400/250" class="card-img-top" alt="Trip Planner project preview">
-              <div class="card-body d-flex flex-column">
-                <h3 class="card-title project-title" tabindex="0" role="button"
-                  data-color="#FFF3E0" data-project="Trip Planner"
-                  aria-label="Trip Planner, click to change portfolio background color">Trip Planner</h3>
-                <p class="card-text flex-grow-1" data-i18n="project.trip.desc">A travel planning app that helps you create multi-city trips with real-time weather-aware suggestions.</p>
-                <button type="button" class="btn btn-view-details mt-auto" data-bs-toggle="modal" data-bs-target="#tripPlannerModal">
-                  <span data-i18n="project.viewDetails">View Details</span>
-                </button>
+          <div class="project-card reveal">
+            <img src="project-screenshots/trip-planner(1).png" class="project-card-image" alt="Trip Planner project preview" loading="lazy">
+            <div class="project-card-body">
+              <h3 class="project-card-title" tabindex="0" role="button"
+                data-color="rgba(255, 183, 77, 0.12)" data-project="Trip Planner"
+                aria-label="Trip Planner, click to change portfolio background color">Trip Planner</h3>
+              <p class="project-card-desc" data-i18n="project.trip.desc">A travel planning app for browsing tourist attractions, saving favorites, and organizing your upcoming trips.</p>
+              <div class="card-tech-row">
+                <span class="badge tech-badge">HTML/CSS</span>
+                <span class="badge tech-badge">Vanilla JS</span>
+                <span class="badge tech-badge">LocalStorage</span>
               </div>
+              <button type="button" class="btn-view-details mt-auto" data-modal-target="tripPlannerModal">
+                <span data-i18n="project.viewDetails">View Details</span>
+              </button>
             </div>
           </div>
 
           <!-- Weather Dashboard Card -->
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="card project-card h-100">
-              <img src="https://picsum.photos/seed/2/400/250" class="card-img-top" alt="Weather Dashboard project preview">
-              <div class="card-body d-flex flex-column">
-                <h3 class="card-title project-title" tabindex="0" role="button"
-                  data-color="#E3F2FD" data-project="Weather Dashboard"
-                  aria-label="Weather Dashboard, click to change portfolio background color">Weather Dashboard</h3>
-                <p class="card-text flex-grow-1" data-i18n="project.weather.desc">An interactive weather dashboard with live maps, 5-day forecasts, and dynamic time-of-day backgrounds.</p>
-                <button type="button" class="btn btn-view-details mt-auto" data-bs-toggle="modal" data-bs-target="#weatherDashboardModal">
-                  <span data-i18n="project.viewDetails">View Details</span>
-                </button>
+          <div class="project-card reveal">
+            <img src="project-screenshots/weather-dashboard(1).png" class="project-card-image" alt="Weather Dashboard project preview" loading="lazy">
+            <div class="project-card-body">
+              <h3 class="project-card-title" tabindex="0" role="button"
+                data-color="rgba(0, 210, 255, 0.12)" data-project="Weather Dashboard"
+                aria-label="Weather Dashboard, click to change portfolio background color">Weather Dashboard</h3>
+              <p class="project-card-desc" data-i18n="project.weather.desc">An interactive weather dashboard with live maps, 5-day forecasts, and dynamic time-of-day backgrounds.</p>
+              <div class="card-tech-row">
+                <span class="badge tech-badge">Vanilla JS</span>
+                <span class="badge tech-badge">OpenWeatherMap API</span>
+                <span class="badge tech-badge">Leaflet/OSM</span>
               </div>
+              <button type="button" class="btn-view-details mt-auto" data-modal-target="weatherDashboardModal">
+                <span data-i18n="project.viewDetails">View Details</span>
+              </button>
             </div>
           </div>
 
-          <!-- Mood Home Card -->
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="card project-card h-100">
-              <img src="https://picsum.photos/seed/3/400/250" class="card-img-top" alt="Mood Home project preview">
-              <div class="card-body d-flex flex-column">
-                <h3 class="card-title project-title" tabindex="0" role="button"
-                  data-color="#FCE4EC" data-project="Mood Home"
-                  aria-label="Mood Home, click to change portfolio background color">Mood Home</h3>
-                <p class="card-text flex-grow-1" data-i18n="project.mood.desc">A full-stack couples app for mood tracking, playful mini-games, and shared photo memories.</p>
-                <button type="button" class="btn btn-view-details mt-auto" data-bs-toggle="modal" data-bs-target="#moodHomeModal">
-                  <span data-i18n="project.viewDetails">View Details</span>
-                </button>
+          <!-- Twogether Card -->
+          <div class="project-card reveal">
+            <img src="project-screenshots/twogether(3).png" class="project-card-image" alt="Twogether project preview" loading="lazy">
+            <div class="project-card-body">
+              <h3 class="project-card-title" tabindex="0" role="button"
+                data-color="rgba(255, 105, 180, 0.12)" data-project="Twogether"
+                aria-label="Twogether, click to change portfolio background color">Twogether</h3>
+              <p class="project-card-desc" data-i18n="project.mood.desc">A full-stack couples app for mood tracking, playful mini-games, and shared photo memories.</p>
+              <div class="card-tech-row">
+                <span class="badge tech-badge">Vanilla JS</span>
+                <span class="badge tech-badge">Supabase</span>
+                <span class="badge tech-badge">PostgreSQL</span>
               </div>
+              <button type="button" class="btn-view-details mt-auto" data-modal-target="twogetherModal">
+                <span data-i18n="project.viewDetails">View Details</span>
+              </button>
             </div>
           </div>
+
         </div>
       </div>
     </section>
 
     <!-- ============ ABOUT SECTION ============ -->
-    <section id="about" class="about-section py-5">
-      <div class="container">
-        <div class="text-center mb-4">
+    <section id="about" class="about-section py-20">
+      <div class="max-w-6xl mx-auto px-4 md:px-6">
+        <div class="text-center mb-8 reveal">
           <h2 class="section-title" data-i18n="about.title">About Me</h2>
           <div class="section-underline mx-auto"></div>
         </div>
-        <div class="row justify-content-center">
-          <div class="col-lg-8 text-center">
-            <p class="about-text" data-i18n="about.text">
-              I'm a 3rd year BS Computer Science student at De La Salle Lipa who enjoys turning ideas
-              into clean, functional web experiences. I love working across the stack — from
-              crafting responsive interfaces to wiring up APIs and databases — and I'm always
-              looking for the next interesting problem to solve.
-            </p>
+        <div class="max-w-2xl mx-auto text-center reveal">
+          <p class="about-text" data-i18n="about.text">
+            I'm a 3rd year BS Computer Science student at De La Salle Lipa who enjoys turning ideas
+            into clean, functional web experiences. I love working across the stack — from
+            crafting responsive interfaces to wiring up APIs and databases — and I'm always
+            looking for the next interesting problem to solve.
+          </p>
+          <div class="about-badges">
+            <span class="badge tech-badge">Java</span>
+            <span class="badge tech-badge">Python</span>
+            <span class="badge tech-badge">JavaScript</span>
+            <span class="badge tech-badge">SQL</span>
+            <span class="badge tech-badge">MySQL</span>
+            <span class="badge tech-badge">PostgreSQL</span>
+            <span class="badge tech-badge">Supabase</span>
+            <span class="badge tech-badge">UI/UX Design</span>
+            <span class="badge tech-badge">Git &amp; GitHub</span>
+          </div>
+
+          <div class="cv-actions">
+            <a href="about-me/Ruiz_Zachary_Scott_Curriculum_Vitae.pdf" target="_blank" rel="noopener" class="btn-outline">
+              <i class="fa-solid fa-file-lines me-1" aria-hidden="true"></i> <span data-i18n="about.viewCv">View CV</span>
+            </a>
+            <a href="about-me/Ruiz_Zachary_Scott_Curriculum_Vitae.pdf" download class="btn-view-details">
+              <i class="fa-solid fa-download me-1" aria-hidden="true"></i> <span data-i18n="about.downloadCv">Download CV</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="mt-16 reveal">
+          <h3 class="cert-heading" data-i18n="about.certTitle">Certifications</h3>
+          <div class="cert-grid">
+            <div class="cert-card">
+              <div class="cert-card-title">Basics of Python</div>
+              <div class="cert-card-issuer">UniAthena &middot; May 2026</div>
+              <a href="about-me/Basics%20of%20Python.pdf" target="_blank" rel="noopener" class="cert-card-link" data-i18n="about.viewCert">View Certificate</a>
+            </div>
+            <div class="cert-card">
+              <div class="cert-card-title">Basics of SQL Statements &amp; Indexes</div>
+              <div class="cert-card-issuer">UniAthena &middot; May 2026</div>
+              <a href="about-me/Basics%20of%20SQL%20Statements%20and%20Indexes.pdf" target="_blank" rel="noopener" class="cert-card-link" data-i18n="about.viewCert">View Certificate</a>
+            </div>
+            <div class="cert-card">
+              <div class="cert-card-title">Discrete Structures</div>
+              <div class="cert-card-issuer">Junior Philippine Computer Society &middot; May 2025</div>
+            </div>
+            <div class="cert-card">
+              <div class="cert-card-title">Computer Programming I</div>
+              <div class="cert-card-issuer">Junior Philippine Computer Society &middot; May 2025</div>
+            </div>
+            <div class="cert-card">
+              <div class="cert-card-title">Introduction to Computing</div>
+              <div class="cert-card-issuer">Junior Philippine Computer Society &middot; May 2025</div>
+            </div>
+          </div>
+
+          <h4 class="cert-subheading" data-i18n="about.certInProgress">Currently Working Toward</h4>
+          <div class="cert-grid">
+            <div class="cert-card cert-card-progress">
+              <div class="cert-card-title">JavaScript Certification</div>
+              <div class="cert-card-issuer">freeCodeCamp</div>
+              <span class="badge tech-badge" data-i18n="about.inProgress">In Progress</span>
+            </div>
+            <div class="cert-card cert-card-progress">
+              <div class="cert-card-title">Cybersecurity Learning Path</div>
+              <div class="cert-card-issuer">TryHackMe</div>
+              <span class="badge tech-badge" data-i18n="about.inProgress">In Progress</span>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ============ CONTACT SECTION ============ -->
-    <section id="contact" class="contact-section py-5">
-      <div class="container">
-        <div class="text-center mb-5">
+    <section id="contact" class="contact-section py-20">
+      <div class="max-w-6xl mx-auto px-4 md:px-6">
+        <div class="text-center mb-16 reveal">
           <h2 class="section-title" data-i18n="contact.title">Get In Touch</h2>
           <div class="section-underline mx-auto"></div>
         </div>
 
-        <div class="row justify-content-center">
-          <div class="col-12 col-lg-7">
-            <div class="email-card">
-              <div class="email-card-header">
-                <i class="fa-solid fa-envelope-open-text" aria-hidden="true"></i>
-                <span data-i18n="contact.newMessage">New Message</span>
+        <div class="max-w-xl mx-auto reveal">
+          <div class="email-card">
+            <div class="email-card-header">
+              <i class="fa-solid fa-envelope-open-text" aria-hidden="true"></i>
+              <span data-i18n="contact.newMessage">New Message</span>
+            </div>
+
+            <form id="contactForm" class="email-form" novalidate aria-describedby="formSuccessMsg">
+              <div class="mb-4">
+                <label for="contactName" class="form-label" data-i18n="contact.labelName">Your Name</label>
+                <input type="text" class="form-control" id="contactName" name="from_name" required
+                  aria-required="true" placeholder="Enter your name" data-i18n-placeholder="contact.placeholderName">
+                <p class="invalid-feedback" data-i18n="contact.feedbackName">Please enter your name.</p>
               </div>
 
-              <form id="contactForm" class="email-form needs-validation" novalidate aria-describedby="formSuccessMsg">
-                <div class="mb-3">
-                  <label for="contactName" class="form-label" data-i18n="contact.labelName">Your Name</label>
-                  <input type="text" class="form-control" id="contactName" name="from_name" required
-                    aria-required="true" placeholder="Enter your name" data-i18n-placeholder="contact.placeholderName">
-                  <div class="invalid-feedback" data-i18n="contact.feedbackName">Please enter your name.</div>
-                </div>
+              <div class="mb-4">
+                <label for="contactEmail" class="form-label" data-i18n="contact.labelEmail">Your Email</label>
+                <input type="email" class="form-control" id="contactEmail" name="from_email" required
+                  aria-required="true" placeholder="Enter your email" data-i18n-placeholder="contact.placeholderEmail">
+                <p class="invalid-feedback" data-i18n="contact.feedbackEmail">Please enter a valid email address.</p>
+              </div>
 
-                <div class="mb-3">
-                  <label for="contactEmail" class="form-label" data-i18n="contact.labelEmail">Your Email</label>
-                  <input type="email" class="form-control" id="contactEmail" name="from_email" required
-                    aria-required="true" placeholder="Enter your email" data-i18n-placeholder="contact.placeholderEmail">
-                  <div class="invalid-feedback" data-i18n="contact.feedbackEmail">Please enter a valid email address.</div>
-                </div>
+              <div class="mb-4">
+                <label for="contactSubject" class="form-label" data-i18n="contact.labelSubject">Subject</label>
+                <input type="text" class="form-control" id="contactSubject" name="subject" required
+                  aria-required="true" placeholder="Enter subject" data-i18n-placeholder="contact.placeholderSubject">
+                <p class="invalid-feedback" data-i18n="contact.feedbackSubject">Please enter a subject.</p>
+              </div>
 
-                <div class="mb-3">
-                  <label for="contactSubject" class="form-label" data-i18n="contact.labelSubject">Subject</label>
-                  <input type="text" class="form-control" id="contactSubject" name="subject" required
-                    aria-required="true" placeholder="Enter subject" data-i18n-placeholder="contact.placeholderSubject">
-                  <div class="invalid-feedback" data-i18n="contact.feedbackSubject">Please enter a subject.</div>
-                </div>
+              <div class="mb-4">
+                <label for="contactMessage" class="form-label" data-i18n="contact.labelMessage">Message</label>
+                <textarea class="form-control" id="contactMessage" name="message" rows="5" required
+                  aria-required="true" placeholder="Enter your message" data-i18n-placeholder="contact.placeholderMessage"></textarea>
+                <p class="invalid-feedback" data-i18n="contact.feedbackMessage">Please enter a message.</p>
+              </div>
 
-                <div class="mb-3">
-                  <label for="contactMessage" class="form-label" data-i18n="contact.labelMessage">Message</label>
-                  <textarea class="form-control" id="contactMessage" name="message" rows="5" required
-                    aria-required="true" placeholder="Enter your message" data-i18n-placeholder="contact.placeholderMessage"></textarea>
-                  <div class="invalid-feedback" data-i18n="contact.feedbackMessage">Please enter a message.</div>
-                </div>
+              <button type="submit" class="btn-send w-full" id="sendMessageBtn">
+                📤 <span id="sendBtnText" data-i18n="contact.sendBtn">Send Message</span>
+              </button>
 
-                <button type="submit" class="btn btn-send w-100" id="sendMessageBtn">
-                  📤 <span id="sendBtnText" data-i18n="contact.sendBtn">Send Message</span>
-                </button>
-
-                <div id="formSuccessMsg" class="alert alert-success mt-3 d-none" role="alert" aria-live="polite">
-                  <i class="fa-solid fa-circle-check me-2" aria-hidden="true"></i><span data-i18n="contact.successMsg">Your message has been sent successfully!</span>
-                </div>
-                <div id="formErrorMsg" class="alert alert-danger mt-3 d-none" role="alert" aria-live="polite">
-                  <i class="fa-solid fa-circle-exclamation me-2" aria-hidden="true"></i><span data-i18n="contact.errorMsg">Something went wrong. Please try again later.</span>
-                </div>
-              </form>
-            </div>
+              <div id="formSuccessMsg" class="alert alert-success mt-4 hidden" role="alert" aria-live="polite">
+                <i class="fa-solid fa-circle-check me-2" aria-hidden="true"></i><span data-i18n="contact.successMsg">Your message has been sent successfully!</span>
+              </div>
+              <div id="formErrorMsg" class="alert alert-danger mt-4 hidden" role="alert" aria-live="polite">
+                <i class="fa-solid fa-circle-exclamation me-2" aria-hidden="true"></i><span data-i18n="contact.errorMsg">Something went wrong. Please try again later.</span>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -212,186 +323,188 @@
 
   </main>
 
-  <!-- ============ PROJECT MODALS ============ -->
+  <!-- ============ PROJECT MODALS (custom, vanilla JS driven) ============ -->
 
   <!-- Trip Planner Modal -->
-  <div class="modal fade" id="tripPlannerModal" tabindex="-1" aria-labelledby="tripPlannerModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 class="modal-title" id="tripPlannerModalLabel">Trip Planner</h2>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" data-i18n-aria-label="a11y.modalClose" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="row g-3 mb-4">
-            <div class="col-12 col-sm-4">
-              <img src="https://picsum.photos/seed/4/400/250" class="img-fluid rounded modal-screenshot" alt="Trip Planner Dashboard screenshot">
-              <p class="screenshot-caption" data-i18n="screenshot.dashboard">Dashboard</p>
-            </div>
-            <div class="col-12 col-sm-4">
-              <img src="https://picsum.photos/seed/5/400/250" class="img-fluid rounded modal-screenshot" alt="Trip Planner Trip Form screenshot">
-              <p class="screenshot-caption" data-i18n="screenshot.tripForm">Trip Form</p>
-            </div>
-            <div class="col-12 col-sm-4">
-              <img src="https://picsum.photos/seed/6/400/250" class="img-fluid rounded modal-screenshot" alt="Trip Planner Weather View screenshot">
-              <p class="screenshot-caption" data-i18n="screenshot.weatherView">Weather View</p>
-            </div>
+  <div id="tripPlannerModal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="tripPlannerModalLabel" aria-hidden="true">
+    <div class="modal-backdrop absolute inset-0" data-modal-close></div>
+    <div class="modal-panel">
+      <div class="modal-header">
+        <h2 class="modal-title" id="tripPlannerModalLabel">Trip Planner</h2>
+        <button type="button" class="modal-close-btn" data-modal-close data-i18n-aria-label="a11y.modalClose" aria-label="Close">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="grid grid-cols-3 gap-3 mb-6">
+          <div>
+            <img src="project-screenshots/trip-planner(1).png" class="modal-screenshot" alt="Trip Planner attraction browsing screenshot" loading="lazy">
+            <p class="screenshot-caption" data-i18n="screenshot.exploreAttractions">Explore Attractions</p>
           </div>
-
-          <h3 class="modal-section-heading" data-i18n="modal.technologies">Technologies</h3>
-          <div class="tech-badges mb-3">
-            <span class="badge tech-badge">HTML/CSS</span>
-            <span class="badge tech-badge">Vanilla JS</span>
-            <span class="badge tech-badge">OpenWeatherMap API</span>
-            <span class="badge tech-badge">LocalStorage</span>
+          <div>
+            <img src="project-screenshots/trip-planner(7).png" class="modal-screenshot" alt="Trip Planner Trip Form screenshot" loading="lazy">
+            <p class="screenshot-caption" data-i18n="screenshot.tripForm">Trip Form</p>
           </div>
-
-          <h3 class="modal-section-heading" data-i18n="modal.features">Features</h3>
-          <ul class="modal-features mb-3">
-            <li data-i18n="trip.feature.1">Create trips with multiple destinations</li>
-            <li data-i18n="trip.feature.2">Multi-city stop planning</li>
-            <li data-i18n="trip.feature.3">5-day weather forecast per stop</li>
-            <li data-i18n="trip.feature.4">Smart weather-based packing suggestions</li>
-          </ul>
-
-          <div class="row modal-meta">
-            <div class="col-6"><strong data-i18n="modal.duration">Duration:</strong> <span data-i18n="duration.oneWeek">1 week</span></div>
-            <div class="col-6"><strong data-i18n="modal.role">Role:</strong> <span data-i18n="role.frontendDev">Frontend Developer</span></div>
+          <div>
+            <img src="project-screenshots/trip-planner(4).png" class="modal-screenshot" alt="Trip Planner upcoming trips screenshot" loading="lazy">
+            <p class="screenshot-caption" data-i18n="screenshot.upcomingTrips">Upcoming Trips</p>
           </div>
         </div>
-        <div class="modal-footer">
-          <a href="#" class="btn btn-outline-secondary" target="_blank" rel="noopener">
-            <i class="fa-brands fa-github me-1" aria-hidden="true"></i> <span data-i18n="modal.github">GitHub</span>
-          </a>
-          <a href="#" class="btn btn-view-details" target="_blank" rel="noopener">
-            <i class="fa-solid fa-arrow-up-right-from-square me-1" aria-hidden="true"></i> <span data-i18n="modal.liveDemo">Live Demo</span>
-          </a>
+
+        <h3 class="modal-section-heading" data-i18n="modal.technologies">Technologies</h3>
+        <div class="tech-badges mb-4">
+          <span class="badge tech-badge">HTML/CSS</span>
+          <span class="badge tech-badge">Vanilla JS</span>
+          <span class="badge tech-badge">LocalStorage</span>
         </div>
+
+        <h3 class="modal-section-heading" data-i18n="modal.features">Features</h3>
+        <ul class="modal-features mb-4">
+          <li data-i18n="trip.feature.1">Browse tourist attractions by category and budget</li>
+          <li data-i18n="trip.feature.2">Save favorite attractions for later</li>
+          <li data-i18n="trip.feature.3">Plan trips with custom dates and destinations</li>
+          <li data-i18n="trip.feature.4">Track upcoming and past trip history</li>
+        </ul>
+
+        <div class="modal-meta grid grid-cols-2 gap-2">
+          <div><strong data-i18n="modal.duration">Duration:</strong> <span data-i18n="duration.oneWeek">1 week</span></div>
+          <div><strong data-i18n="modal.role">Role:</strong> <span data-i18n="role.frontendDev">Frontend Developer</span></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn-outline" target="_blank" rel="noopener">
+          <i class="fa-brands fa-github me-1" aria-hidden="true"></i> <span data-i18n="modal.github">GitHub</span>
+        </a>
+        <a href="#" class="btn-view-details" target="_blank" rel="noopener">
+          <i class="fa-solid fa-arrow-up-right-from-square me-1" aria-hidden="true"></i> <span data-i18n="modal.liveDemo">Live Demo</span>
+        </a>
       </div>
     </div>
   </div>
 
   <!-- Weather Dashboard Modal -->
-  <div class="modal fade" id="weatherDashboardModal" tabindex="-1" aria-labelledby="weatherDashboardModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 class="modal-title" id="weatherDashboardModalLabel">Weather Dashboard</h2>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" data-i18n-aria-label="a11y.modalClose" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="row g-3 mb-4">
-            <div class="col-12 col-sm-4">
-              <img src="https://picsum.photos/seed/7/400/250" class="img-fluid rounded modal-screenshot" alt="Weather Dashboard Main View screenshot">
-              <p class="screenshot-caption" data-i18n="screenshot.mainView">Main View</p>
-            </div>
-            <div class="col-12 col-sm-4">
-              <img src="https://picsum.photos/seed/8/400/250" class="img-fluid rounded modal-screenshot" alt="Weather Dashboard Weather Map screenshot">
-              <p class="screenshot-caption" data-i18n="screenshot.weatherMap">Weather Map</p>
-            </div>
-            <div class="col-12 col-sm-4">
-              <img src="https://picsum.photos/seed/9/400/250" class="img-fluid rounded modal-screenshot" alt="Weather Dashboard Forecast screenshot">
-              <p class="screenshot-caption" data-i18n="screenshot.forecast">Forecast</p>
-            </div>
+  <div id="weatherDashboardModal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="weatherDashboardModalLabel" aria-hidden="true">
+    <div class="modal-backdrop absolute inset-0" data-modal-close></div>
+    <div class="modal-panel">
+      <div class="modal-header">
+        <h2 class="modal-title" id="weatherDashboardModalLabel">Weather Dashboard</h2>
+        <button type="button" class="modal-close-btn" data-modal-close data-i18n-aria-label="a11y.modalClose" aria-label="Close">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="grid grid-cols-3 gap-3 mb-6">
+          <div>
+            <img src="project-screenshots/weather-dashboard(1).png" class="modal-screenshot" alt="Weather Dashboard Main View screenshot" loading="lazy">
+            <p class="screenshot-caption" data-i18n="screenshot.mainView">Main View</p>
           </div>
-
-          <h3 class="modal-section-heading" data-i18n="modal.technologies">Technologies</h3>
-          <div class="tech-badges mb-3">
-            <span class="badge tech-badge">HTML/CSS</span>
-            <span class="badge tech-badge">Vanilla JS</span>
-            <span class="badge tech-badge">OpenWeatherMap API</span>
-            <span class="badge tech-badge">Leaflet/OSM</span>
-            <span class="badge tech-badge">CSS Animations</span>
+          <div>
+            <img src="project-screenshots/weather-dashboard(3).png" class="modal-screenshot" alt="Weather Dashboard Weather Map screenshot" loading="lazy">
+            <p class="screenshot-caption" data-i18n="screenshot.weatherMap">Weather Map</p>
           </div>
-
-          <h3 class="modal-section-heading" data-i18n="modal.features">Features</h3>
-          <ul class="modal-features mb-3">
-            <li data-i18n="weather.feature.1">Search weather by city</li>
-            <li data-i18n="weather.feature.2">5-day forecast view</li>
-            <li data-i18n="weather.feature.3">Interactive weather map</li>
-            <li data-i18n="weather.feature.4">Dynamic time-of-day backgrounds</li>
-          </ul>
-
-          <div class="row modal-meta">
-            <div class="col-6"><strong data-i18n="modal.duration">Duration:</strong> <span data-i18n="duration.twoWeeks">2 weeks</span></div>
-            <div class="col-6"><strong data-i18n="modal.role">Role:</strong> <span data-i18n="role.frontendDev">Frontend Developer</span></div>
+          <div>
+            <img src="project-screenshots/weather-dashboard(2).png" class="modal-screenshot" alt="Weather Dashboard Forecast screenshot" loading="lazy">
+            <p class="screenshot-caption" data-i18n="screenshot.forecast">Forecast</p>
           </div>
         </div>
-        <div class="modal-footer">
-          <a href="#" class="btn btn-outline-secondary" target="_blank" rel="noopener">
-            <i class="fa-brands fa-github me-1" aria-hidden="true"></i> <span data-i18n="modal.github">GitHub</span>
-          </a>
-          <a href="#" class="btn btn-view-details" target="_blank" rel="noopener">
-            <i class="fa-solid fa-arrow-up-right-from-square me-1" aria-hidden="true"></i> <span data-i18n="modal.liveDemo">Live Demo</span>
-          </a>
+
+        <h3 class="modal-section-heading" data-i18n="modal.technologies">Technologies</h3>
+        <div class="tech-badges mb-4">
+          <span class="badge tech-badge">HTML/CSS</span>
+          <span class="badge tech-badge">Vanilla JS</span>
+          <span class="badge tech-badge">OpenWeatherMap API</span>
+          <span class="badge tech-badge">Leaflet/OSM</span>
+          <span class="badge tech-badge">CSS Animations</span>
         </div>
+
+        <h3 class="modal-section-heading" data-i18n="modal.features">Features</h3>
+        <ul class="modal-features mb-4">
+          <li data-i18n="weather.feature.1">Search weather by city</li>
+          <li data-i18n="weather.feature.2">5-day forecast view</li>
+          <li data-i18n="weather.feature.3">Interactive weather map</li>
+          <li data-i18n="weather.feature.4">Dynamic time-of-day backgrounds</li>
+        </ul>
+
+        <div class="modal-meta grid grid-cols-2 gap-2">
+          <div><strong data-i18n="modal.duration">Duration:</strong> <span data-i18n="duration.twoWeeks">2 weeks</span></div>
+          <div><strong data-i18n="modal.role">Role:</strong> <span data-i18n="role.frontendDev">Frontend Developer</span></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn-outline" target="_blank" rel="noopener">
+          <i class="fa-brands fa-github me-1" aria-hidden="true"></i> <span data-i18n="modal.github">GitHub</span>
+        </a>
+        <a href="#" class="btn-view-details" target="_blank" rel="noopener">
+          <i class="fa-solid fa-arrow-up-right-from-square me-1" aria-hidden="true"></i> <span data-i18n="modal.liveDemo">Live Demo</span>
+        </a>
       </div>
     </div>
   </div>
 
-  <!-- Mood Home Modal -->
-  <div class="modal fade" id="moodHomeModal" tabindex="-1" aria-labelledby="moodHomeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 class="modal-title" id="moodHomeModalLabel">Mood Home</h2>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" data-i18n-aria-label="a11y.modalClose" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="row g-3 mb-4">
-            <div class="col-12 col-sm-4">
-              <img src="https://picsum.photos/seed/10/400/250" class="img-fluid rounded modal-screenshot" alt="Mood Home Dashboard screenshot">
-              <p class="screenshot-caption" data-i18n="screenshot.dashboard">Dashboard</p>
-            </div>
-            <div class="col-12 col-sm-4">
-              <img src="https://picsum.photos/seed/11/400/250" class="img-fluid rounded modal-screenshot" alt="Mood Home Playground screenshot">
-              <p class="screenshot-caption" data-i18n="screenshot.playground">Playground</p>
-            </div>
-            <div class="col-12 col-sm-4">
-              <img src="https://picsum.photos/seed/12/400/250" class="img-fluid rounded modal-screenshot" alt="Mood Home Photo Gallery screenshot">
-              <p class="screenshot-caption" data-i18n="screenshot.photoGallery">Photo Gallery</p>
-            </div>
+  <!-- Twogether Modal -->
+  <div id="twogetherModal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="twogetherModalLabel" aria-hidden="true">
+    <div class="modal-backdrop absolute inset-0" data-modal-close></div>
+    <div class="modal-panel">
+      <div class="modal-header">
+        <h2 class="modal-title" id="twogetherModalLabel">Twogether</h2>
+        <button type="button" class="modal-close-btn" data-modal-close data-i18n-aria-label="a11y.modalClose" aria-label="Close">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="grid grid-cols-3 gap-3 mb-6">
+          <div>
+            <img src="project-screenshots/twogether(3).png" class="modal-screenshot" alt="Twogether home dashboard screenshot" loading="lazy">
+            <p class="screenshot-caption" data-i18n="screenshot.dashboard">Dashboard</p>
           </div>
-
-          <h3 class="modal-section-heading" data-i18n="modal.technologies">Technologies</h3>
-          <div class="tech-badges mb-3">
-            <span class="badge tech-badge">HTML/CSS</span>
-            <span class="badge tech-badge">Vanilla JS</span>
-            <span class="badge tech-badge">Supabase</span>
-            <span class="badge tech-badge">PostgreSQL</span>
-            <span class="badge tech-badge">RLS</span>
+          <div>
+            <img src="project-screenshots/twogether(4).png" class="modal-screenshot" alt="Twogether mood check-in screenshot" loading="lazy">
+            <p class="screenshot-caption" data-i18n="screenshot.moodCheckin">Mood Check-in</p>
           </div>
-
-          <h3 class="modal-section-heading" data-i18n="modal.features">Features</h3>
-          <ul class="modal-features mb-3">
-            <li data-i18n="mood.feature.1">Couple signup and pairing</li>
-            <li data-i18n="mood.feature.2">Daily mood tracking</li>
-            <li data-i18n="mood.feature.3">Interactive playground / mini-games</li>
-            <li data-i18n="mood.feature.4">Shared photo gallery</li>
-            <li data-i18n="mood.feature.5">Strict per-couple data isolation via RLS</li>
-          </ul>
-
-          <div class="row modal-meta">
-            <div class="col-6"><strong data-i18n="modal.duration">Duration:</strong> <span data-i18n="duration.twoMonths">2 months</span></div>
-            <div class="col-6"><strong data-i18n="modal.role">Role:</strong> <span data-i18n="role.fullStackDev">Full Stack Developer</span></div>
+          <div>
+            <img src="project-screenshots/twogether(2).png" class="modal-screenshot" alt="Twogether sign up and pairing screenshot" loading="lazy">
+            <p class="screenshot-caption" data-i18n="screenshot.signupPairing">Sign Up & Pairing</p>
           </div>
         </div>
-        <div class="modal-footer">
-          <a href="#" class="btn btn-outline-secondary" target="_blank" rel="noopener">
-            <i class="fa-brands fa-github me-1" aria-hidden="true"></i> <span data-i18n="modal.github">GitHub</span>
-          </a>
-          <a href="#" class="btn btn-view-details" target="_blank" rel="noopener">
-            <i class="fa-solid fa-arrow-up-right-from-square me-1" aria-hidden="true"></i> <span data-i18n="modal.liveDemo">Live Demo</span>
-          </a>
+
+        <h3 class="modal-section-heading" data-i18n="modal.technologies">Technologies</h3>
+        <div class="tech-badges mb-4">
+          <span class="badge tech-badge">HTML/CSS</span>
+          <span class="badge tech-badge">Vanilla JS</span>
+          <span class="badge tech-badge">Supabase</span>
+          <span class="badge tech-badge">PostgreSQL</span>
+          <span class="badge tech-badge">RLS</span>
         </div>
+
+        <h3 class="modal-section-heading" data-i18n="modal.features">Features</h3>
+        <ul class="modal-features mb-4">
+          <li data-i18n="mood.feature.1">Couple signup and pairing</li>
+          <li data-i18n="mood.feature.2">Daily mood tracking</li>
+          <li data-i18n="mood.feature.3">Interactive playground / mini-games</li>
+          <li data-i18n="mood.feature.4">Shared photo gallery</li>
+          <li data-i18n="mood.feature.5">Strict per-couple data isolation via RLS</li>
+        </ul>
+
+        <div class="modal-meta grid grid-cols-2 gap-2">
+          <div><strong data-i18n="modal.duration">Duration:</strong> <span data-i18n="duration.twoMonths">2 months</span></div>
+          <div><strong data-i18n="modal.role">Role:</strong> <span data-i18n="role.fullStackDev">Full Stack Developer</span></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn-outline" target="_blank" rel="noopener">
+          <i class="fa-brands fa-github me-1" aria-hidden="true"></i> <span data-i18n="modal.github">GitHub</span>
+        </a>
+        <a href="#" class="btn-view-details" target="_blank" rel="noopener">
+          <i class="fa-solid fa-arrow-up-right-from-square me-1" aria-hidden="true"></i> <span data-i18n="modal.liveDemo">Live Demo</span>
+        </a>
       </div>
     </div>
   </div>
 
   <!-- ============ FOOTER ============ -->
-  <footer class="site-footer py-4">
-    <div class="container text-center">
-      <div class="footer-social mb-3">
+  <footer class="site-footer py-10">
+    <div class="max-w-6xl mx-auto px-4 md:px-6 text-center">
+      <div class="footer-social mb-6">
         <a href="https://www.facebook.com/zacharyscott.ruiz" class="social-link" aria-label="Facebook" target="_blank" rel="noopener">
           <i class="fa-brands fa-facebook" aria-hidden="true"></i><span class="social-label">Facebook</span>
         </a>
@@ -401,9 +514,12 @@
         <a href="https://www.instagram.com/definitely_notzach" class="social-link" aria-label="Instagram" target="_blank" rel="noopener">
           <i class="fa-brands fa-instagram" aria-hidden="true"></i><span class="social-label">Instagram</span>
         </a>
+        <a href="tel:+639454632859" class="social-link" aria-label="Phone">
+          <i class="fa-solid fa-phone" aria-hidden="true"></i><span class="social-label">(63) 9454632859</span>
+        </a>
       </div>
 
-      <nav class="footer-links mb-3" aria-label="Footer quick navigation">
+      <nav class="footer-links mb-6" aria-label="Footer quick navigation">
         <a href="#home" data-i18n="nav.home">Home</a>
         <span aria-hidden="true">&middot;</span>
         <a href="#portfolio" data-i18n="nav.portfolio">Portfolio</a>
@@ -411,9 +527,10 @@
         <a href="#contact" data-i18n="nav.contact">Contact</a>
       </nav>
 
-      <p class="footer-copyright mb-0">
+      <p class="footer-copyright">
         &copy; <span id="copyrightYear"></span> Zachary Scott D. Ruiz. <span data-i18n="footer.rights">All Rights Reserved.</span>
       </p>
+      <p class="footer-built-with" data-i18n="footer.builtWith">Built with ❤️ and a lot of coffee.</p>
     </div>
   </footer>
 
@@ -422,11 +539,15 @@
     <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
   </button>
 
-  <!-- Bootstrap 5 JS Bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
   <!-- EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <!-- Three.js (hero shader background) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+
+  <!-- GSAP + ScrollTrigger (scroll animations) -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
   <!-- Translations (fill in the "tl" values with Filipino copy) -->
   <script src="js/translations.js"></script>

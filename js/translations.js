@@ -20,17 +20,20 @@ const translations = {
   'nav.contact': { en: 'Contact', tl: 'Makipag-ugnayan' },
 
   // Hero section
-  'hero.greeting': { en: "Hello, I'm", tl: 'Kumusta, ako si' },
   'hero.subtitle': { en: 'Full Stack Developer & Creative Thinker', tl: 'Full Stack Developer at Malikhaing Tagaisip' },
-  'hero.tagline': { en: 'Building amazing web experiences', tl: 'Gumagawa ng kahanga-hangang karanasan sa web' },
+  'hero.tagline': {
+    en: 'I craft high-performance web experiences that blend code with design.',
+    tl: 'Gumagawa ako ng mataas ang performance na web experience na pinagsasama ang code at design.'
+  },
   'hero.cta': { en: 'View My Work', tl: 'Tingnan ang Aking mga Gawa' },
+  'hero.ctaSecondary': { en: "Let's Talk", tl: 'Mag-usap Tayo' },
 
   // Portfolio section
   'portfolio.title': { en: 'My Projects', tl: 'Aking mga Proyekto' },
   'project.viewDetails': { en: 'View Details', tl: 'Tingnan ang Detalye' },
   'project.trip.desc': {
-    en: 'A travel planning app that helps you create multi-city trips with real-time weather-aware suggestions.',
-    tl: 'Isang travel planning app na tumutulong sa paggawa ng biyahe sa maraming lungsod, may real-time na mungkahi batay sa lagay ng panahon.'
+    en: 'A travel planning app for browsing tourist attractions, saving favorites, and organizing your upcoming trips.',
+    tl: 'Isang travel planning app para sa pag-browse ng mga atraksyon, pag-save ng paborito, at pag-oorganisa ng mga paparating na biyahe.'
   },
   'project.weather.desc': {
     en: 'An interactive weather dashboard with live maps, 5-day forecasts, and dynamic time-of-day backgrounds.',
@@ -47,6 +50,12 @@ const translations = {
     en: "I'm a 3rd year BS Computer Science student at De La Salle Lipa who enjoys turning ideas into clean, functional web experiences. I love working across the stack — from crafting responsive interfaces to wiring up APIs and databases — and I'm always looking for the next interesting problem to solve.",
     tl: 'Ako ay isang 3rd year BS Computer Science na estudyante sa De La Salle Lipa na mahilig gumawa ng malinis at functional na karanasan sa web mula sa mga simpleng ideya. Mahilig akong magtrabaho sa buong stack — mula sa paggawa ng responsive na interface hanggang sa pag-set up ng mga API at database — at lagi akong naghahanap ng susunod na kawili-wiling problema na lulutasin.'
   },
+  'about.viewCv': { en: 'View CV', tl: 'Tingnan ang CV' },
+  'about.downloadCv': { en: 'Download CV', tl: 'I-download ang CV' },
+  'about.certTitle': { en: 'Certifications', tl: 'Mga Sertipiko' },
+  'about.certInProgress': { en: 'Currently Working Toward', tl: 'Kasalukuyang Tinatapos' },
+  'about.viewCert': { en: 'View Certificate', tl: 'Tingnan ang Sertipiko' },
+  'about.inProgress': { en: 'In Progress', tl: 'Isinasagawa' },
 
   // Contact section
   'contact.title': { en: 'Get In Touch', tl: 'Makipag-ugnayan' },
@@ -85,19 +94,20 @@ const translations = {
 
   // Screenshot captions
   'screenshot.dashboard': { en: 'Dashboard', tl: 'Dashboard' },
+  'screenshot.exploreAttractions': { en: 'Explore Attractions', tl: 'Galugarin ang mga Atraksyon' },
   'screenshot.tripForm': { en: 'Trip Form', tl: 'Form ng Biyahe' },
-  'screenshot.weatherView': { en: 'Weather View', tl: 'Pahina ng Lagay ng Panahon' },
+  'screenshot.upcomingTrips': { en: 'Upcoming Trips', tl: 'Paparating na Biyahe' },
   'screenshot.mainView': { en: 'Main View', tl: 'Pangunahing Pahina' },
   'screenshot.weatherMap': { en: 'Weather Map', tl: 'Mapa ng Panahon' },
   'screenshot.forecast': { en: 'Forecast', tl: 'Pagtataya ng Panahon' },
-  'screenshot.playground': { en: 'Playground', tl: 'Palaruan' },
-  'screenshot.photoGallery': { en: 'Photo Gallery', tl: 'Gallery ng Larawan' },
+  'screenshot.moodCheckin': { en: 'Mood Check-in', tl: 'Pag-check ng Mood' },
+  'screenshot.signupPairing': { en: 'Sign Up & Pairing', tl: 'Pagpaparehistro at Pagpapares' },
 
   // Trip Planner features
-  'trip.feature.1': { en: 'Create trips with multiple destinations', tl: 'Gumawa ng biyahe na may maraming destinasyon' },
-  'trip.feature.2': { en: 'Multi-city stop planning', tl: 'Pagpaplano ng mga hintuan sa iba’t ibang lungsod' },
-  'trip.feature.3': { en: '5-day weather forecast per stop', tl: '5-araw na pagtataya ng panahon sa bawat hintuan' },
-  'trip.feature.4': { en: 'Smart weather-based packing suggestions', tl: 'Matalinong mungkahi sa pag-iimpake batay sa panahon' },
+  'trip.feature.1': { en: 'Browse tourist attractions by category and budget', tl: 'Mag-browse ng mga atraksyon ayon sa kategorya at budget' },
+  'trip.feature.2': { en: 'Save favorite attractions for later', tl: 'I-save ang mga paboritong atraksyon para sa susunod' },
+  'trip.feature.3': { en: 'Plan trips with custom dates and destinations', tl: 'Magplano ng biyahe na may custom na petsa at destinasyon' },
+  'trip.feature.4': { en: 'Track upcoming and past trip history', tl: 'Subaybayan ang paparating at nakaraang mga biyahe' },
 
   // Weather Dashboard features
   'weather.feature.1': { en: 'Search weather by city', tl: 'Maghanap ng panahon ayon sa lungsod' },
@@ -105,7 +115,7 @@ const translations = {
   'weather.feature.3': { en: 'Interactive weather map', tl: 'Interactive na mapa ng panahon' },
   'weather.feature.4': { en: 'Dynamic time-of-day backgrounds', tl: 'Dynamic na background base sa oras ng araw' },
 
-  // Mood Home features
+  // Twogether features
   'mood.feature.1': { en: 'Couple signup and pairing', tl: 'Pagpaparehistro at pagpapares ng magkasintahan' },
   'mood.feature.2': { en: 'Daily mood tracking', tl: 'Araw-araw na pagsubaybay sa mood' },
   'mood.feature.3': { en: 'Interactive playground / mini-games', tl: 'Interactive na palaruan / mini-games' },
@@ -113,5 +123,6 @@ const translations = {
   'mood.feature.5': { en: 'Strict per-couple data isolation via RLS', tl: 'Mahigpit na paghihiwalay ng datos ng bawat couple gamit ang RLS' },
 
   // Footer
-  'footer.rights': { en: 'All Rights Reserved.', tl: 'Nakalaan ang Lahat ng Karapatan.' }
+  'footer.rights': { en: 'All Rights Reserved.', tl: 'Nakalaan ang Lahat ng Karapatan.' },
+  'footer.builtWith': { en: 'Built with ❤️ and a lot of coffee.', tl: 'Ginawa nang may ❤️ at maraming kape.' }
 };

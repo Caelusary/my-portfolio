@@ -5,6 +5,7 @@ Desktop.ini
 
 # Editor/IDE
 .vscode/
+.idea/
 *.swp
 
 # Claude Code local/personal settings (machine-specific permissions)

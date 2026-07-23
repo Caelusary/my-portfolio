@@ -1,55 +1,78 @@
 /* =========================================================
    CSS CUSTOM PROPERTIES (THEME TOKENS)
+   Tailwind (CDN/Play build) only JIT-compiles utility classes found
+   directly in the HTML — it can't process @apply in this external
+   stylesheet, so custom component classes below are plain CSS.
+
+   Identity: purple (#6C63FF) -> cyan (#00D2FF). Light and dark
+   themes are both fully designed (toggle persists via localStorage),
+   defaulting to dark. The hero section is a deliberate exception:
+   it stays a fixed cinematic-dark band in both themes (its own text/
+   button colors are hardcoded, not theme-variable-driven) because
+   its WebGL aurora + photo blend-mode trick are tuned specifically
+   for a dark backdrop — forcing a light hero would need a second
+   shader palette and a different photo-blend strategy. Every other
+   section (nav, portfolio, about, contact, footer, modals, forms)
+   fully re-themes via the variables below, so text stays readable
+   in both modes.
    ========================================================= */
 :root {
-  --font-main: 'Poppins', sans-serif;
+  --accent: #6C63FF;
+  --accent-cyan: #00D2FF;
+  --accent-text: #5A4FE0;
+  --mesh-a: #6C63FF;
+  --mesh-b: #00D2FF;
+  --hero-bg-base: #0A0A1A;
+  --fixed-dark: #0A0A1A;
+  --fixed-dark-glass: rgba(10, 10, 26, 0.72);
 
-  --color-gradient-start: #4A90E2;
-  --color-gradient-end: #2C3E50;
-
-  --bg-body: #ffffff;
-  --bg-surface: #ffffff;
-  --bg-navbar: rgba(44, 62, 80, 0.0);
-  --bg-navbar-scrolled: rgba(44, 62, 80, 0.97);
-  --text-main: #212529;
-  --text-muted: #6c757d;
-  --border-color: #dee2e6;
-
-  --accent: #4A90E2;
-  --accent-dark: #2C3E50;
-
-  --portfolio-bg: #f8f9fa;
-  --shadow-color: rgba(0, 0, 0, 0.1);
+  --bg-page: #F6F6FC;
+  --bg-surface: #FFFFFF;
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(108, 99, 255, 0.18);
+  --text-main: #171730;
+  --text-muted: #5B5B7A;
+  --border-color: #E3E3F0;
+  --portfolio-bg: #F6F6FC;
+  --about-bg: #FFFFFF;
+  --contact-bg: #F6F6FC;
+  --shadow-color: rgba(76, 70, 150, 0.14);
+  --shadow-glow: rgba(108, 99, 255, 0.3);
 
   --transition-fast: 0.2s ease;
   --transition-med: 0.4s ease;
 }
 
-/* Dark mode overrides */
-body.dark-mode {
-  --bg-body: #14181f;
-  --bg-surface: #1e242d;
-  --bg-navbar-scrolled: rgba(10, 13, 18, 0.97);
-  --text-main: #e9ecef;
-  --text-muted: #adb5bd;
-  --border-color: #343a40;
-  --portfolio-bg: #181d25;
+html.dark {
+  --accent-text: #A79DFF;
+  --bg-page: #0A0A1A;
+  --bg-surface: #12121F;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --text-main: #EDEDF7;
+  --text-muted: #9C9CC4;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --portfolio-bg: #0A0A1A;
+  --about-bg: #0D0D20;
+  --contact-bg: #0A0A1A;
   --shadow-color: rgba(0, 0, 0, 0.5);
-}
-
-* {
-  scroll-behavior: smooth;
+  --shadow-glow: rgba(108, 99, 255, 0.4);
 }
 
 html {
+  scroll-behavior: smooth;
   scroll-padding-top: 80px;
+  overflow-x: hidden;
 }
 
 body {
-  font-family: var(--font-main);
-  background-color: var(--bg-body);
+  overflow-x: hidden;
+  background-color: var(--bg-page);
   color: var(--text-main);
-  transition: background-color var(--transition-med), color var(--transition-med);
+}
+
+h1, h2, h3, .section-title, .hero-name, .nav-logo {
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
 }
 
 /* Visible focus indicators for keyboard navigation */
@@ -57,7 +80,7 @@ a:focus-visible,
 button:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
-.project-title:focus-visible {
+.project-card-title:focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 2px;
 }
@@ -78,50 +101,150 @@ textarea:focus-visible,
 }
 
 /* =========================================================
-   NAVIGATION BAR
+   SCROLL PROGRESS BAR
+   ========================================================= */
+#scrollProgress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-cyan));
+  z-index: 2000;
+  pointer-events: none;
+}
+
+/* =========================================================
+   CUSTOM CURSOR (desktop, fine-pointer only — see initCustomCursor)
+   ========================================================= */
+body.custom-cursor-active,
+body.custom-cursor-active a,
+body.custom-cursor-active button,
+body.custom-cursor-active [role="button"] {
+  cursor: none;
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  will-change: transform;
+}
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent-cyan);
+  box-shadow: 0 0 10px rgba(0, 210, 255, 0.8);
+}
+
+.cursor-ring {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid rgba(108, 99, 255, 0.6);
+  transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.cursor-ring.cursor-hover {
+  width: 56px;
+  height: 56px;
+  border-color: var(--accent-cyan);
+  background: rgba(0, 210, 255, 0.08);
+}
+
+/* =========================================================
+   NAVIGATION BAR (fixed dark glass — always readable regardless
+   of the page's own light/dark theme, see header comment above)
    ========================================================= */
 #mainNav {
-  background-color: var(--bg-navbar);
-  transition: background-color var(--transition-med), box-shadow var(--transition-med);
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
+  background-color: rgba(10, 10, 26, 0.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: background-color var(--transition-med), box-shadow var(--transition-med), backdrop-filter var(--transition-med);
 }
 
 #mainNav.nav-scrolled {
-  background-color: var(--bg-navbar-scrolled);
-  box-shadow: 0 2px 10px var(--shadow-color);
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  background-color: var(--fixed-dark-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
 }
 
-.navbar-brand {
+.nav-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
   font-weight: 700;
-  font-size: 1.4rem;
-  color: #fff !important;
+  color: #fff;
+  text-decoration: none;
 }
 
-.navbar-nav .nav-link {
-  color: rgba(255, 255, 255, 0.85) !important;
+.nav-logo-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-cyan));
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 16px rgba(108, 99, 255, 0.35);
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.85);
   font-weight: 500;
-  margin: 0 0.25rem;
+  display: inline-block;
+  padding: 0.5rem 0.85rem;
+  border-radius: 0.5rem;
   position: relative;
-  transition: color var(--transition-fast);
+  transition: color var(--transition-fast), transform var(--transition-fast), background-color var(--transition-fast);
 }
 
-.navbar-nav .nav-link.active,
-.navbar-nav .nav-link:hover {
-  color: #ffffff !important;
-}
-
-.navbar-nav .nav-link.active::after {
+.nav-link::after {
   content: '';
   position: absolute;
-  left: 0.5rem;
-  right: 0.5rem;
-  bottom: -2px;
+  left: 0.85rem;
+  right: 0.85rem;
+  bottom: 0.2rem;
   height: 2px;
-  background: var(--accent);
-  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-cyan));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition-fast);
+}
+
+.nav-link:hover {
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  transform: scaleX(1);
+}
+
+.nav-link.active {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+#navLinks {
+  border-radius: 0 0 1rem 1rem;
+}
+
+@media (min-width: 768px) {
+  #navLinks {
+    border-radius: 0;
+  }
 }
 
 .lang-switch {
@@ -149,7 +272,7 @@ textarea:focus-visible,
 }
 
 .lang-btn.active {
-  background: var(--accent);
+  background: linear-gradient(135deg, var(--accent), var(--accent-cyan));
   color: #fff;
 }
 
@@ -172,50 +295,191 @@ textarea:focus-visible,
 }
 
 /* =========================================================
-   HERO SECTION
+   HERO SECTION (fixed dark cinematic band — see header comment)
    ========================================================= */
-.hero-section {
-  min-height: 100vh;
-  padding-top: 80px;
-  background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end));
-  color: #fff;
-}
-
-.hero-title {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-}
-
 .hero-name {
-  color: #FFE9A8;
+  color: #D8D4FF;
 }
 
-.hero-subtitle {
-  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-  font-weight: 500;
-  margin-bottom: 0.25rem;
+/* JS-only enhancement: added by initHeroNameShine once it confirms it can
+   run. Without JS (or with prefers-reduced-motion), .hero-name never gets
+   this class and just shows as plain solid lavender text — never stuck
+   hidden. */
+.hero-name.shine-ready {
+  display: inline-block;
+  background-image: linear-gradient(115deg, #6C63FF 25%, #00D2FF 45%, #fff 50%, #00D2FF 55%, #6C63FF 75%);
+  background-size: 300% 100%;
+  background-position: 150% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: 0;
+  transform: translateY(24px);
 }
 
-.hero-tagline {
-  font-size: clamp(0.95rem, 2vw, 1.15rem);
-  opacity: 0.85;
-  font-weight: 300;
+.hero-name.shine-ready.shine-in {
+  animation: heroNameShine 1.3s ease forwards;
+}
+
+@keyframes heroNameShine {
+  0% {
+    opacity: 0;
+    transform: translateY(24px);
+    background-position: 150% 0;
+  }
+  45% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    background-position: -60% 0;
+  }
+}
+
+/* Mutes the animated shader behind it so the hero reads as a dark, moody
+   backdrop while still letting its motion/color show through — .hero-photo's
+   black background blends into this. */
+.hero-overlay {
+  background: rgba(6, 9, 13, 0.55);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Radial glow that follows the cursor (position set via --mx/--my custom
+   properties, updated per-frame by initCursorGlow). Sits above the dimming
+   overlay so the glow tints the darkened backdrop the photo blends into. */
+.hero-mouse-glow {
+  --mx: 50%;
+  --my: 40%;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(600px circle at var(--mx) var(--my), rgba(108, 99, 255, 0.28), transparent 60%);
+}
+
+/* Small code-snippet particles drifting upward inside the hero. Position/
+   timing set inline per element by initCodeParticles; animation itself is
+   pure CSS (GPU transform/opacity) so it costs nothing extra on the main
+   thread once created. */
+.code-particle {
+  position: absolute;
+  bottom: -10%;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.85rem;
+  color: rgba(108, 99, 255, 0.4);
+  opacity: 0;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 0;
+  animation-name: codeDrift;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform, opacity;
+}
+
+.code-particle:nth-child(even) {
+  color: rgba(0, 210, 255, 0.35);
+}
+
+@keyframes codeDrift {
+  0% { transform: translateY(0); opacity: 0; }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { transform: translateY(-70vh); opacity: 0; }
+}
+
+#codeParticles.particles-paused .code-particle {
+  animation-play-state: paused;
 }
 
 .btn-hero {
-  background-color: #fff;
-  color: var(--accent-dark);
+  background: linear-gradient(135deg, var(--accent), var(--accent-cyan));
+  color: #fff;
   font-weight: 600;
-  padding: 0.65rem 1.75rem;
+  padding: 0.75rem 2rem;
   border-radius: 30px;
+  display: inline-block;
   transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .btn-hero:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-  color: var(--accent-dark);
+  box-shadow: 0 10px 28px var(--shadow-glow);
+  color: #fff;
+}
+
+.btn-hero-outline {
+  background: transparent;
+  color: #fff;
+  font-weight: 600;
+  padding: 0.75rem 2rem;
+  border-radius: 30px;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  display: inline-block;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.btn-hero-outline:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-cyan);
+  background-color: rgba(0, 210, 255, 0.1);
+  color: #fff;
+}
+
+.hero-socials {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  flex-wrap: wrap;
+}
+
+.hero-socials a {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 1.3rem;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.hero-socials a:hover {
+  color: var(--accent-cyan);
+  transform: translateY(-3px);
+}
+
+/* Hero photo: on mobile it's a centered block above the text; from lg up it
+   breaks out of the text column and bleeds to the section's right/bottom
+   edges (no card, no glow), like a large-format editorial hero shot. The
+   photo's own background is pure black (#000), so mix-blend-mode: lighten
+   makes it composite as if transparent against the dark shader behind it —
+   per-channel max(bg, 0) = bg — letting the animated aurora show straight
+   through with no visible rectangle edge, no masking needed. Also gets a
+   subtle mouse-follow tilt from initHeroParallax (desktop, fine pointer only). */
+.hero-photo {
+  position: relative;
+  display: block;
+  width: min(240px, 55vw);
+  height: auto;
+  margin: 0 auto 2rem;
+  object-fit: contain;
+  mix-blend-mode: lighten;
+  transition: transform 0.2s ease-out;
+  will-change: transform;
+}
+
+@media (min-width: 1024px) {
+  .hero-photo {
+    position: absolute;
+    margin: 0;
+    left: auto;
+    top: auto;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    height: 92%;
+    max-width: 50%;
+    object-position: bottom right;
+  }
 }
 
 /* =========================================================
@@ -223,79 +487,164 @@ textarea:focus-visible,
    ========================================================= */
 .section-title {
   font-weight: 700;
-  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  color: var(--text-main);
 }
 
 .section-underline {
   width: 70px;
   height: 4px;
-  background: var(--accent);
+  background: linear-gradient(90deg, var(--accent), var(--accent-cyan));
   border-radius: 2px;
-  margin-top: 0.5rem;
+  margin-top: 0.6rem;
 }
 
 /* =========================================================
-   PORTFOLIO SECTION
+   PORTFOLIO SECTION (glass cards + mouse-follow tilt)
    ========================================================= */
 .portfolio-section {
+  position: relative;
+  overflow: hidden;
   background-color: var(--portfolio-bg);
   transition: background-color var(--transition-med);
 }
 
+.portfolio-section::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 40vw;
+  height: 40vw;
+  max-width: 500px;
+  max-height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--mesh-a), transparent 70%);
+  opacity: 0.12;
+  filter: blur(60px);
+  z-index: -1;
+  animation: meshFloat1 26s ease-in-out infinite;
+}
+
+html.dark .portfolio-section::before {
+  opacity: 0.18;
+}
+
+@keyframes meshFloat1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(6%, 8%) scale(1.12); }
+}
+
 .project-card {
-  border: none;
+  display: flex;
+  flex-direction: column;
   border-radius: 14px;
   overflow: hidden;
-  background-color: var(--bg-surface);
-  box-shadow: 0 4px 12px var(--shadow-color);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 8px 24px var(--shadow-color);
+  transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .project-card:hover {
-  transform: scale(1.03);
-  box-shadow: 0 12px 28px var(--shadow-color);
+  border-color: rgba(108, 99, 255, 0.4);
+  box-shadow: 0 16px 40px var(--shadow-glow);
 }
 
-.project-card .card-img-top {
+.project-card-image {
+  width: 100%;
   height: 220px;
   object-fit: cover;
+  display: block;
 }
 
-.project-title {
+.project-card-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+.project-card-title {
   cursor: pointer;
-  color: var(--accent-dark);
-  font-weight: 600;
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--accent-text);
   display: inline-block;
+  margin-bottom: 0.5rem;
   transition: color var(--transition-fast);
 }
 
-body.dark-mode .project-title {
-  color: #9ecbff;
-}
-
-.project-title:hover,
-.project-title:focus {
-  color: var(--accent);
+.project-card-title:hover,
+.project-card-title:focus {
+  color: var(--accent-cyan);
   text-decoration: underline;
 }
 
-.card-text {
+.project-card-desc {
   color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  flex: 1 1 auto;
+  margin-bottom: 1rem;
+}
+
+.tech-badge {
+  display: inline-block;
+  background-color: rgba(108, 99, 255, 0.15);
+  color: var(--accent-text);
+  border: 1px solid rgba(108, 99, 255, 0.3);
+  font-weight: 500;
+  font-size: 0.8rem;
+  margin-right: 0.35rem;
+  margin-bottom: 0.35rem;
+  padding: 0.35em 0.75em;
+  border-radius: 999px;
+}
+
+.card-tech-row {
+  margin-bottom: 1rem;
 }
 
 .btn-view-details {
-  background-color: var(--accent);
+  display: inline-block;
+  background: linear-gradient(135deg, var(--accent), var(--accent-cyan));
   color: #fff;
   border: none;
   font-weight: 600;
   border-radius: 8px;
-  padding: 0.55rem 1rem;
-  transition: background-color var(--transition-fast), transform var(--transition-fast);
+  padding: 0.6rem 1.3rem;
+  cursor: pointer;
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
 }
 
 .btn-view-details:hover {
-  background-color: var(--accent-dark);
   color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px var(--shadow-glow);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  background-color: transparent;
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0.55rem 1.1rem;
+  text-decoration: none;
+  transition: background-color var(--transition-fast), transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.btn-outline:hover {
+  background-color: rgba(108, 99, 255, 0.1);
+  border-color: var(--accent);
+  color: var(--text-main);
   transform: translateY(-2px);
 }
 
@@ -303,45 +652,203 @@ body.dark-mode .project-title {
    ABOUT SECTION
    ========================================================= */
 .about-section {
-  background-color: var(--bg-body);
+  position: relative;
+  overflow: hidden;
+  background-color: var(--about-bg);
   transition: background-color var(--transition-med);
+}
+
+.about-section::before {
+  content: '';
+  position: absolute;
+  bottom: -25%;
+  left: -12%;
+  width: 36vw;
+  height: 36vw;
+  max-width: 450px;
+  max-height: 450px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--mesh-b), transparent 70%);
+  opacity: 0.1;
+  filter: blur(60px);
+  z-index: -1;
+  animation: meshFloat2 22s ease-in-out infinite;
+}
+
+html.dark .about-section::before {
+  opacity: 0.16;
+}
+
+@keyframes meshFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-8%, -6%) scale(1.15); }
 }
 
 .about-text {
   color: var(--text-muted);
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   line-height: 1.8;
 }
 
-/* =========================================================
-   MODALS
-   ========================================================= */
-.modal-content {
-  background-color: var(--bg-surface);
-  color: var(--text-main);
-  border-radius: 14px;
-  border: none;
+.about-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.75rem;
 }
 
-.modal-header,
-.modal-footer {
-  border-color: var(--border-color);
+.cv-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.cert-heading {
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--text-main);
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.cert-subheading {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 2.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.cert-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+.cert-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 1.1rem 1.25rem;
+  text-align: left;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.cert-card:hover {
+  border-color: rgba(108, 99, 255, 0.4);
+  box-shadow: 0 8px 24px var(--shadow-color);
+}
+
+.cert-card-progress {
+  border-style: dashed;
+}
+
+.cert-card-title {
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.25rem;
+}
+
+.cert-card-issuer {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+}
+
+.cert-card-link {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent-text);
+  text-decoration: none;
+}
+
+.cert-card-link:hover {
+  color: var(--accent-cyan);
+  text-decoration: underline;
+}
+
+/* =========================================================
+   MODALS (custom, vanilla-JS driven)
+   ========================================================= */
+.modal-backdrop {
+  background-color: rgba(6, 6, 16, 0.75);
+  backdrop-filter: blur(4px);
+}
+
+.modal-panel {
+  position: relative;
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+  max-width: 48rem;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .modal-panel {
+    padding: 2rem;
+  }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 .modal-title {
   font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.modal-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.modal-close-btn:hover {
+  background-color: var(--border-color);
+  color: var(--text-main);
 }
 
 .modal-screenshot {
   width: 100%;
   height: 130px;
   object-fit: cover;
+  border-radius: 0.5rem;
   border: 1px solid var(--border-color);
 }
 
 .screenshot-caption {
   text-align: center;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
   margin-top: 0.35rem;
   margin-bottom: 0;
@@ -351,20 +858,13 @@ body.dark-mode .project-title {
   font-size: 1.05rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
-  color: var(--accent-dark);
+  color: var(--accent-text);
 }
 
-body.dark-mode .modal-section-heading {
-  color: #9ecbff;
-}
-
-.tech-badge {
-  background-color: var(--accent);
-  color: #fff;
-  font-weight: 500;
-  margin-right: 0.35rem;
-  margin-bottom: 0.35rem;
-  padding: 0.45em 0.8em;
+.modal-features {
+  list-style: disc;
+  padding-left: 1.25rem;
+  color: var(--text-main);
 }
 
 .modal-features li {
@@ -374,25 +874,70 @@ body.dark-mode .modal-section-heading {
 .modal-meta {
   border-top: 1px solid var(--border-color);
   padding-top: 0.75rem;
+  color: var(--text-main);
+}
+
+.modal-footer {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--border-color);
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+
+.modal-footer .btn-outline:hover,
+.modal-footer .btn-view-details:hover {
+  transform: translateY(-2px);
 }
 
 /* =========================================================
    CONTACT SECTION (EMAIL-STYLE FORM)
    ========================================================= */
 .contact-section {
-  background-color: var(--portfolio-bg);
+  position: relative;
+  overflow: hidden;
+  background-color: var(--contact-bg);
   transition: background-color var(--transition-med);
+}
+
+.contact-section::before {
+  content: '';
+  position: absolute;
+  top: -15%;
+  left: 60%;
+  width: 34vw;
+  height: 34vw;
+  max-width: 420px;
+  max-height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--mesh-a), transparent 70%);
+  opacity: 0.1;
+  filter: blur(60px);
+  z-index: -1;
+  animation: meshFloat3 18s ease-in-out infinite;
+}
+
+html.dark .contact-section::before {
+  opacity: 0.16;
+}
+
+@keyframes meshFloat3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-10%, 10%) scale(0.9); }
 }
 
 .email-card {
   background-color: var(--bg-surface);
-  border-radius: 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
   box-shadow: 0 6px 20px var(--shadow-color);
   overflow: hidden;
 }
 
 .email-card-header {
-  background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end));
+  background: linear-gradient(135deg, var(--accent), var(--accent-cyan));
   color: #fff;
   padding: 1rem 1.5rem;
   font-weight: 600;
@@ -407,20 +952,29 @@ body.dark-mode .modal-section-heading {
 }
 
 .form-label {
+  display: block;
   font-weight: 500;
+  margin-bottom: 0.4rem;
+  color: var(--text-main);
 }
 
 .form-control {
-  background-color: var(--bg-body);
+  display: block;
+  width: 100%;
+  background-color: var(--bg-surface);
   color: var(--text-main);
   border: 1px solid var(--border-color);
   border-radius: 8px;
+  padding: 0.55rem 0.85rem;
+  font-family: inherit;
+  font-size: 1rem;
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .form-control:focus {
+  outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(108, 99, 255, 0.25);
 }
 
 .form-control.is-valid {
@@ -431,33 +985,75 @@ body.dark-mode .modal-section-heading {
   border-color: #e74c3c;
 }
 
+.invalid-feedback {
+  display: none;
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+}
+
+.form-control.is-invalid ~ .invalid-feedback {
+  display: block;
+}
+
 .btn-send {
-  background-color: var(--accent);
+  display: block;
+  background: linear-gradient(135deg, var(--accent), var(--accent-cyan));
   color: #fff;
   font-weight: 600;
   border: none;
   border-radius: 8px;
-  padding: 0.7rem;
-  transition: background-color var(--transition-fast), transform var(--transition-fast);
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
 }
 
 .btn-send:hover {
-  background-color: var(--accent-dark);
   color: #fff;
   transform: translateY(-2px);
+  box-shadow: 0 10px 24px var(--shadow-glow);
 }
 
 .btn-send:disabled {
   opacity: 0.7;
   transform: none;
+  cursor: default;
+  box-shadow: none;
+}
+
+.alert {
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.alert-success {
+  background-color: rgba(46, 204, 113, 0.15);
+  color: #1e8449;
+  border: 1px solid rgba(46, 204, 113, 0.4);
+}
+
+html.dark .alert-success {
+  color: #6fdb9a;
+}
+
+.alert-danger {
+  background-color: rgba(231, 76, 60, 0.15);
+  color: #c0392b;
+  border: 1px solid rgba(231, 76, 60, 0.4);
+}
+
+html.dark .alert-danger {
+  color: #ff8a7a;
 }
 
 /* =========================================================
-   FOOTER
+   FOOTER (fixed dark — stays readable regardless of site theme,
+   same reasoning as the navbar)
    ========================================================= */
 .site-footer {
-  background-color: var(--accent-dark);
-  color: rgba(255, 255, 255, 0.85);
+  background-color: var(--fixed-dark);
+  color: rgba(237, 237, 247, 0.85);
 }
 
 .footer-social {
@@ -478,7 +1074,7 @@ body.dark-mode .modal-section-heading {
 }
 
 .social-link:hover {
-  color: #FFE9A8;
+  color: var(--accent-cyan);
   transform: translateY(-2px);
 }
 
@@ -494,12 +1090,18 @@ body.dark-mode .modal-section-heading {
 }
 
 .footer-links a:hover {
-  color: #FFE9A8;
+  color: var(--accent-cyan);
 }
 
 .footer-copyright {
   font-size: 0.9rem;
   opacity: 0.8;
+}
+
+.footer-built-with {
+  font-size: 0.85rem;
+  opacity: 0.6;
+  margin-top: 0.35rem;
 }
 
 /* =========================================================
@@ -513,7 +1115,7 @@ body.dark-mode .modal-section-heading {
   height: 48px;
   border-radius: 50%;
   border: none;
-  background-color: var(--accent);
+  background: linear-gradient(135deg, var(--accent), var(--accent-cyan));
   color: #fff;
   font-size: 1.1rem;
   display: flex;
@@ -523,8 +1125,9 @@ body.dark-mode .modal-section-heading {
   opacity: 0;
   visibility: hidden;
   transform: translateY(15px);
-  transition: opacity var(--transition-fast), transform var(--transition-fast), visibility var(--transition-fast), background-color var(--transition-fast);
+  transition: opacity var(--transition-fast), transform var(--transition-fast), visibility var(--transition-fast), box-shadow var(--transition-fast);
   z-index: 1050;
+  cursor: pointer;
 }
 
 #backToTopBtn.show {
@@ -534,19 +1137,39 @@ body.dark-mode .modal-section-heading {
 }
 
 #backToTopBtn:hover {
-  background-color: var(--accent-dark);
+  box-shadow: 0 8px 22px var(--shadow-glow);
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-section::before,
+  .about-section::before,
+  .contact-section::before,
+  .code-particle {
+    animation: none;
+    display: none;
+  }
+
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* =========================================================
    RESPONSIVE TWEAKS
    ========================================================= */
-@media (max-width: 991.98px) {
+@media (max-width: 767.98px) {
   #mainNav {
-    background-color: var(--bg-navbar-scrolled);
+    background-color: var(--fixed-dark-glass);
   }
-}
 
-@media (max-width: 575.98px) {
   .email-form {
     padding: 1.25rem;
   }
@@ -556,5 +1179,13 @@ body.dark-mode .modal-section-heading {
     height: 42px;
     bottom: 18px;
     right: 18px;
+  }
+}
+
+/* Cursor + tilt are pointer-driven; touch devices never get the JS classes
+   that enable them, but as a hard guarantee also disable at the CSS level. */
+@media (hover: none), (pointer: coarse) {
+  .cursor-dot, .cursor-ring {
+    display: none !important;
   }
 }

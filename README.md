@@ -72,11 +72,9 @@ const EMAILJS_TEMPLATE_ID = 'template_5hyd0k3';
 
 To use the form with your own EmailJS account, replace these three values with your own public key, service ID, and template ID from your [EmailJS dashboard](https://dashboard.emailjs.com/).
 
-## Known placeholders
+## Live site
 
-The following content is currently placeholder/sample data and will need to be filled in before this is fully "production-real":
-
-- TODO: live deployment URL (not yet deployed anywhere as far as this repository shows).
+Deployed on Vercel: [zacharyscott.vercel.app](https://zacharyscott.vercel.app/) — auto-redeploys on every push to `main`.
 
 ## License
 

@@ -772,8 +772,8 @@ function initCustomCursor() {
   });
 
   function animateRing() {
-    ringX += (mouseX - ringX) * 0.18;
-    ringY += (mouseY - ringY) * 0.18;
+    ringX += (mouseX - ringX) * 0.4;
+    ringY += (mouseY - ringY) * 0.4;
     ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
     requestAnimationFrame(animateRing);
   }

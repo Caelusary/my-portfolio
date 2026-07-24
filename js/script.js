@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initHeroCursorGlow,
     initCodeParticles,
     initCustomCursor,
+    initClickRipple,
     initCardTilt,
     initScrollProgress,
     initEmailJS,
@@ -785,6 +786,27 @@ function initCustomCursor() {
   });
   document.addEventListener('mouseout', (e) => {
     if (e.target.closest && e.target.closest(hoverSelector)) ring.classList.remove('cursor-hover');
+  });
+}
+
+/* =========================================================
+   CLICK RIPPLE ("cyber water droplet")
+   Spawns a .click-ripple ring at every click point and lets its own
+   CSS animation expand/fade it, then removes the element once the
+   animation ends. Runs everywhere (including on buttons/links) —
+   skipped under prefers-reduced-motion like the rest of the site's
+   motion.
+   ========================================================= */
+function initClickRipple() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  document.addEventListener('click', (e) => {
+    const ripple = document.createElement('div');
+    ripple.className = 'click-ripple';
+    ripple.style.left = `${e.clientX}px`;
+    ripple.style.top = `${e.clientY}px`;
+    ripple.addEventListener('animationend', () => ripple.remove());
+    document.body.appendChild(ripple);
   });
 }
 

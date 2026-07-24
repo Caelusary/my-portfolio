@@ -181,6 +181,43 @@ body.custom-cursor-active [role="button"] {
 }
 
 /* =========================================================
+   CLICK RIPPLE ("cyber water droplet")
+   A single glowing ring pulses outward from every click and fades.
+   Spawned/removed by initClickRipple(). Purely decorative
+   (pointer-events: none) so it never intercepts the click itself.
+   ========================================================= */
+.click-ripple {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9997;
+  border: 1.5px solid var(--accent-cyan);
+  box-shadow: 0 0 16px rgba(0, 210, 255, 0.6), inset 0 0 10px rgba(108, 99, 255, 0.5);
+  animation: clickRippleExpand 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes clickRippleExpand {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+    border-color: var(--accent-cyan);
+  }
+  60% {
+    border-color: var(--accent);
+  }
+  100% {
+    transform: scale(16);
+    opacity: 0;
+    border-color: var(--accent);
+  }
+}
+
+/* =========================================================
    NAVIGATION BAR (fixed dark glass — always readable regardless
    of the page's own light/dark theme, see header comment above)
    ========================================================= */

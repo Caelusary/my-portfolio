@@ -4,9 +4,10 @@ A cinematic, single-page personal portfolio for Zachary Scott (Full-Stack Develo
 
 ## Features
 
-- **Purple/cyan design system** (`#6C63FF` → `#00D2FF`) with a full dark theme (default) and light theme, both fully re-themed via CSS custom properties — persisted in `localStorage`.
-- **Hero section** with a photo blended seamlessly into an animated WebGL "aurora" background (Three.js) using `mix-blend-mode: lighten`, a cursor-reactive glow, subtle mouse-tilt parallax on the photo, floating code-snippet particles, and a scroll-replayable name "shine" animation. The hero itself stays a fixed dark cinematic band in both themes.
+- **Purple/cyan design system** (`#6C63FF` → `#00D2FF`) with a full dark theme (default) and light theme, both fully re-themed via CSS custom properties — persisted in `localStorage`. The hero section re-themes too: its WebGL aurora shader carries a second light-mode color palette that crossfades on toggle.
+- **Hero section** with a real alpha-channel cutout photo composited over an animated WebGL "aurora" background (Three.js), a cursor-reactive glow, floating code-snippet particles, and a scroll-replayable name "shine" animation.
 - **Custom cursor** (dot + trailing ring) that grows/glows over interactive elements — desktop only (fine pointer + hover-capable), automatically disabled on touch devices and under `prefers-reduced-motion`.
+- **Click ripple effect** — a small glowing ring pulses outward from every click and fades, skipped under `prefers-reduced-motion`.
 - **Responsive navigation bar** with a glassmorphism blurred background, a "ZS" monogram logo, sliding underline link-hover effect, scrollspy (active link highlighting via `IntersectionObserver`), and smooth scrolling to in-page sections.
 - **Scroll-reveal animations** (GSAP + ScrollTrigger) on section headings, project cards, and the contact card — fade/rise into view, with a `prefers-reduced-motion` override that disables all of it.
 - **Scroll progress bar** showing how far down the page you are.
@@ -17,7 +18,7 @@ A cinematic, single-page personal portfolio for Zachary Scott (Full-Stack Develo
 - **Footer** with social links (Facebook, GitHub, Instagram, phone) and quick navigation.
 - **Back-to-top button** that appears after scrolling and smooth-scrolls back to the top.
 - **Auto-updating copyright year** in the footer.
-- **Accessibility touches**: a skip-to-content link, visible focus outlines, `aria-*` attributes on interactive elements, lazy-loaded below-the-fold images, keyboard support (Enter/Space) for the project-title color interaction, and every motion-heavy feature (cursor, tilt, parallax, particles, shader animation) gracefully skipped under `prefers-reduced-motion` or on touch devices.
+- **Accessibility touches**: a skip-to-content link, visible focus outlines, `aria-*` attributes on interactive elements, lazy-loaded below-the-fold images, keyboard support (Enter/Space) for the project-title color interaction, and every motion-heavy feature (cursor, tilt, cursor glow, particles, shader animation, click ripple) gracefully skipped under `prefers-reduced-motion` or on touch devices.
 
 ## Tech stack
 
@@ -41,9 +42,9 @@ portfolio/
 ├── css/
 │   └── style.css           # Theming (dark/light), hero shader/photo/particles, glassmorphism, cursor, tilt, scroll-reveal
 ├── js/
-│   ├── script.js           # All feature init functions (cursor, shader, particles, tilt, parallax, forms, toggles, etc.)
+│   ├── script.js           # All feature init functions (cursor, shader, particles, tilt, cursor glow, forms, toggles, etc.)
 │   └── translations.js     # EN/Filipino translation dictionary
-├── images/                 # Hero photo variants
+├── images/                 # Hero photo (real alpha-channel cutout)
 ├── project-screenshots/    # Real screenshots used in the project cards/modals
 └── about-me/                # Real CV and certification PDFs linked from the About section
 ```
@@ -75,8 +76,6 @@ To use the form with your own EmailJS account, replace these three values with y
 
 The following content is currently placeholder/sample data and will need to be filled in before this is fully "production-real":
 
-- Per-project GitHub/Live Demo links in the modals — currently `#`.
-- Some listed certifications (e.g. the Junior Philippine Computer Society certificates) don't yet have a PDF on hand, so they're listed without a "View Certificate" link.
 - TODO: live deployment URL (not yet deployed anywhere as far as this repository shows).
 
 ## License

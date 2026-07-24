@@ -212,11 +212,19 @@ function initSmoothScroll() {
 function initProjectBackgroundChange() {
   const portfolioSection = document.getElementById('portfolio');
   const projectTitles = document.querySelectorAll('.project-card-title');
+  let activeTitle = null;
 
   projectTitles.forEach((title) => {
     const trigger = () => {
-      const color = title.dataset.color;
-      portfolioSection.style.backgroundColor = color;
+      if (activeTitle === title) {
+        // Second click on the already-active title: back to the section's
+        // default background instead of re-applying the same tint.
+        portfolioSection.style.backgroundColor = '';
+        activeTitle = null;
+      } else {
+        portfolioSection.style.backgroundColor = title.dataset.color;
+        activeTitle = title;
+      }
     };
 
     title.addEventListener('click', trigger);

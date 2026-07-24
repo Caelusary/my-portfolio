@@ -82,20 +82,22 @@
   <main id="main-content">
 
     <!-- ============ HERO SECTION ============ -->
-    <header id="home" class="relative overflow-hidden min-h-screen flex items-center bg-herobase text-white pt-20">
+    <header id="home" class="relative overflow-hidden min-h-screen flex items-center hero-section pt-20">
       <canvas id="heroCanvas" class="absolute inset-0 w-full h-full -z-10" aria-hidden="true"></canvas>
       <div class="hero-overlay absolute inset-0" aria-hidden="true"></div>
       <div class="hero-mouse-glow" id="heroMouseGlow" aria-hidden="true"></div>
       <div id="codeParticles" class="absolute inset-0 overflow-hidden" aria-hidden="true"></div>
 
       <div class="max-w-6xl mx-auto px-4 md:px-6 w-full">
-        <img src="images/profile-hero.jpg" class="hero-photo" id="heroPhoto" alt="Portrait of Zachary Scott D. Ruiz">
+        <div class="hero-photo-wrap" id="heroPhotoWrap">
+          <img src="images/profile-hero-cutout.png" class="hero-photo" id="heroPhoto" alt="Portrait of Zachary Scott D. Ruiz">
+        </div>
         <div class="relative z-10 lg:max-w-xl text-center lg:text-left reveal">
           <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold leading-[1.05] tracking-tight">
             <span class="hero-name" id="heroName">Zachary Scott</span>
           </h1>
-          <p class="mt-6 text-xl md:text-2xl font-medium text-white/90" data-i18n="hero.subtitle">Full Stack Developer &amp; Creative Thinker</p>
-          <p class="mt-2 text-base md:text-lg text-white/70 font-light" data-i18n="hero.tagline">I craft high-performance web experiences that blend code with design.</p>
+          <p class="mt-6 text-xl md:text-2xl font-medium hero-subtitle" data-i18n="hero.subtitle">Full Stack Developer &amp; Creative Thinker</p>
+          <p class="mt-2 text-base md:text-lg hero-tagline font-light" data-i18n="hero.tagline">I craft high-performance web experiences that blend code with design.</p>
           <div class="mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-4">
             <a href="#portfolio" class="btn-hero" data-i18n="hero.cta">View My Work</a>
             <a href="#contact" class="btn-hero-outline" data-i18n="hero.ctaSecondary">Let's Talk</a>

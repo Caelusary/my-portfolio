@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initGsapReveal, // runs first: reveal must never depend on anything else succeeding
     initHeroShader,
     initHeroNameShine,
-    initHeroParallax,
+    initHeroCursorGlow,
     initCodeParticles,
     initCustomCursor,
     initCardTilt,
@@ -434,6 +434,8 @@ function initHeroShader() {
   const heroSection = document.getElementById('home');
   if (!canvas || !heroSection || typeof THREE === 'undefined') return;
 
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   let renderer;
   try {
     renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false });
@@ -448,8 +450,31 @@ function initHeroShader() {
   const uniforms = {
     uTime: { value: 0 },
     uResolution: { value: new THREE.Vector2(1, 1) },
-    uMouse: { value: new THREE.Vector2(0.5, 0.5) }
+    uMouse: { value: new THREE.Vector2(0.5, 0.5) },
+    // 0 = dark palette, 1 = light palette. Crossfades in animate() rather
+    // than snapping, so a theme toggle mid-scroll doesn't hard-cut.
+    uLight: { value: 0 }
   };
+  let targetLight = 0;
+
+  // Matches the hero's own base color (--hero-bg-base) for the given theme.
+  // The renderer is opaque (alpha: false), so any pixel it hasn't drawn to
+  // yet — e.g. a drawing-buffer resize that briefly lags the canvas's
+  // displayed size — shows this color instead of defaulting to pure black,
+  // which would otherwise read as a visible seam against the rest of the
+  // hero.
+  function syncShaderTheme(renderNow) {
+    const isLight = !document.documentElement.classList.contains('dark');
+    targetLight = isLight ? 1 : 0;
+    renderer.setClearColor(isLight ? 0xf1effb : 0x0a0a1a, 1);
+    if (renderNow) {
+      uniforms.uLight.value = targetLight;
+      renderer.render(scene, camera);
+    }
+  }
+  syncShaderTheme(false);
+  new MutationObserver(() => syncShaderTheme(prefersReducedMotion))
+    .observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
   const material = new THREE.ShaderMaterial({
     uniforms,
@@ -465,9 +490,10 @@ function initHeroShader() {
       uniform float uTime;
       uniform vec2 uResolution;
       uniform vec2 uMouse;
+      uniform float uLight;
       varying vec2 vUv;
 
-      vec3 palette(float t) {
+      vec3 paletteDark(float t) {
         vec3 c1 = vec3(0.039, 0.039, 0.102);
         vec3 c2 = vec3(0.424, 0.388, 1.0);
         vec3 c3 = vec3(0.0, 0.824, 1.0);
@@ -476,6 +502,25 @@ function initHeroShader() {
         col = mix(col, c3, smoothstep(0.35, 0.7, t));
         col = mix(col, c4, smoothstep(0.65, 1.0, t) * 0.5);
         return col;
+      }
+
+      // Same three-stop sweep, re-tuned for a light backdrop: base near
+      // --hero-bg-base instead of near-black, and the top highlight is a
+      // saturated purple instead of near-white (white would just vanish
+      // into a light base).
+      vec3 paletteLight(float t) {
+        vec3 c1 = vec3(0.945, 0.937, 0.984);
+        vec3 c2 = vec3(0.72, 0.69, 1.0);
+        vec3 c3 = vec3(0.55, 0.9, 1.0);
+        vec3 c4 = vec3(0.42, 0.35, 0.95);
+        vec3 col = mix(c1, c2, smoothstep(0.0, 0.4, t));
+        col = mix(col, c3, smoothstep(0.35, 0.7, t));
+        col = mix(col, c4, smoothstep(0.65, 1.0, t) * 0.5);
+        return col;
+      }
+
+      vec3 palette(float t) {
+        return mix(paletteDark(t), paletteLight(t), uLight);
       }
 
       float hash(vec2 p) {
@@ -543,25 +588,30 @@ function initHeroShader() {
   // Defer the first sizing pass: this script runs synchronously during
   // DOMContentLoaded, which can race ahead of the Tailwind CDN script's
   // async CSS injection (it adds utility classes like w-full/h-full via a
-  // <style> tag on its own schedule). Two independent deferral mechanisms
-  // so this can't silently fail if one of them doesn't fire: a double-rAF
-  // (waits for a real layout/paint cycle) and a setTimeout fallback.
-  let sized = false;
-  const doInitialResize = () => {
-    if (sized) return;
+  // <style> tag on its own schedule). Several independent deferral
+  // mechanisms so this can't silently get stuck on a stale size if one of
+  // them doesn't fire: a double-rAF (waits for a real layout/paint cycle),
+  // a setTimeout fallback, a re-check once web fonts finish loading (font
+  // swaps can reflow the header's height after the first paint), and a
+  // plain window resize listener for anything else. Unlike the earlier
+  // version, this always re-measures — never gates itself behind a
+  // "sized" flag — so the canvas's drawing buffer can't permanently drift
+  // out of sync with its displayed size.
+  const remeasure = () => {
     const rect = canvas.getBoundingClientRect();
     if (rect.width && rect.height) {
-      sized = true;
       resize(rect.width, rect.height);
     }
   };
-  requestAnimationFrame(() => requestAnimationFrame(doInitialResize));
-  setTimeout(doInitialResize, 300);
-
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  requestAnimationFrame(() => requestAnimationFrame(remeasure));
+  setTimeout(remeasure, 300);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(remeasure).catch(() => {});
+  }
+  window.addEventListener('resize', remeasure, { passive: true });
 
   if (prefersReducedMotion) {
-    renderer.render(scene, camera);
+    syncShaderTheme(true);
     return;
   }
 
@@ -582,6 +632,9 @@ function initHeroShader() {
     // of snapping every mousemove event.
     uniforms.uMouse.value.x += (targetMouse.x - uniforms.uMouse.value.x) * 0.04;
     uniforms.uMouse.value.y += (targetMouse.y - uniforms.uMouse.value.y) * 0.04;
+    // Same lerp treatment for a light/dark theme toggle: crossfades the
+    // palette instead of hard-cutting mid-scroll.
+    uniforms.uLight.value += (targetLight - uniforms.uLight.value) * 0.05;
     renderer.render(scene, camera);
     rafId = requestAnimationFrame(animate);
   }
@@ -626,15 +679,14 @@ function initHeroNameShine() {
 }
 
 /* =========================================================
-   HERO PARALLAX (photo tilt + cursor-follow glow)
-   Desktop-only (fine pointer, hover-capable), skipped entirely
-   under prefers-reduced-motion.
+   HERO CURSOR GLOW
+   Moves a soft glow behind the photo to follow the cursor. Desktop-only
+   (fine pointer, hover-capable), skipped under prefers-reduced-motion.
    ========================================================= */
-function initHeroParallax() {
+function initHeroCursorGlow() {
   const heroSection = document.getElementById('home');
-  const photo = document.getElementById('heroPhoto');
   const glow = document.getElementById('heroMouseGlow');
-  if (!heroSection) return;
+  if (!heroSection || !glow) return;
 
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -644,21 +696,8 @@ function initHeroParallax() {
     const rect = heroSection.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;
-
-    if (glow) {
-      glow.style.setProperty('--mx', `${x * 100}%`);
-      glow.style.setProperty('--my', `${y * 100}%`);
-    }
-
-    if (photo) {
-      const rotateY = (x - 0.5) * 14;
-      const rotateX = (0.5 - y) * 10;
-      photo.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-    }
-  });
-
-  heroSection.addEventListener('pointerleave', () => {
-    if (photo) photo.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+    glow.style.setProperty('--mx', `${x * 100}%`);
+    glow.style.setProperty('--my', `${y * 100}%`);
   });
 }
 

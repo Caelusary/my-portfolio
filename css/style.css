@@ -6,15 +6,17 @@
 
    Identity: purple (#6C63FF) -> cyan (#00D2FF). Light and dark
    themes are both fully designed (toggle persists via localStorage),
-   defaulting to dark. The hero section is a deliberate exception:
-   it stays a fixed cinematic-dark band in both themes (its own text/
-   button colors are hardcoded, not theme-variable-driven) because
-   its WebGL aurora + photo blend-mode trick are tuned specifically
-   for a dark backdrop — forcing a light hero would need a second
-   shader palette and a different photo-blend strategy. Every other
-   section (nav, portfolio, about, contact, footer, modals, forms)
-   fully re-themes via the variables below, so text stays readable
-   in both modes.
+   defaulting to dark. The hero section now fully re-themes too (see
+   --hero-* tokens below): its WebGL aurora shader carries a second
+   light-mode palette (js/script.js, uLight uniform, swapped via a
+   MutationObserver on html.dark). The photo itself (profile-hero-
+   cutout.png) is a real alpha-channel cutout, so it needs no per-theme
+   handling at all — see the .hero-photo comment further down. Every
+   other section
+   (nav, portfolio, about, contact, footer, modals, forms) fully
+   re-themes via the variables below too, so text stays readable in
+   both modes. The nav bar is the deliberate exception: it stays a
+   fixed dark glass bar in both themes (see its own header comment).
    ========================================================= */
 :root {
   --accent: #6C63FF;
@@ -22,7 +24,6 @@
   --accent-text: #5A4FE0;
   --mesh-a: #6C63FF;
   --mesh-b: #00D2FF;
-  --hero-bg-base: #0A0A1A;
   --fixed-dark: #0A0A1A;
   --fixed-dark-glass: rgba(10, 10, 26, 0.72);
 
@@ -38,6 +39,15 @@
   --contact-bg: #F6F6FC;
   --shadow-color: rgba(76, 70, 150, 0.14);
   --shadow-glow: rgba(108, 99, 255, 0.3);
+
+  --hero-bg-base: #F1EFFB;
+  --hero-text: #171730;
+  --hero-name-color: #4B3FE0;
+  --hero-text-soft: rgba(23, 23, 48, 0.82);
+  --hero-text-muted: rgba(23, 23, 48, 0.62);
+  --hero-overlay: rgba(255, 255, 255, 0.4);
+  --hero-btn-outline-border: rgba(23, 23, 48, 0.35);
+  --hero-social-color: rgba(23, 23, 48, 0.6);
 
   --transition-fast: 0.2s ease;
   --transition-med: 0.4s ease;
@@ -57,6 +67,15 @@ html.dark {
   --contact-bg: #0A0A1A;
   --shadow-color: rgba(0, 0, 0, 0.5);
   --shadow-glow: rgba(108, 99, 255, 0.4);
+
+  --hero-bg-base: #0A0A1A;
+  --hero-text: #FFFFFF;
+  --hero-name-color: #D8D4FF;
+  --hero-text-soft: rgba(255, 255, 255, 0.9);
+  --hero-text-muted: rgba(255, 255, 255, 0.7);
+  --hero-overlay: rgba(6, 9, 13, 0.68);
+  --hero-btn-outline-border: rgba(255, 255, 255, 0.5);
+  --hero-social-color: rgba(255, 255, 255, 0.75);
 }
 
 html {
@@ -295,10 +314,25 @@ body.custom-cursor-active [role="button"] {
 }
 
 /* =========================================================
-   HERO SECTION (fixed dark cinematic band — see header comment)
+   HERO SECTION (re-themes with light/dark — see header comment)
    ========================================================= */
+.hero-section {
+  background-color: var(--hero-bg-base);
+  color: var(--hero-text);
+  transition: background-color var(--transition-med), color var(--transition-med);
+}
+
 .hero-name {
-  color: #D8D4FF;
+  color: var(--hero-name-color);
+  transition: color var(--transition-med);
+}
+
+.hero-subtitle {
+  color: var(--hero-text-soft);
+}
+
+.hero-tagline {
+  color: var(--hero-text-muted);
 }
 
 /* JS-only enhancement: added by initHeroNameShine once it confirms it can
@@ -318,6 +352,9 @@ body.custom-cursor-active [role="button"] {
 }
 
 .hero-name.shine-ready.shine-in {
+  /* No delay: the name should read immediately, before any of the hero's
+     other entrance motion (shadow veil, particles, etc.) competes for
+     attention — too much simultaneous animation is hard to parse. */
   animation: heroNameShine 1.3s ease forwards;
 }
 
@@ -338,18 +375,20 @@ body.custom-cursor-active [role="button"] {
   }
 }
 
-/* Mutes the animated shader behind it so the hero reads as a dark, moody
-   backdrop while still letting its motion/color show through — .hero-photo's
-   black background blends into this. */
+/* Mutes the animated shader behind it so the hero reads as a moody
+   backdrop while still letting its motion/color show through. Tints dark
+   in dark mode, soft white in light mode (see --hero-overlay). */
 .hero-overlay {
-  background: rgba(6, 9, 13, 0.55);
+  background: var(--hero-overlay);
   z-index: 0;
   pointer-events: none;
+  transition: background-color var(--transition-med);
 }
 
 /* Radial glow that follows the cursor (position set via --mx/--my custom
-   properties, updated per-frame by initCursorGlow). Sits above the dimming
-   overlay so the glow tints the darkened backdrop the photo blends into. */
+   properties, updated per-frame by initHeroCursorGlow). Intentionally
+   subtle — it's meant to animate the space around the subject, not wash
+   out the photo itself. */
 .hero-mouse-glow {
   --mx: 50%;
   --my: 40%;
@@ -357,7 +396,7 @@ body.custom-cursor-active [role="button"] {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background: radial-gradient(600px circle at var(--mx) var(--my), rgba(108, 99, 255, 0.28), transparent 60%);
+  background: radial-gradient(560px circle at var(--mx) var(--my), rgba(108, 99, 255, 0.14), transparent 60%);
 }
 
 /* Small code-snippet particles drifting upward inside the hero. Position/
@@ -413,20 +452,20 @@ body.custom-cursor-active [role="button"] {
 
 .btn-hero-outline {
   background: transparent;
-  color: #fff;
+  color: var(--hero-text);
   font-weight: 600;
   padding: 0.75rem 2rem;
   border-radius: 30px;
-  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border: 1.5px solid var(--hero-btn-outline-border);
   display: inline-block;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-fast);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-fast), color var(--transition-med);
 }
 
 .btn-hero-outline:hover {
   transform: translateY(-3px);
   border-color: var(--accent-cyan);
   background-color: rgba(0, 210, 255, 0.1);
-  color: #fff;
+  color: var(--hero-text);
 }
 
 .hero-socials {
@@ -437,7 +476,7 @@ body.custom-cursor-active [role="button"] {
 }
 
 .hero-socials a {
-  color: rgba(255, 255, 255, 0.75);
+  color: var(--hero-social-color);
   font-size: 1.3rem;
   transition: color var(--transition-fast), transform var(--transition-fast);
 }
@@ -447,28 +486,23 @@ body.custom-cursor-active [role="button"] {
   transform: translateY(-3px);
 }
 
-/* Hero photo: on mobile it's a centered block above the text; from lg up it
-   breaks out of the text column and bleeds to the section's right/bottom
-   edges (no card, no glow), like a large-format editorial hero shot. The
-   photo's own background is pure black (#000), so mix-blend-mode: lighten
-   makes it composite as if transparent against the dark shader behind it —
-   per-channel max(bg, 0) = bg — letting the animated aurora show straight
-   through with no visible rectangle edge, no masking needed. Also gets a
-   subtle mouse-follow tilt from initHeroParallax (desktop, fine pointer only). */
-.hero-photo {
+/* Hero photo wrap: on mobile it's a centered block above the text; from lg
+   up it breaks out of the text column and bleeds to the section's
+   right/bottom edges, like a large-format editorial hero shot. This
+   wrapper (not the <img> itself) owns the sizing/position rules, sized via
+   aspect-ratio to match the source photo exactly (432:577). */
+.hero-photo-wrap {
   position: relative;
   display: block;
   width: min(240px, 55vw);
-  height: auto;
+  aspect-ratio: 432 / 577;
   margin: 0 auto 2rem;
-  object-fit: contain;
-  mix-blend-mode: lighten;
-  transition: transform 0.2s ease-out;
-  will-change: transform;
+  opacity: 0;
+  animation: heroPhotoFadeIn 1s ease-out 1.2s forwards;
 }
 
 @media (min-width: 1024px) {
-  .hero-photo {
+  .hero-photo-wrap {
     position: absolute;
     margin: 0;
     left: auto;
@@ -477,9 +511,29 @@ body.custom-cursor-active [role="button"] {
     bottom: 0;
     width: auto;
     height: 92%;
+    aspect-ratio: 432 / 577;
     max-width: 50%;
-    object-position: bottom right;
   }
+}
+
+/* profile-hero-cutout.png has a real alpha channel (proper cutout, not a
+   flat-color background), so it composites correctly over anything — the
+   shader, the light-mode background, either theme — with no blend-mode
+   trick, no swapped second image, nothing to keep in sync with the theme
+   toggle. The wrapper owns the one-shot entrance fade-in/scale, starting
+   once the name has already appeared (1.2s delay). */
+.hero-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 1;
+}
+
+@keyframes heroPhotoFadeIn {
+  0% { opacity: 0; transform: scale(0.97); }
+  100% { opacity: 1; transform: scale(1); }
 }
 
 /* =========================================================

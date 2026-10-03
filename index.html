@@ -13,24 +13,21 @@
   <meta property="og:url" content="https://zacharyscott.vercel.app/">
   <meta property="og:title" content="Zachary Scott | Full-Stack Developer &amp; Creative Thinker">
   <meta property="og:description" content="Personal portfolio of Zachary Scott — Full-Stack Developer &amp; Creative Thinker — showcasing Trip Planner, Weather Dashboard, Twogether, Shelf Help, Budgy, and Ambag.">
-  <meta property="og:image" content="https://zacharyscott.vercel.app/images/profile-hero-cutout.png">
+  <meta property="og:image" content="https://zacharyscott.vercel.app/images/og-home.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Zachary Scott, Full Stack Developer and Creative Thinker">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Zachary Scott | Full-Stack Developer &amp; Creative Thinker">
   <meta name="twitter:description" content="Personal portfolio of Zachary Scott — Full-Stack Developer &amp; Creative Thinker — showcasing Trip Planner, Weather Dashboard, Twogether, Shelf Help, Budgy, and Ambag.">
-  <meta name="twitter:image" content="https://zacharyscott.vercel.app/images/profile-hero-cutout.png">
+  <meta name="twitter:image" content="https://zacharyscott.vercel.app/images/og-home.png">
 
   <!-- Applies the dark/light theme class before first paint, matching the
        localStorage-persisted choice initDarkMode() (js/script.js) reads
        later — otherwise the page briefly flashes the CSS defaults (light
        theme) before JS catches up and switches to dark. Inline and placed
        first so nothing else in <head> can render ahead of it. -->
-  <script>
-    (function () {
-      var stored = localStorage.getItem('theme');
-      var isDark = stored ? stored === 'dark' : true;
-      if (isDark) document.documentElement.classList.add('dark');
-    })();
-  </script>
+  <script src="js/theme-init.js"></script>
 
   <!-- Google Fonts: Space Grotesk (headings) + Inter (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,27 +37,12 @@
   <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-  <!-- Tailwind CSS (CDN build) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            display: ['"Space Grotesk"', 'sans-serif']
-          },
-          colors: {
-            herobase: '#0A0A1A'
-          }
-        }
-      }
-    };
-  </script>
-
   <!-- Custom CSS (only what Tailwind utilities can't express) -->
   <link rel="stylesheet" href="css/style.css">
+
+  <!-- Tailwind utilities, prebuilt by `npm run css` (see tailwind.config.js).
+       Loaded after style.css to keep the cascade the Play CDN had. -->
+  <link rel="stylesheet" href="css/tailwind.css">
 </head>
 <body class="font-sans transition-colors duration-300">
 
@@ -74,6 +56,7 @@
   <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
   <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 
+  <!-- shared:nav:start (edit in index.html, then `npm run sync`) -->
   <!-- ============ NAVIGATION BAR ============ -->
   <nav id="mainNav" class="fixed top-0 inset-x-0 z-40 transition-colors duration-300" aria-label="Main navigation">
     <div class="max-w-6xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
@@ -104,6 +87,7 @@
       </div>
     </div>
   </nav>
+  <!-- shared:nav:end -->
 
   <main id="main-content">
 
@@ -140,7 +124,9 @@
     </header>
 
     <!-- ============ PORTFOLIO SECTION ============ -->
-    <!-- Three featured projects; the full list with details lives on projects.html. -->
+    <!-- Three featured projects: a full-width banner cut into diagonal slices
+         (one screenshot per project), with a card per project underneath in
+         the same order. The full list with details lives on projects.html. -->
     <section id="portfolio" class="portfolio-section py-20 md:py-28">
       <div class="max-w-6xl mx-auto px-4 md:px-6">
         <div class="text-center mb-16 reveal">
@@ -148,39 +134,44 @@
           <div class="section-underline mx-auto"></div>
         </div>
 
-        <div class="featured-grid">
+        <div class="showcase reveal">
+          <a href="projects.html#trip-planner" class="slice slice-1" aria-label="Trip Planner: view project">
+            <img src="project-screenshots/trip-planner(1).png" alt="" width="1350" height="644" loading="lazy">
+            <span class="slice-label">Trip Planner <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+          </a>
+          <a href="projects.html#twogether" class="slice slice-2" aria-label="Twogether: view project">
+            <img src="project-screenshots/twogether(3).png" alt="" width="1350" height="644" loading="lazy">
+            <span class="slice-label">Twogether <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+          </a>
+          <a href="projects.html#ambag" class="slice slice-3" aria-label="Ambag: view project">
+            <img src="project-screenshots/ambag(1).png" alt="" width="1350" height="645" loading="lazy">
+            <span class="slice-label">Ambag <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+          </a>
+        </div>
 
-          <!-- Trip Planner (featured) -->
-          <article class="project-card project-card--featured reveal">
-            <div class="featured-media">
-              <img src="project-screenshots/trip-planner(1).png" class="project-card-image" alt="Trip Planner attraction browsing screenshot" width="1350" height="644" loading="lazy">
-            </div>
+        <div class="featured-row">
+
+          <!-- Trip Planner -->
+          <article class="project-card reveal">
             <div class="project-card-body">
               <h3 class="project-card-title" tabindex="0" role="button"
                 data-color="rgba(255, 183, 77, 0.18)" data-project="Trip Planner"
                 aria-label="Trip Planner, click to change portfolio background color">Trip Planner</h3>
-              <p class="project-card-desc" data-i18n="project.trip.desc">A travel planning app for browsing tourist attractions, saving favorites, and organizing your upcoming trips.</p>
-              <ul class="featured-highlights">
-                <li data-i18n="trip.feature.1">Browse tourist attractions by category and budget</li>
-                <li data-i18n="trip.feature.3">Plan trips with custom dates and destinations</li>
-                <li data-i18n="trip.feature.4">Track upcoming and past trip history</li>
-              </ul>
+              <p class="project-card-desc" data-i18n="project.trip.desc">A full-stack trip planner with accounts, multi-city itineraries, per-destination weather forecasts, and a 3D attraction carousel.</p>
               <div class="card-tech-row">
                 <span class="badge tech-badge">Next.js</span>
                 <span class="badge tech-badge">TypeScript</span>
-                <span class="badge tech-badge">Tailwind CSS</span>
                 <span class="badge tech-badge">Supabase</span>
               </div>
-              <a href="projects.html#trip-planner" class="btn-view-details mt-auto self-start">
+              <a href="projects.html#trip-planner" class="btn-text-link mt-auto">
                 <span data-i18n="project.viewProject">View Project</span>
-                <i class="fa-solid fa-arrow-right ms-1" aria-hidden="true"></i>
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
               </a>
             </div>
           </article>
 
           <!-- Twogether -->
           <article class="project-card reveal">
-            <img src="project-screenshots/twogether(3).png" class="project-card-image" alt="Twogether home dashboard screenshot" loading="lazy">
             <div class="project-card-body">
               <h3 class="project-card-title" tabindex="0" role="button"
                 data-color="rgba(255, 105, 180, 0.18)" data-project="Twogether"
@@ -200,7 +191,6 @@
 
           <!-- Ambag -->
           <article class="project-card reveal">
-            <img src="project-screenshots/ambag(1).png" class="project-card-image" alt="Ambag task pool screenshot" loading="lazy">
             <div class="project-card-body">
               <h3 class="project-card-title" tabindex="0" role="button"
                 data-color="rgba(199, 115, 59, 0.18)" data-project="Ambag"
@@ -365,6 +355,7 @@
 
   </main>
 
+  <!-- shared:footer:start (edit in index.html, then `npm run sync`) -->
   <!-- ============ FOOTER ============ -->
   <footer class="site-footer py-10">
     <div class="max-w-6xl mx-auto px-4 md:px-6 text-center">
@@ -400,6 +391,7 @@
       <p class="footer-built-with" data-i18n="footer.builtWith">Built with ❤️ and a lot of coffee.</p>
     </div>
   </footer>
+  <!-- shared:footer:end -->
 
   <!-- ============ BACK TO TOP BUTTON ============ -->
   <button id="backToTopBtn" type="button" data-i18n-aria-label="a11y.backToTop" data-i18n-title="a11y.backToTop" aria-label="Back to top" title="Back to top">

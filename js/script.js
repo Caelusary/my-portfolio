@@ -29,7 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollSpy,
     initSmoothScroll,
     initProjectBackgroundChange,
-    initModals,
+    initProjectFilter,
+    initCaseGallery,
     initContactForm,
     initBackToTop,
     initCopyrightYear
@@ -239,49 +240,49 @@ function initProjectBackgroundChange() {
 }
 
 /* =========================================================
-   PROJECT MODALS (custom, vanilla JS — no Bootstrap JS dependency)
+   PROJECTS PAGE: FILTER CHIPS
+   Rows carry space-separated data-tags; a chip shows the rows that
+   include its tag ("all" shows everything).
    ========================================================= */
-function initModals() {
-  const modals = document.querySelectorAll('.modal');
-  if (!modals.length) return;
+function initProjectFilter() {
+  const chips = document.querySelectorAll('.filter-chip');
+  const rows = document.querySelectorAll('.case-row');
+  if (!chips.length || !rows.length) return;
 
-  let lastFocused = null;
-
-  function openModal(modal) {
-    lastFocused = document.activeElement;
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-    const focusTarget = modal.querySelector('.modal-close-btn');
-    if (focusTarget) focusTarget.focus();
-  }
-
-  function closeModal(modal) {
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-    modal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-    if (lastFocused) lastFocused.focus();
-  }
-
-  document.querySelectorAll('[data-modal-target]').forEach((trigger) => {
-    trigger.addEventListener('click', () => {
-      const modal = document.getElementById(trigger.dataset.modalTarget);
-      if (modal) openModal(modal);
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const filter = chip.dataset.filter;
+      chips.forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
+      rows.forEach((row) => {
+        const tags = row.dataset.tags.split(' ');
+        row.hidden = filter !== 'all' && !tags.includes(filter);
+      });
+      // Hidden rows shift everything below them, so scroll-reveal
+      // trigger positions have to be recalculated.
+      if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
     });
   });
+}
 
-  modals.forEach((modal) => {
-    modal.querySelectorAll('[data-modal-close]').forEach((closer) => {
-      closer.addEventListener('click', () => closeModal(modal));
-    });
-  });
+/* =========================================================
+   PROJECTS PAGE: SCREENSHOT GALLERY (thumbnail swaps main image)
+   ========================================================= */
+function initCaseGallery() {
+  document.querySelectorAll('.case-gallery').forEach((gallery) => {
+    const mainImg = gallery.querySelector('.case-main-img');
+    const caption = gallery.querySelector('.case-caption');
+    const thumbs = gallery.querySelectorAll('.case-thumb');
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key !== 'Escape') return;
-    modals.forEach((modal) => {
-      if (!modal.classList.contains('hidden')) closeModal(modal);
+    thumbs.forEach((thumb) => {
+      thumb.addEventListener('click', () => {
+        mainImg.src = thumb.dataset.src;
+        mainImg.alt = thumb.dataset.alt;
+        // Keep data-i18n in sync so a later language switch translates
+        // the caption that is currently showing.
+        caption.dataset.i18n = thumb.dataset.caption;
+        caption.textContent = getTranslation(thumb.dataset.caption);
+        thumbs.forEach((t) => t.setAttribute('aria-pressed', String(t === thumb)));
+      });
     });
   });
 }
@@ -295,6 +296,7 @@ function initContactForm() {
   const sendBtnText = document.getElementById('sendBtnText');
   const successMsg = document.getElementById('formSuccessMsg');
   const errorMsg = document.getElementById('formErrorMsg');
+  if (!form) return;
   const fields = form.querySelectorAll('input[required], textarea[required]');
 
   // Real-time validation: toggle green/red borders as the user types

@@ -29,7 +29,6 @@ const translations = {
 
   // Portfolio section
   'portfolio.title': { en: 'My Projects', tl: 'Aking mga Proyekto' },
-  'project.viewProject': { en: 'View Project', tl: 'Tingnan ang Proyekto' },
   'portfolio.viewAll': { en: 'View All Projects', tl: 'Tingnan ang Lahat ng Proyekto' },
 
   // Projects page

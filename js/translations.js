@@ -43,6 +43,18 @@ const translations = {
     en: 'A full-stack couples app for mood tracking, playful mini-games, and shared photo memories.',
     tl: 'Isang full-stack na app para sa magkasintahan na may mood tracking, masasayang mini-games, at magkasamang alaala sa larawan.'
   },
+  'project.shelf.desc': {
+    en: 'A React book search app powered by the Open Library API, with live suggestions, scoped search, and sorting.',
+    tl: 'Isang React na app para sa paghahanap ng libro gamit ang Open Library API, na may live na suggestion, scoped na paghahanap, at pag-sort.'
+  },
+  'project.budgy.desc': {
+    en: 'A personal budget tracker with category limits, recurring entries, spending summaries, and a savings goal.',
+    tl: 'Isang personal na budget tracker na may limit bawat kategorya, paulit-ulit na entry, buod ng gastos, at savings goal.'
+  },
+  'project.ambag.desc': {
+    en: 'A group-project tracker where a task only counts as done once proof is attached, backed by an immutable activity log.',
+    tl: 'Isang tracker para sa group project kung saan tapos lang ang task kapag may kalakip na patunay, kasama ang activity log na hindi nababago.'
+  },
 
   // About section
   'about.title': { en: 'About Me', tl: 'Tungkol sa Akin' },
@@ -89,6 +101,8 @@ const translations = {
   'duration.oneWeek': { en: '1 week', tl: '1 linggo' },
   'duration.twoWeeks': { en: '2 weeks', tl: '2 linggo' },
   'duration.twoMonths': { en: '2 months', tl: '2 buwan' },
+  'duration.oneMonth': { en: '1 month', tl: '1 buwan' },
+  'duration.ongoing': { en: 'Ongoing', tl: 'Kasalukuyang ginagawa' },
   'role.frontendDev': { en: 'Frontend Developer', tl: 'Frontend Developer' },
   'role.fullStackDev': { en: 'Full Stack Developer', tl: 'Full Stack Developer' },
 
@@ -102,6 +116,14 @@ const translations = {
   'screenshot.forecast': { en: 'Forecast', tl: 'Pagtataya ng Panahon' },
   'screenshot.moodCheckin': { en: 'Mood Check-in', tl: 'Pag-check ng Mood' },
   'screenshot.signupPairing': { en: 'Sign Up & Pairing', tl: 'Pagpaparehistro at Pagpapares' },
+  'screenshot.lobby': { en: 'Lobby', tl: 'Lobby' },
+  'screenshot.searchResults': { en: 'Search Results', tl: 'Mga Resulta ng Paghahanap' },
+  'screenshot.bookDetails': { en: 'Book Details', tl: 'Detalye ng Libro' },
+  'screenshot.summary': { en: 'Spending Summary', tl: 'Buod ng Gastos' },
+  'screenshot.budgets': { en: 'Category Budgets', tl: 'Budget bawat Kategorya' },
+  'screenshot.taskPool': { en: 'Task Pool', tl: 'Pool ng mga Task' },
+  'screenshot.leaderReview': { en: 'Leader Review', tl: 'Pagsusuri ng Leader' },
+  'screenshot.memberLedger': { en: 'Member Ledger', tl: 'Ledger ng mga Miyembro' },
 
   // Trip Planner features
   'trip.feature.1': { en: 'Browse tourist attractions by category and budget', tl: 'Mag-browse ng mga atraksyon ayon sa kategorya at budget' },
@@ -121,6 +143,27 @@ const translations = {
   'mood.feature.3': { en: 'Interactive playground / mini-games', tl: 'Interactive na palaruan / mini-games' },
   'mood.feature.4': { en: 'Shared photo gallery', tl: 'Magkasamang gallery ng larawan' },
   'mood.feature.5': { en: 'Strict per-couple data isolation via RLS', tl: 'Mahigpit na paghihiwalay ng datos ng bawat couple gamit ang RLS' },
+
+  // Shelf Help features
+  'shelf.feature.1': { en: 'Debounced autocomplete with keyboard navigation', tl: 'Debounced na autocomplete na may keyboard navigation' },
+  'shelf.feature.2': { en: 'Search everything, titles only, or authors only', tl: 'Maghanap sa lahat, sa pamagat lang, o sa may-akda lang' },
+  'shelf.feature.3': { en: 'Sort by relevance, newest, or rating', tl: 'I-sort ayon sa relevance, pinakabago, o rating' },
+  'shelf.feature.4': { en: 'Back button returns to the exact result set you came from', tl: 'Ibinabalik ka ng back button sa mismong resultang pinanggalingan mo' },
+  'shelf.feature.5': { en: 'Skeleton loading cards that keep the layout stable', tl: 'Skeleton loading cards para hindi gumalaw ang layout' },
+
+  // Budgy features
+  'budgy.feature.1': { en: 'Log income and expenses by category', tl: 'Itala ang kita at gastos ayon sa kategorya' },
+  'budgy.feature.2': { en: 'Monthly limit for every spending category', tl: 'Buwanang limit sa bawat kategorya ng gastos' },
+  'budgy.feature.3': { en: 'Recurring entries that post automatically', tl: 'Paulit-ulit na entry na awtomatikong naitatala' },
+  'budgy.feature.4': { en: 'Spending breakdown by category', tl: 'Hati-hati ng gastos ayon sa kategorya' },
+  'budgy.feature.5': { en: 'Savings goal with a bamboo progress meter', tl: 'Savings goal na may bamboo na progress meter' },
+
+  // Ambag features
+  'ambag.feature.1': { en: 'Claim open tasks from a shared pool', tl: 'Kumuha ng bukas na task mula sa shared pool' },
+  'ambag.feature.2': { en: 'Completion requires proof: a file, link, or text', tl: 'Kailangan ng patunay para matapos: file, link, o text' },
+  'ambag.feature.3': { en: 'Leader accepts or rejects proof, with a required reason on rejection', tl: 'Tinatanggap o tinatanggihan ng leader ang patunay, at kailangan ng dahilan kapag tinanggihan' },
+  'ambag.feature.4': { en: 'Per-member ledger of on-time, late, and overdue work', tl: 'Ledger ng bawat miyembro para sa on-time, late, at overdue na gawa' },
+  'ambag.feature.5': { en: 'Revocable read-only share links for a professor', tl: 'Read-only na share link para sa propesor na puwedeng bawiin' },
 
   // Footer
   'footer.rights': { en: 'All Rights Reserved.', tl: 'Nakalaan ang Lahat ng Karapatan.' },

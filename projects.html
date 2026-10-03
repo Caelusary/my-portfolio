@@ -13,24 +13,21 @@
   <meta property="og:url" content="https://zacharyscott.vercel.app/projects.html">
   <meta property="og:title" content="All Projects | Zachary Scott">
   <meta property="og:description" content="Every project by Zachary Scott: Trip Planner, Twogether, Ambag, Shelf Help, Budgy, and Weather Dashboard, with screenshots, stacks, and live demos.">
-  <meta property="og:image" content="https://zacharyscott.vercel.app/images/profile-hero-cutout.png">
+  <meta property="og:image" content="https://zacharyscott.vercel.app/images/og-projects.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="All Projects by Zachary Scott, with screenshots of Trip Planner, Twogether, and Ambag">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="All Projects | Zachary Scott">
   <meta name="twitter:description" content="Every project by Zachary Scott: Trip Planner, Twogether, Ambag, Shelf Help, Budgy, and Weather Dashboard, with screenshots, stacks, and live demos.">
-  <meta name="twitter:image" content="https://zacharyscott.vercel.app/images/profile-hero-cutout.png">
+  <meta name="twitter:image" content="https://zacharyscott.vercel.app/images/og-projects.png">
 
   <!-- Applies the dark/light theme class before first paint, matching the
        localStorage-persisted choice initDarkMode() (js/script.js) reads
        later — otherwise the page briefly flashes the CSS defaults (light
        theme) before JS catches up and switches to dark. Inline and placed
        first so nothing else in <head> can render ahead of it. -->
-  <script>
-    (function () {
-      var stored = localStorage.getItem('theme');
-      var isDark = stored ? stored === 'dark' : true;
-      if (isDark) document.documentElement.classList.add('dark');
-    })();
-  </script>
+  <script src="js/theme-init.js"></script>
 
   <!-- Google Fonts: Space Grotesk (headings) + Inter (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,27 +37,12 @@
   <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-  <!-- Tailwind CSS (CDN build) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            display: ['"Space Grotesk"', 'sans-serif']
-          },
-          colors: {
-            herobase: '#0A0A1A'
-          }
-        }
-      }
-    };
-  </script>
-
   <!-- Custom CSS (only what Tailwind utilities can't express) -->
   <link rel="stylesheet" href="css/style.css">
+
+  <!-- Tailwind utilities, prebuilt by `npm run css` (see tailwind.config.js).
+       Loaded after style.css to keep the cascade the Play CDN had. -->
+  <link rel="stylesheet" href="css/tailwind.css">
 </head>
 <body class="font-sans transition-colors duration-300">
 
@@ -74,6 +56,7 @@
   <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
   <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 
+  <!-- shared:nav:start (edit in index.html, then `npm run sync`) -->
   <!-- ============ NAVIGATION BAR ============ -->
   <nav id="mainNav" class="nav-solid fixed top-0 inset-x-0 z-40 transition-colors duration-300" aria-label="Main navigation">
     <div class="max-w-6xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
@@ -104,6 +87,7 @@
       </div>
     </div>
   </nav>
+  <!-- shared:nav:end -->
 
   <main id="main-content">
 
@@ -148,13 +132,14 @@
           <div class="case-info">
             <span class="case-index">01</span>
             <h2 class="case-title">Trip Planner</h2>
-            <p class="case-meta"><span data-i18n="role.fullStackDev">Full Stack Developer</span> · <span data-i18n="duration.oneWeek">1 week</span></p>
-            <p class="case-desc" data-i18n="project.trip.desc">A travel planning app for browsing tourist attractions, saving favorites, and organizing your upcoming trips.</p>
+            <p class="case-meta"><span data-i18n="role.fullStackDev">Full Stack Developer</span> · <span data-i18n="duration.oneMonth">1 month</span></p>
+            <p class="case-desc" data-i18n="project.trip.desc">A full-stack trip planner with accounts, multi-city itineraries, per-destination weather forecasts, and a 3D attraction carousel.</p>
             <ul class="case-features">
-              <li data-i18n="trip.feature.1">Browse tourist attractions by category and budget</li>
-              <li data-i18n="trip.feature.2">Save favorite attractions for later</li>
-              <li data-i18n="trip.feature.3">Plan trips with custom dates and destinations</li>
-              <li data-i18n="trip.feature.4">Track upcoming and past trip history</li>
+              <li data-i18n="trip.feature.1">Sign up and keep trips private to your account</li>
+              <li data-i18n="trip.feature.2">Multi-city trips with stops, a map, and a packing list</li>
+              <li data-i18n="trip.feature.3">5-day weather forecast and suggestions for each destination</li>
+              <li data-i18n="trip.feature.4">3D attraction carousel with category and budget filters</li>
+              <li data-i18n="trip.feature.5">Saved attractions, trip history, and shareable trip links</li>
             </ul>
             <div class="card-tech-row">
               <span class="badge tech-badge">Next.js</span>
@@ -367,6 +352,7 @@
   </main>
 
 
+  <!-- shared:footer:start (edit in index.html, then `npm run sync`) -->
   <!-- ============ FOOTER ============ -->
   <footer class="site-footer py-10">
     <div class="max-w-6xl mx-auto px-4 md:px-6 text-center">
@@ -402,6 +388,7 @@
       <p class="footer-built-with" data-i18n="footer.builtWith">Built with ❤️ and a lot of coffee.</p>
     </div>
   </footer>
+  <!-- shared:footer:end -->
 
   <!-- ============ BACK TO TOP BUTTON ============ -->
   <button id="backToTopBtn" type="button" data-i18n-aria-label="a11y.backToTop" data-i18n-title="a11y.backToTop" aria-label="Back to top" title="Back to top">

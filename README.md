@@ -1,6 +1,6 @@
 # Zachary Scott — Portfolio
 
-A cinematic, single-page personal portfolio for Zachary Scott (Full-Stack Developer & Creative Thinker), built with HTML, Tailwind CSS, custom CSS, and vanilla JavaScript. It showcases three real projects (Trip Planner, Weather Dashboard, Twogether) via cards and detail modals, an About section with skills, CV, and certifications, and a working contact form powered by EmailJS.
+A cinematic, single-page personal portfolio for Zachary Scott (Full-Stack Developer & Creative Thinker), built with HTML, Tailwind CSS, custom CSS, and vanilla JavaScript. It showcases six real projects (Trip Planner, Weather Dashboard, Twogether, Shelf Help, Budgy, Ambag) via cards and detail modals, an About section with skills, CV, and certifications, and a working contact form powered by EmailJS.
 
 ## Features
 
@@ -12,7 +12,7 @@ A cinematic, single-page personal portfolio for Zachary Scott (Full-Stack Develo
 - **Scroll-reveal animations** (GSAP + ScrollTrigger) on section headings, project cards, and the contact card — fade/rise into view, with a `prefers-reduced-motion` override that disables all of it.
 - **Scroll progress bar** showing how far down the page you are.
 - **EN / Filipino language toggle** with a full translation dictionary (`js/translations.js`), persisted in `localStorage`, falling back to English for any untranslated string.
-- **Portfolio section** with three glassmorphism project cards (Trip Planner, Weather Dashboard, Twogether), each with a mouse-follow 3D tilt effect, real tech-stack badges, and a real screenshot. Clicking/activating a project title tints the portfolio section's background (`data-color` attributes per project) and opens a modal with screenshots, a technology badge list, a feature list, and duration/role metadata.
+- **Portfolio section** with six glassmorphism project cards (Trip Planner, Weather Dashboard, Twogether, Shelf Help, Budgy, Ambag), each with a mouse-follow 3D tilt effect, real tech-stack badges, and a real screenshot. Clicking/activating a project title tints the portfolio section's background (`data-color` attributes per project) and opens a modal with screenshots, a technology badge list, a feature list, and duration/role metadata.
 - **About section** with a bio, a real skills badge row, View/Download CV buttons (linking to an actual PDF résumé), and a Certifications area listing completed certificates (with links to the real certificate PDFs where available) plus certifications currently in progress.
 - **Contact form** ("Get In Touch") with real-time client-side validation (valid/invalid field styling as you type or blur) and submission via the [EmailJS](https://www.emailjs.com/) browser SDK (`emailjs.sendForm`). Success and error alerts are shown after submission attempts.
 - **Footer** with social links (Facebook, GitHub, Instagram, phone) and quick navigation.

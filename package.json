@@ -1,0 +1,13 @@
+{
+  "name": "my-portfolio",
+  "private": true,
+  "description": "Static portfolio site. No build runs on deploy; generated files are committed.",
+  "scripts": {
+    "css": "tailwindcss -i css/tailwind.input.css -o css/tailwind.css --minify",
+    "css:watch": "tailwindcss -i css/tailwind.input.css -o css/tailwind.css --watch",
+    "sync": "node scripts/sync-chrome.mjs"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17"
+  }
+}

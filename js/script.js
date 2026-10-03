@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initMobileMenu,
     initScrollSpy,
     initSmoothScroll,
+    initShowcaseShine,
     initProjectFilter,
     initCaseGallery,
     initContactForm,
@@ -205,6 +206,27 @@ function initSmoothScroll() {
       }
     });
   });
+}
+
+/* =========================================================
+   HOME: BANNER LIGHT SWEEP ON SCROLL-IN
+   The sweep otherwise only plays on hover/focus, which touch devices never
+   really get, so it also plays once when the banner comes into view. The
+   class comes off when the sweep ends so desktop hover can replay it.
+   ========================================================= */
+function initShowcaseShine() {
+  const showcase = document.querySelector('.showcase');
+  if (!showcase || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    if (!entries[0].isIntersecting) return;
+    showcase.classList.add('is-shining');
+    observer.disconnect();
+  }, { threshold: 0.6 });
+
+  showcase.addEventListener('animationend', () => showcase.classList.remove('is-shining'));
+  observer.observe(showcase);
 }
 
 /* =========================================================

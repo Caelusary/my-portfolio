@@ -45,8 +45,8 @@ const translations = {
   'filter.frontend': { en: 'Frontend', tl: 'Frontend' },
   'filter.inProgress': { en: 'In Progress', tl: 'Isinasagawa' },
   'project.trip.desc': {
-    en: 'A travel planning app for browsing tourist attractions, saving favorites, and organizing your upcoming trips.',
-    tl: 'Isang travel planning app para sa pag-browse ng mga atraksyon, pag-save ng paborito, at pag-oorganisa ng mga paparating na biyahe.'
+    en: 'A full-stack trip planner with accounts, multi-city itineraries, per-destination weather forecasts, and a 3D attraction carousel.',
+    tl: 'Isang full-stack na trip planner na may account, itinerary sa maraming lungsod, weather forecast bawat destinasyon, at 3D na carousel ng mga atraksyon.'
   },
   'project.weather.desc': {
     en: 'An interactive weather dashboard with live maps, 5-day forecasts, and dynamic time-of-day backgrounds.',
@@ -107,7 +107,6 @@ const translations = {
   'modal.liveDemo': { en: 'Live Demo', tl: 'Live na Demo' },
 
   // Shared duration / role values
-  'duration.oneWeek': { en: '1 week', tl: '1 linggo' },
   'duration.twoWeeks': { en: '2 weeks', tl: '2 linggo' },
   'duration.twoMonths': { en: '2 months', tl: '2 buwan' },
   'duration.oneMonth': { en: '1 month', tl: '1 buwan' },
@@ -135,10 +134,11 @@ const translations = {
   'screenshot.memberLedger': { en: 'Member Ledger', tl: 'Ledger ng mga Miyembro' },
 
   // Trip Planner features
-  'trip.feature.1': { en: 'Browse tourist attractions by category and budget', tl: 'Mag-browse ng mga atraksyon ayon sa kategorya at budget' },
-  'trip.feature.2': { en: 'Save favorite attractions for later', tl: 'I-save ang mga paboritong atraksyon para sa susunod' },
-  'trip.feature.3': { en: 'Plan trips with custom dates and destinations', tl: 'Magplano ng biyahe na may custom na petsa at destinasyon' },
-  'trip.feature.4': { en: 'Track upcoming and past trip history', tl: 'Subaybayan ang paparating at nakaraang mga biyahe' },
+  'trip.feature.1': { en: 'Sign up and keep trips private to your account', tl: 'Mag-sign up at panatilihing pribado sa iyong account ang mga biyahe' },
+  'trip.feature.2': { en: 'Multi-city trips with stops, a map, and a packing list', tl: 'Biyahe sa maraming lungsod na may mga stop, mapa, at packing list' },
+  'trip.feature.3': { en: '5-day weather forecast and suggestions for each destination', tl: '5-araw na weather forecast at mga suhestiyon para sa bawat destinasyon' },
+  'trip.feature.4': { en: '3D attraction carousel with category and budget filters', tl: '3D na carousel ng mga atraksyon na may filter sa kategorya at budget' },
+  'trip.feature.5': { en: 'Saved attractions, trip history, and shareable trip links', tl: 'Mga naka-save na atraksyon, kasaysayan ng biyahe, at link ng biyaheng puwedeng i-share' },
 
   // Weather Dashboard features
   'weather.feature.1': { en: 'Search weather by city', tl: 'Maghanap ng panahon ayon sa lungsod' },

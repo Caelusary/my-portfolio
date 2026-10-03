@@ -132,6 +132,7 @@
             <a href="https://www.facebook.com/zacharyscott.ruiz" aria-label="Facebook" target="_blank" rel="noopener"><i class="fa-brands fa-facebook" aria-hidden="true"></i></a>
             <a href="https://github.com/Caelusary" aria-label="GitHub" target="_blank" rel="noopener"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
             <a href="https://www.instagram.com/definitely_notzach" aria-label="Instagram" target="_blank" rel="noopener"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+            <a href="https://zacharyscottruiz.wordpress.com/" aria-label="WordPress" target="_blank" rel="noopener"><i class="fa-brands fa-wordpress" aria-hidden="true"></i></a>
             <a href="tel:+639454632859" aria-label="Call" title="(63) 9454632859"><i class="fa-solid fa-phone" aria-hidden="true"></i></a>
           </div>
         </div>
@@ -139,6 +140,7 @@
     </header>
 
     <!-- ============ PORTFOLIO SECTION ============ -->
+    <!-- Three featured projects; the full list with details lives on projects.html. -->
     <section id="portfolio" class="portfolio-section py-20 md:py-28">
       <div class="max-w-6xl mx-auto px-4 md:px-6">
         <div class="text-center mb-16 reveal">
@@ -146,49 +148,39 @@
           <div class="section-underline mx-auto"></div>
         </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="featured-grid">
 
-          <!-- Trip Planner Card -->
-          <div class="project-card reveal">
-            <img src="project-screenshots/trip-planner(1).png" class="project-card-image" alt="Trip Planner project preview" loading="lazy">
+          <!-- Trip Planner (featured) -->
+          <article class="project-card project-card--featured reveal">
+            <div class="featured-media">
+              <img src="project-screenshots/trip-planner(1).png" class="project-card-image" alt="Trip Planner attraction browsing screenshot" width="1350" height="644" loading="lazy">
+            </div>
             <div class="project-card-body">
               <h3 class="project-card-title" tabindex="0" role="button"
                 data-color="rgba(255, 183, 77, 0.18)" data-project="Trip Planner"
                 aria-label="Trip Planner, click to change portfolio background color">Trip Planner</h3>
               <p class="project-card-desc" data-i18n="project.trip.desc">A travel planning app for browsing tourist attractions, saving favorites, and organizing your upcoming trips.</p>
+              <ul class="featured-highlights">
+                <li data-i18n="trip.feature.1">Browse tourist attractions by category and budget</li>
+                <li data-i18n="trip.feature.3">Plan trips with custom dates and destinations</li>
+                <li data-i18n="trip.feature.4">Track upcoming and past trip history</li>
+              </ul>
               <div class="card-tech-row">
                 <span class="badge tech-badge">Next.js</span>
                 <span class="badge tech-badge">TypeScript</span>
+                <span class="badge tech-badge">Tailwind CSS</span>
                 <span class="badge tech-badge">Supabase</span>
               </div>
-              <button type="button" class="btn-view-details mt-auto" data-modal-target="tripPlannerModal">
-                <span data-i18n="project.viewDetails">View Details</span>
-              </button>
+              <a href="projects.html#trip-planner" class="btn-view-details mt-auto self-start">
+                <span data-i18n="project.viewProject">View Project</span>
+                <i class="fa-solid fa-arrow-right ms-1" aria-hidden="true"></i>
+              </a>
             </div>
-          </div>
+          </article>
 
-          <!-- Weather Dashboard Card -->
-          <div class="project-card reveal">
-            <img src="project-screenshots/weather-dashboard(1).png" class="project-card-image" alt="Weather Dashboard project preview" loading="lazy">
-            <div class="project-card-body">
-              <h3 class="project-card-title" tabindex="0" role="button"
-                data-color="rgba(0, 210, 255, 0.18)" data-project="Weather Dashboard"
-                aria-label="Weather Dashboard, click to change portfolio background color">Weather Dashboard</h3>
-              <p class="project-card-desc" data-i18n="project.weather.desc">An interactive weather dashboard with live maps, 5-day forecasts, and dynamic time-of-day backgrounds.</p>
-              <div class="card-tech-row">
-                <span class="badge tech-badge">Vanilla JS</span>
-                <span class="badge tech-badge">OpenWeatherMap API</span>
-                <span class="badge tech-badge">Leaflet/OSM</span>
-              </div>
-              <button type="button" class="btn-view-details mt-auto" data-modal-target="weatherDashboardModal">
-                <span data-i18n="project.viewDetails">View Details</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Twogether Card -->
-          <div class="project-card reveal">
-            <img src="project-screenshots/twogether(3).png" class="project-card-image" alt="Twogether project preview" loading="lazy">
+          <!-- Twogether -->
+          <article class="project-card reveal">
+            <img src="project-screenshots/twogether(3).png" class="project-card-image" alt="Twogether home dashboard screenshot" loading="lazy">
             <div class="project-card-body">
               <h3 class="project-card-title" tabindex="0" role="button"
                 data-color="rgba(255, 105, 180, 0.18)" data-project="Twogether"
@@ -199,53 +191,16 @@
                 <span class="badge tech-badge">Supabase</span>
                 <span class="badge tech-badge">PostgreSQL</span>
               </div>
-              <button type="button" class="btn-view-details mt-auto" data-modal-target="twogetherModal">
-                <span data-i18n="project.viewDetails">View Details</span>
-              </button>
+              <a href="projects.html#twogether" class="btn-text-link mt-auto">
+                <span data-i18n="project.viewProject">View Project</span>
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              </a>
             </div>
-          </div>
+          </article>
 
-          <!-- Shelf Help Card -->
-          <div class="project-card reveal">
-            <img src="project-screenshots/shelf-help(2).png" class="project-card-image" alt="Shelf Help project preview" loading="lazy">
-            <div class="project-card-body">
-              <h3 class="project-card-title" tabindex="0" role="button"
-                data-color="rgba(232, 85, 58, 0.18)" data-project="Shelf Help"
-                aria-label="Shelf Help, click to change portfolio background color">Shelf Help</h3>
-              <p class="project-card-desc" data-i18n="project.shelf.desc">A React book search app powered by the Open Library API, with live suggestions, scoped search, and sorting.</p>
-              <div class="card-tech-row">
-                <span class="badge tech-badge">React</span>
-                <span class="badge tech-badge">React Router</span>
-                <span class="badge tech-badge">Open Library API</span>
-              </div>
-              <button type="button" class="btn-view-details mt-auto" data-modal-target="shelfHelpModal">
-                <span data-i18n="project.viewDetails">View Details</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Budgy Card -->
-          <div class="project-card reveal">
-            <img src="project-screenshots/budgy(1).png" class="project-card-image" alt="Budgy project preview" loading="lazy">
-            <div class="project-card-body">
-              <h3 class="project-card-title" tabindex="0" role="button"
-                data-color="rgba(46, 125, 80, 0.18)" data-project="Budgy"
-                aria-label="Budgy, click to change portfolio background color">Budgy</h3>
-              <p class="project-card-desc" data-i18n="project.budgy.desc">A personal budget tracker with category limits, recurring entries, spending summaries, and a savings goal.</p>
-              <div class="card-tech-row">
-                <span class="badge tech-badge">React</span>
-                <span class="badge tech-badge">Vite</span>
-                <span class="badge tech-badge">LocalStorage</span>
-              </div>
-              <button type="button" class="btn-view-details mt-auto" data-modal-target="budgyModal">
-                <span data-i18n="project.viewDetails">View Details</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Ambag Card -->
-          <div class="project-card reveal">
-            <img src="project-screenshots/ambag(1).png" class="project-card-image" alt="Ambag project preview" loading="lazy">
+          <!-- Ambag -->
+          <article class="project-card reveal">
+            <img src="project-screenshots/ambag(1).png" class="project-card-image" alt="Ambag task pool screenshot" loading="lazy">
             <div class="project-card-body">
               <h3 class="project-card-title" tabindex="0" role="button"
                 data-color="rgba(199, 115, 59, 0.18)" data-project="Ambag"
@@ -256,12 +211,21 @@
                 <span class="badge tech-badge">TypeScript</span>
                 <span class="badge tech-badge">Tailwind CSS</span>
               </div>
-              <button type="button" class="btn-view-details mt-auto" data-modal-target="ambagModal">
-                <span data-i18n="project.viewDetails">View Details</span>
-              </button>
+              <a href="projects.html#ambag" class="btn-text-link mt-auto">
+                <span data-i18n="project.viewProject">View Project</span>
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              </a>
             </div>
-          </div>
+          </article>
 
+        </div>
+
+        <div class="text-center mt-12 reveal">
+          <a href="projects.html" class="btn-outline btn-view-all">
+            <span data-i18n="portfolio.viewAll">View All Projects</span>
+            <span class="view-all-count">6</span>
+            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+          </a>
         </div>
       </div>
     </section>
@@ -401,361 +365,6 @@
 
   </main>
 
-  <!-- ============ PROJECT MODALS (custom, vanilla JS driven) ============ -->
-
-  <!-- Trip Planner Modal -->
-  <div id="tripPlannerModal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="tripPlannerModalLabel" aria-hidden="true">
-    <div class="modal-backdrop absolute inset-0" data-modal-close></div>
-    <div class="modal-panel">
-      <div class="modal-header">
-        <h2 class="modal-title" id="tripPlannerModalLabel">Trip Planner</h2>
-        <button type="button" class="modal-close-btn" data-modal-close data-i18n-aria-label="a11y.modalClose" aria-label="Close">
-          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="grid grid-cols-3 gap-3 mb-6">
-          <div>
-            <img src="project-screenshots/trip-planner(1).png" class="modal-screenshot" alt="Trip Planner attraction browsing screenshot" loading="lazy">
-            <p class="screenshot-caption" data-i18n="screenshot.exploreAttractions">Explore Attractions</p>
-          </div>
-          <div>
-            <img src="project-screenshots/trip-planner(7).png" class="modal-screenshot" alt="Trip Planner Trip Form screenshot" loading="lazy">
-            <p class="screenshot-caption" data-i18n="screenshot.tripForm">Trip Form</p>
-          </div>
-          <div>
-            <img src="project-screenshots/trip-planner(4).png" class="modal-screenshot" alt="Trip Planner upcoming trips screenshot" loading="lazy">
-            <p class="screenshot-caption" data-i18n="screenshot.upcomingTrips">Upcoming Trips</p>
-          </div>
-        </div>
-
-        <h3 class="modal-section-heading" data-i18n="modal.technologies">Technologies</h3>
-        <div class="tech-badges mb-4">
-          <span class="badge tech-badge">Next.js</span>
-          <span class="badge tech-badge">TypeScript</span>
-          <span class="badge tech-badge">Tailwind CSS</span>
-          <span class="badge tech-badge">Supabase</span>
-        </div>
-
-        <h3 class="modal-section-heading" data-i18n="modal.features">Features</h3>
-        <ul class="modal-features mb-4">
-          <li data-i18n="trip.feature.1">Browse tourist attractions by category and budget</li>
-          <li data-i18n="trip.feature.2">Save favorite attractions for later</li>
-          <li data-i18n="trip.feature.3">Plan trips with custom dates and destinations</li>
-          <li data-i18n="trip.feature.4">Track upcoming and past trip history</li>
-        </ul>
-
-        <div class="modal-meta grid grid-cols-2 gap-2">
-          <div><strong data-i18n="modal.duration">Duration:</strong> <span data-i18n="duration.oneWeek">1 week</span></div>
-          <div><strong data-i18n="modal.role">Role:</strong> <span data-i18n="role.fullStackDev">Full Stack Developer</span></div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <a href="https://github.com/Caelusary/trip-planner" class="btn-outline" target="_blank" rel="noopener">
-          <i class="fa-brands fa-github me-1" aria-hidden="true"></i> <span data-i18n="modal.github">GitHub</span>
-        </a>
-        <a href="https://trip-planner-nine-opal.vercel.app" class="btn-view-details" target="_blank" rel="noopener">
-          <i class="fa-solid fa-arrow-up-right-from-square me-1" aria-hidden="true"></i> <span data-i18n="modal.liveDemo">Live Demo</span>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Weather Dashboard Modal -->
-  <div id="weatherDashboardModal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="weatherDashboardModalLabel" aria-hidden="true">
-    <div class="modal-backdrop absolute inset-0" data-modal-close></div>
-    <div class="modal-panel">
-      <div class="modal-header">
-        <h2 class="modal-title" id="weatherDashboardModalLabel">Weather Dashboard</h2>
-        <button type="button" class="modal-close-btn" data-modal-close data-i18n-aria-label="a11y.modalClose" aria-label="Close">
-          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="grid grid-cols-3 gap-3 mb-6">
-          <div>
-            <img src="project-screenshots/weather-dashboard(1).png" class="modal-screenshot" alt="Weather Dashboard Main View screenshot" loading="lazy">
-            <p class="screenshot-caption" data-i18n="screenshot.mainView">Main View</p>
-          </div>
-          <div>
-            <img src="project-screenshots/weather-dashboard(3).png" class="modal-screenshot" alt="Weather Dashboard Weather Map screenshot" loading="lazy">
-            <p class="screenshot-caption" data-i18n="screenshot.weatherMap">Weather Map</p>
-          </div>
-          <div>
-            <img src="project-screenshots/weather-dashboard(2).png" class="modal-screenshot" alt="Weather Dashboard Forecast screenshot" loading="lazy">
-            <p class="screenshot-caption" data-i18n="screenshot.forecast">Forecast</p>
-          </div>
-        </div>
-
-        <h3 class="modal-section-heading" data-i18n="modal.technologies">Technologies</h3>
-        <div class="tech-badges mb-4">
-          <span class="badge tech-badge">HTML/CSS</span>
-          <span class="badge tech-badge">Vanilla JS</span>
-          <span class="badge tech-badge">OpenWeatherMap API</span>
-          <span class="badge tech-badge">Leaflet/OSM</span>
-          <span class="badge tech-badge">CSS Animations</span>
-        </div>
-
-        <h3 class="modal-section-heading" data-i18n="modal.features">Features</h3>
-        <ul class="modal-features mb-4">
-          <li data-i18n="weather.feature.1">Search weather by city</li>
-          <li data-i18n="weather.feature.2">5-day forecast view</li>
-          <li data-i18n="weather.feature.3">Interactive weather map</li>
-          <li data-i18n="weather.feature.4">Dynamic time-of-day backgrounds</li>
-        </ul>
-
-        <div class="modal-meta grid grid-cols-2 gap-2">
-          <div><strong data-i18n="modal.duration">Duration:</strong> <span data-i18n="duration.twoWeeks">2 weeks</span></div>
-          <div><strong data-i18n="modal.role">Role:</strong> <span data-i18n="role.frontendDev">Frontend Developer</span></div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <a href="https://github.com/Caelusary/weather-dashboard" class="btn-outline" target="_blank" rel="noopener">
-          <i class="fa-brands fa-github me-1" aria-hidden="true"></i> <span data-i18n="modal.github">GitHub</span>
-        </a>
-        <a href="https://caelusary.github.io/weather-dashboard/" class="btn-view-details" target="_blank" rel="noopener">
-          <i class="fa-solid fa-arrow-up-right-from-square me-1" aria-hidden="true"></i> <span data-i18n="modal.liveDemo">Live Demo</span>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Twogether Modal -->
-  <div id="twogetherModal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="twogetherModalLabel" aria-hidden="true">
-    <div class="modal-backdrop absolute inset-0" data-modal-close></div>
-    <div class="modal-panel">
-      <div class="modal-header">
-        <h2 class="modal-title" id="twogetherModalLabel">Twogether</h2>
-        <button type="button" class="modal-close-btn" data-modal-close data-i18n-aria-label="a11y.modalClose" aria-label="Close">
-          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="grid grid-cols-3 gap-3 mb-6">
-          <div>
-            <img src="project-screenshots/twogether(3).png" class="modal-screenshot" alt="Twogether home dashboard screenshot" loading="lazy">
-            <p class="screenshot-caption" data-i18n="screenshot.dashboard">Dashboard</p>
-          </div>
-          <div>
-            <img src="project-screenshots/twogether(4).png" class="modal-screenshot" alt="Twogether mood check-in screenshot" loading="lazy">
-            <p class="screenshot-caption" data-i18n="screenshot.moodCheckin">Mood Check-in</p>
-          </div>
-          <div>
-            <img src="project-screenshots/twogether(2).png" class="modal-screenshot" alt="Twogether sign up and pairing screenshot" loading="lazy">
-            <p class="screenshot-caption" data-i18n="screenshot.signupPairing">Sign Up & Pairing</p>
-          </div>
-        </div>
-
-        <h3 class="modal-section-heading" data-i18n="modal.technologies">Technologies</h3>
-        <div class="tech-badges mb-4">
-          <span class="badge tech-badge">HTML/CSS</span>
-          <span class="badge tech-badge">Vanilla JS</span>
-          <span class="badge tech-badge">Supabase</span>
-          <span class="badge tech-badge">PostgreSQL</span>
-          <span class="badge tech-badge">RLS</span>
-        </div>
-
-        <h3 class="modal-section-heading" data-i18n="modal.features">Features</h3>
-        <ul class="modal-features mb-4">
-          <li data-i18n="mood.feature.1">Couple signup and pairing</li>
-          <li data-i18n="mood.feature.2">Daily mood tracking</li>
-          <li data-i18n="mood.feature.3">Interactive playground / mini-games</li>
-          <li data-i18n="mood.feature.4">Shared photo gallery</li>
-          <li data-i18n="mood.feature.5">Strict per-couple data isolation via RLS</li>
-        </ul>
-
-        <div class="modal-meta grid grid-cols-2 gap-2">
-          <div><strong data-i18n="modal.duration">Duration:</strong> <span data-i18n="duration.twoMonths">2 months</span></div>
-          <div><strong data-i18n="modal.role">Role:</strong> <span data-i18n="role.fullStackDev">Full Stack Developer</span></div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <a href="https://github.com/Caelusary/twogether" class="btn-outline" target="_blank" rel="noopener">
-          <i class="fa-brands fa-github me-1" aria-hidden="true"></i> <span data-i18n="modal.github">GitHub</span>
-        </a>
-        <a href="https://twogether-tau.vercel.app/" class="btn-view-details" target="_blank" rel="noopener">
-          <i class="fa-solid fa-arrow-up-right-from-square me-1" aria-hidden="true"></i> <span data-i18n="modal.liveDemo">Live Demo</span>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Shelf Help Modal -->
-  <div id="shelfHelpModal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="shelfHelpModalLabel" aria-hidden="true">
-    <div class="modal-backdrop absolute inset-0" data-modal-close></div>
-    <div class="modal-panel">
-      <div class="modal-header">
-        <h2 class="modal-title" id="shelfHelpModalLabel">Shelf Help</h2>
-        <button type="button" class="modal-close-btn" data-modal-close data-i18n-aria-label="a11y.modalClose" aria-label="Close">
-          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="grid grid-cols-3 gap-3 mb-6">
-          <div>
-            <img src="project-screenshots/shelf-help(1).png" class="modal-screenshot" alt="Shelf Help search lobby screenshot" loading="lazy">
-            <p class="screenshot-caption" data-i18n="screenshot.lobby">Lobby</p>
-          </div>
-          <div>
-            <img src="project-screenshots/shelf-help(2).png" class="modal-screenshot" alt="Shelf Help search results screenshot" loading="lazy">
-            <p class="screenshot-caption" data-i18n="screenshot.searchResults">Search Results</p>
-          </div>
-          <div>
-            <img src="project-screenshots/shelf-help(3).png" class="modal-screenshot" alt="Shelf Help book details screenshot" loading="lazy">
-            <p class="screenshot-caption" data-i18n="screenshot.bookDetails">Book Details</p>
-          </div>
-        </div>
-
-        <h3 class="modal-section-heading" data-i18n="modal.technologies">Technologies</h3>
-        <div class="tech-badges mb-4">
-          <span class="badge tech-badge">React</span>
-          <span class="badge tech-badge">React Router</span>
-          <span class="badge tech-badge">Vite</span>
-          <span class="badge tech-badge">Open Library API</span>
-          <span class="badge tech-badge">Vitest</span>
-        </div>
-
-        <h3 class="modal-section-heading" data-i18n="modal.features">Features</h3>
-        <ul class="modal-features mb-4">
-          <li data-i18n="shelf.feature.1">Debounced autocomplete with keyboard navigation</li>
-          <li data-i18n="shelf.feature.2">Search everything, titles only, or authors only</li>
-          <li data-i18n="shelf.feature.3">Sort by relevance, newest, or rating</li>
-          <li data-i18n="shelf.feature.4">Back button returns to the exact result set you came from</li>
-          <li data-i18n="shelf.feature.5">Skeleton loading cards that keep the layout stable</li>
-        </ul>
-
-        <div class="modal-meta grid grid-cols-2 gap-2">
-          <div><strong data-i18n="modal.duration">Duration:</strong> <span data-i18n="duration.twoWeeks">2 weeks</span></div>
-          <div><strong data-i18n="modal.role">Role:</strong> <span data-i18n="role.frontendDev">Frontend Developer</span></div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <a href="https://github.com/Caelusary/book-explorer" class="btn-outline" target="_blank" rel="noopener">
-          <i class="fa-brands fa-github me-1" aria-hidden="true"></i> <span data-i18n="modal.github">GitHub</span>
-        </a>
-        <a href="https://book-explorer-caelusary.vercel.app" class="btn-view-details" target="_blank" rel="noopener">
-          <i class="fa-solid fa-arrow-up-right-from-square me-1" aria-hidden="true"></i> <span data-i18n="modal.liveDemo">Live Demo</span>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Budgy Modal -->
-  <div id="budgyModal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="budgyModalLabel" aria-hidden="true">
-    <div class="modal-backdrop absolute inset-0" data-modal-close></div>
-    <div class="modal-panel">
-      <div class="modal-header">
-        <h2 class="modal-title" id="budgyModalLabel">Budgy</h2>
-        <button type="button" class="modal-close-btn" data-modal-close data-i18n-aria-label="a11y.modalClose" aria-label="Close">
-          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="grid grid-cols-3 gap-3 mb-6">
-          <div>
-            <img src="project-screenshots/budgy(1).png" class="modal-screenshot" alt="Budgy dashboard screenshot" loading="lazy">
-            <p class="screenshot-caption" data-i18n="screenshot.dashboard">Dashboard</p>
-          </div>
-          <div>
-            <img src="project-screenshots/budgy(2).png" class="modal-screenshot" alt="Budgy spending summary screenshot" loading="lazy">
-            <p class="screenshot-caption" data-i18n="screenshot.summary">Spending Summary</p>
-          </div>
-          <div>
-            <img src="project-screenshots/budgy(3).png" class="modal-screenshot" alt="Budgy category budgets screenshot" loading="lazy">
-            <p class="screenshot-caption" data-i18n="screenshot.budgets">Category Budgets</p>
-          </div>
-        </div>
-
-        <h3 class="modal-section-heading" data-i18n="modal.technologies">Technologies</h3>
-        <div class="tech-badges mb-4">
-          <span class="badge tech-badge">React</span>
-          <span class="badge tech-badge">React Router</span>
-          <span class="badge tech-badge">Vite</span>
-          <span class="badge tech-badge">LocalStorage</span>
-        </div>
-
-        <h3 class="modal-section-heading" data-i18n="modal.features">Features</h3>
-        <ul class="modal-features mb-4">
-          <li data-i18n="budgy.feature.1">Log income and expenses by category</li>
-          <li data-i18n="budgy.feature.2">Monthly limit for every spending category</li>
-          <li data-i18n="budgy.feature.3">Recurring entries that post automatically</li>
-          <li data-i18n="budgy.feature.4">Spending breakdown by category</li>
-          <li data-i18n="budgy.feature.5">Savings goal with a bamboo progress meter</li>
-        </ul>
-
-        <div class="modal-meta grid grid-cols-2 gap-2">
-          <div><strong data-i18n="modal.duration">Duration:</strong> <span data-i18n="duration.oneMonth">1 month</span></div>
-          <div><strong data-i18n="modal.role">Role:</strong> <span data-i18n="role.frontendDev">Frontend Developer</span></div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <a href="https://github.com/Caelusary/midterm-project-webdvt" class="btn-outline" target="_blank" rel="noopener">
-          <i class="fa-brands fa-github me-1" aria-hidden="true"></i> <span data-i18n="modal.github">GitHub</span>
-        </a>
-        <a href="https://midterm-project-webdvt-two.vercel.app" class="btn-view-details" target="_blank" rel="noopener">
-          <i class="fa-solid fa-arrow-up-right-from-square me-1" aria-hidden="true"></i> <span data-i18n="modal.liveDemo">Live Demo</span>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Ambag Modal -->
-  <div id="ambagModal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="ambagModalLabel" aria-hidden="true">
-    <div class="modal-backdrop absolute inset-0" data-modal-close></div>
-    <div class="modal-panel">
-      <div class="modal-header">
-        <h2 class="modal-title" id="ambagModalLabel">Ambag</h2>
-        <button type="button" class="modal-close-btn" data-modal-close data-i18n-aria-label="a11y.modalClose" aria-label="Close">
-          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="grid grid-cols-3 gap-3 mb-6">
-          <div>
-            <img src="project-screenshots/ambag(1).png" class="modal-screenshot" alt="Ambag task pool screenshot" loading="lazy">
-            <p class="screenshot-caption" data-i18n="screenshot.taskPool">Task Pool</p>
-          </div>
-          <div>
-            <img src="project-screenshots/ambag(2).png" class="modal-screenshot" alt="Ambag leader review screenshot" loading="lazy">
-            <p class="screenshot-caption" data-i18n="screenshot.leaderReview">Leader Review</p>
-          </div>
-          <div>
-            <img src="project-screenshots/ambag(3).png" class="modal-screenshot" alt="Ambag member ledger screenshot" loading="lazy">
-            <p class="screenshot-caption" data-i18n="screenshot.memberLedger">Member Ledger</p>
-          </div>
-        </div>
-
-        <h3 class="modal-section-heading" data-i18n="modal.technologies">Technologies</h3>
-        <div class="tech-badges mb-4">
-          <span class="badge tech-badge">Next.js</span>
-          <span class="badge tech-badge">React</span>
-          <span class="badge tech-badge">TypeScript</span>
-          <span class="badge tech-badge">Tailwind CSS</span>
-          <span class="badge tech-badge">Vitest</span>
-        </div>
-
-        <h3 class="modal-section-heading" data-i18n="modal.features">Features</h3>
-        <ul class="modal-features mb-4">
-          <li data-i18n="ambag.feature.1">Claim open tasks from a shared pool</li>
-          <li data-i18n="ambag.feature.2">Completion requires proof: a file, link, or text</li>
-          <li data-i18n="ambag.feature.3">Leader accepts or rejects proof, with a required reason on rejection</li>
-          <li data-i18n="ambag.feature.4">Per-member ledger of on-time, late, and overdue work</li>
-          <li data-i18n="ambag.feature.5">Revocable read-only share links for a professor</li>
-        </ul>
-
-        <div class="modal-meta grid grid-cols-2 gap-2">
-          <div><strong data-i18n="modal.duration">Duration:</strong> <span data-i18n="duration.ongoing">Ongoing</span></div>
-          <div><strong data-i18n="modal.role">Role:</strong> <span data-i18n="role.frontendDev">Frontend Developer</span></div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <a href="https://github.com/Caelusary/ambag" class="btn-outline" target="_blank" rel="noopener">
-          <i class="fa-brands fa-github me-1" aria-hidden="true"></i> <span data-i18n="modal.github">GitHub</span>
-        </a>
-      </div>
-    </div>
-  </div>
-
   <!-- ============ FOOTER ============ -->
   <footer class="site-footer py-10">
     <div class="max-w-6xl mx-auto px-4 md:px-6 text-center">
@@ -768,6 +377,9 @@
         </a>
         <a href="https://www.instagram.com/definitely_notzach" class="social-link" aria-label="Instagram" target="_blank" rel="noopener">
           <i class="fa-brands fa-instagram" aria-hidden="true"></i><span class="social-label">Instagram</span>
+        </a>
+        <a href="https://zacharyscottruiz.wordpress.com/" class="social-link" aria-label="WordPress" target="_blank" rel="noopener">
+          <i class="fa-brands fa-wordpress" aria-hidden="true"></i><span class="social-label">WordPress</span>
         </a>
         <a href="tel:+639454632859" class="social-link" aria-label="Phone">
           <i class="fa-solid fa-phone" aria-hidden="true"></i><span class="social-label">(63) 9454632859</span>

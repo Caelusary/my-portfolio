@@ -10,7 +10,6 @@ const translations = {
   'a11y.skipLink': { en: 'Skip to main content', tl: 'Lumaktaw papunta sa pangunahing nilalaman' },
   'a11y.langSelector': { en: 'Language selector', tl: 'Pagpili ng wika' },
   'a11y.darkModeToggle': { en: 'Toggle dark mode', tl: 'Buksan/isara ang dark mode' },
-  'a11y.modalClose': { en: 'Close', tl: 'Isara' },
   'a11y.backToTop': { en: 'Back to top', tl: 'Bumalik sa itaas' },
 
   // Navigation
@@ -30,7 +29,21 @@ const translations = {
 
   // Portfolio section
   'portfolio.title': { en: 'My Projects', tl: 'Aking mga Proyekto' },
-  'project.viewDetails': { en: 'View Details', tl: 'Tingnan ang Detalye' },
+  'project.viewProject': { en: 'View Project', tl: 'Tingnan ang Proyekto' },
+  'portfolio.viewAll': { en: 'View All Projects', tl: 'Tingnan ang Lahat ng Proyekto' },
+
+  // Projects page
+  'projects.back': { en: 'Back to home', tl: 'Bumalik sa home' },
+  'projects.title': { en: 'All Projects', tl: 'Lahat ng Proyekto' },
+  'projects.intro': {
+    en: "Everything I've built and shipped so far, from vanilla JavaScript experiments to full-stack apps.",
+    tl: 'Lahat ng nagawa at nai-ship ko na, mula sa mga eksperimento sa vanilla JavaScript hanggang sa mga full-stack na app.'
+  },
+  'projects.filterLabel': { en: 'Filter projects', tl: 'I-filter ang mga proyekto' },
+  'filter.all': { en: 'All', tl: 'Lahat' },
+  'filter.fullstack': { en: 'Full Stack', tl: 'Full Stack' },
+  'filter.frontend': { en: 'Frontend', tl: 'Frontend' },
+  'filter.inProgress': { en: 'In Progress', tl: 'Isinasagawa' },
   'project.trip.desc': {
     en: 'A travel planning app for browsing tourist attractions, saving favorites, and organizing your upcoming trips.',
     tl: 'Isang travel planning app para sa pag-browse ng mga atraksyon, pag-save ng paborito, at pag-oorganisa ng mga paparating na biyahe.'
@@ -89,11 +102,7 @@ const translations = {
   'contact.successMsg': { en: 'Your message has been sent successfully!', tl: 'Matagumpay na naipadala ang iyong mensahe!' },
   'contact.errorMsg': { en: 'Something went wrong. Please try again later.', tl: 'May naganap na error. Pakisubukang muli mamaya.' },
 
-  // Modal shared labels
-  'modal.technologies': { en: 'Technologies', tl: 'Mga Teknolohiya' },
-  'modal.features': { en: 'Features', tl: 'Mga Tampok' },
-  'modal.duration': { en: 'Duration:', tl: 'Tagal:' },
-  'modal.role': { en: 'Role:', tl: 'Tungkulin:' },
+  // Project link labels
   'modal.github': { en: 'GitHub', tl: 'GitHub' },
   'modal.liveDemo': { en: 'Live Demo', tl: 'Live na Demo' },
 

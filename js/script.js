@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Run each feature independently: if one throws, it must not take the
   // rest of the page down with it.
   [
+    initHashLanding, // before the reveal, so a linked-to row never fades in
     initGsapReveal, // runs first: reveal must never depend on anything else succeeding
     initHeroShader,
     initHeroNameShine,
@@ -19,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initCodeParticles,
     initCustomCursor,
     initClickRipple,
-    initCardTilt,
     initScrollProgress,
     initEmailJS,
     initDarkMode,
@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initMobileMenu,
     initScrollSpy,
     initSmoothScroll,
-    initProjectBackgroundChange,
     initProjectFilter,
     initCaseGallery,
     initContactForm,
@@ -209,34 +208,25 @@ function initSmoothScroll() {
 }
 
 /* =========================================================
-   PROJECT TITLE CLICK -> PORTFOLIO BACKGROUND COLOR CHANGE
+   PROJECTS PAGE: LAND DIRECTLY ON A LINKED PROJECT
+   Arriving via projects.html#ambag should show Ambag at once. The site's
+   smooth scrolling would otherwise animate down from the top, and the
+   scroll reveal would then fade the row in, so both are skipped for it.
    ========================================================= */
-function initProjectBackgroundChange() {
-  const portfolioSection = document.getElementById('portfolio');
-  const projectTitles = document.querySelectorAll('.project-card-title');
-  let activeTitle = null;
+function initHashLanding() {
+  const id = decodeURIComponent(location.hash.slice(1));
+  const target = id && document.getElementById(id);
+  if (!target || !target.classList.contains('case-row')) return;
 
-  projectTitles.forEach((title) => {
-    const trigger = () => {
-      if (activeTitle === title) {
-        // Second click on the already-active title: back to the section's
-        // default background instead of re-applying the same tint.
-        portfolioSection.style.backgroundColor = '';
-        activeTitle = null;
-      } else {
-        portfolioSection.style.backgroundColor = title.dataset.color;
-        activeTitle = title;
-      }
-    };
-
-    title.addEventListener('click', trigger);
-    title.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        trigger();
-      }
-    });
-  });
+  target.classList.remove('reveal');
+  const root = document.documentElement;
+  root.style.scrollBehavior = 'auto';
+  target.scrollIntoView({ block: 'start' });
+  // Images above the row may still be loading; re-pin once they have.
+  window.addEventListener('load', () => {
+    target.scrollIntoView({ block: 'start' });
+    root.style.scrollBehavior = '';
+  }, { once: true });
 }
 
 /* =========================================================
@@ -782,7 +772,7 @@ function initCustomCursor() {
   }
   animateRing();
 
-  const hoverSelector = 'a, button, [role="button"], input, textarea, .project-card-title';
+  const hoverSelector = 'a, button, [role="button"], input, textarea';
   document.addEventListener('mouseover', (e) => {
     if (e.target.closest && e.target.closest(hoverSelector)) ring.classList.add('cursor-hover');
   });
@@ -809,37 +799,6 @@ function initClickRipple() {
     ripple.style.top = `${e.clientY}px`;
     ripple.addEventListener('animationend', () => ripple.remove());
     document.body.appendChild(ripple);
-  });
-}
-
-/* =========================================================
-   PROJECT CARD 3D TILT
-   Mouse-follow tilt on the portfolio cards. Desktop only (fine
-   pointer, hover-capable); skipped under prefers-reduced-motion.
-   ========================================================= */
-function initCardTilt() {
-  const cards = document.querySelectorAll('.project-card');
-  if (!cards.length) return;
-
-  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!finePointer || reducedMotion) return;
-
-  cards.forEach((card) => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width;
-      const y = (e.clientY - rect.top) / rect.height;
-      const rotateY = (x - 0.5) * 10;
-      const rotateX = (0.5 - y) * 10;
-      card.style.transition = 'none';
-      card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-    });
-
-    card.addEventListener('mouseleave', () => {
-      card.style.transition = 'transform 0.4s ease';
-      card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)';
-    });
   });
 }
 

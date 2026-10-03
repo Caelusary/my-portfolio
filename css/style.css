@@ -102,8 +102,7 @@ h1, h2, h3, .section-title, .hero-name, .nav-logo {
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
-textarea:focus-visible,
-.project-card-title:focus-visible {
+textarea:focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 2px;
 }
@@ -597,7 +596,7 @@ body.custom-cursor-active [role="button"] {
 }
 
 /* =========================================================
-   PORTFOLIO SECTION (glass cards + mouse-follow tilt)
+   PORTFOLIO SECTION (diagonal slice banner)
    ========================================================= */
 .portfolio-section {
   position: relative;
@@ -631,64 +630,6 @@ html.dark .portfolio-section::before {
 @keyframes meshFloat1 {
   0%, 100% { transform: translate(0, 0) scale(1); }
   50% { transform: translate(6%, 8%) scale(1.12); }
-}
-
-.project-card {
-  display: flex;
-  flex-direction: column;
-  border-radius: 14px;
-  overflow: hidden;
-  background: var(--glass-bg);
-  border: var(--border-width) solid var(--glass-border);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  box-shadow: 0 8px 24px var(--shadow-color);
-  transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
-  transform-style: preserve-3d;
-  will-change: transform;
-}
-
-.project-card:hover {
-  border-color: rgba(108, 99, 255, 0.4);
-  box-shadow: 0 16px 40px var(--shadow-glow);
-}
-
-.project-card-image {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  display: block;
-}
-
-.project-card-body {
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-}
-
-.project-card-title {
-  cursor: pointer;
-  font-size: 1.375rem;
-  font-weight: 700;
-  color: var(--accent-text);
-  display: inline-block;
-  margin-bottom: 0.5rem;
-  transition: color var(--transition-fast);
-}
-
-.project-card-title:hover,
-.project-card-title:focus {
-  color: var(--accent-cyan);
-  text-decoration: underline;
-}
-
-.project-card-desc {
-  color: var(--text-muted);
-  font-size: 1.05rem;
-  line-height: 1.6;
-  flex: 1 1 auto;
-  margin-bottom: 1rem;
 }
 
 .tech-badge {
@@ -746,27 +687,70 @@ html.dark .portfolio-section::before {
   transform: translateY(-2px);
 }
 
-/* Home: a full-width banner cut into three parallel diagonal slices, one
-   screenshot per featured project, each slice a link. Every image is sized to
-   its slice's bounding box so it shows its own screenshot, not a shared crop.
-   Slice edges lean by 8% and leave a 1% gap for the panel tint to show. */
+/* Home: a full-width glass banner cut into three parallel diagonal slices,
+   one screenshot per featured project, each slice a link. Every image is sized
+   to its slice's bounding box so it shows its own screenshot, not a shared
+   crop. Slice edges lean by 8% and leave a 0.12% seam (about 1px) where the
+   banner's translucent white shows through as a hairline glass edge. */
 .showcase {
   position: relative;
+  isolation: isolate;
   aspect-ratio: 4 / 3;
-  border-radius: 14px;
+  border-radius: 18px;
   overflow: hidden;
-  background:
-    radial-gradient(120% 90% at 20% 10%, rgba(108, 99, 255, 0.35), transparent 60%),
-    radial-gradient(90% 80% at 90% 100%, rgba(0, 210, 255, 0.25), transparent 60%),
-    var(--fixed-dark);
-  border: var(--border-width) solid var(--glass-border);
-  box-shadow: 0 16px 40px var(--shadow-color);
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 24px 60px var(--shadow-color), 0 0 0 1px rgba(108, 99, 255, 0.15);
 }
 
 @media (min-width: 640px) {
   .showcase {
-    aspect-ratio: 16 / 7;
+    aspect-ratio: 2 / 1;
   }
+}
+
+/* Glass surface: a soft gloss across the top-left plus a bright rim, sitting
+   above the slices without taking clicks. */
+.showcase::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.06) 26%, transparent 42%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+/* Light sweep: a skewed band that crosses the glass on hover or focus. */
+.showcase::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -50%;
+  width: 40%;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent 0%, rgba(255, 255, 255, 0.32) 50%, transparent 100%);
+  transform: translateX(0) skewX(-14deg);
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .showcase:hover::after,
+  .showcase:focus-within::after {
+    animation: showcaseShine 1.1s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .slice:hover img {
+    transform: scale(1.03);
+  }
+}
+
+@keyframes showcaseShine {
+  0% { opacity: 1; transform: translateX(0) skewX(-14deg); }
+  100% { opacity: 1; transform: translateX(400%) skewX(-14deg); }
 }
 
 .slice {
@@ -774,6 +758,7 @@ html.dark .portfolio-section::before {
   inset: 0;
   display: block;
   color: #fff;
+  background-color: var(--fixed-dark);
 }
 
 .slice img {
@@ -786,22 +771,23 @@ html.dark .portfolio-section::before {
 }
 
 .slice-1 { clip-path: polygon(0 0, 37% 0, 29% 100%, 0 100%); }
-.slice-2 { clip-path: polygon(38% 0, 71% 0, 63% 100%, 30% 100%); }
-.slice-3 { clip-path: polygon(72% 0, 100% 0, 100% 100%, 64% 100%); }
+.slice-2 { clip-path: polygon(37.12% 0, 71% 0, 63% 100%, 29.12% 100%); }
+.slice-3 { clip-path: polygon(71.12% 0, 100% 0, 100% 100%, 63.12% 100%); }
 
 .slice-1 img { left: 0; width: 37%; }
-.slice-2 img { left: 30%; width: 41%; }
-.slice-3 img { left: 64%; width: 36%; object-position: top left; }
+.slice-2 img { left: 29.12%; width: 41.88%; }
+.slice-3 img { left: 63.12%; width: 36.88%; object-position: top left; }
 
-/* Bottom fade so the white labels read over any screenshot. */
+/* Light bottom fade so the label pills sit on a calmer area. */
 .slice::after {
   content: '';
   position: absolute;
-  inset: 55% 0 0;
-  background: linear-gradient(to top, rgba(10, 10, 26, 0.85), transparent);
+  inset: 60% 0 0;
+  background: linear-gradient(to top, rgba(10, 10, 26, 0.6), transparent);
   pointer-events: none;
 }
 
+/* Frosted-glass label pills. */
 .slice-label {
   position: absolute;
   bottom: 1.1rem;
@@ -809,16 +795,24 @@ html.dark .portfolio-section::before {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  padding: 0.45em 0.95em;
+  border-radius: 999px;
+  background: rgba(10, 10, 26, 0.35);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 6px 18px rgba(0, 0, 0, 0.25);
   font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(0.85rem, 1.6vw, 1.25rem);
+  font-size: clamp(0.85rem, 1.5vw, 1.15rem);
   font-weight: 700;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
 }
 
 @media (max-width: 639px) {
   .slice-label {
-    bottom: 0.75rem;
-    font-size: 0.8rem;
+    bottom: 0.6rem;
+    padding: 0.35em 0.65em;
+    font-size: 0.72rem;
   }
 
   .slice-label i {
@@ -851,28 +845,12 @@ html.dark .portfolio-section::before {
 }
 
 .slice:focus-visible .slice-label {
-  text-decoration: underline;
-  text-underline-offset: 4px;
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 2px var(--accent-cyan);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .slice:hover img {
-    transform: scale(1.03);
-  }
-}
-
-/* The cards below line up with the slices above them. */
-.featured-row {
-  display: grid;
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-  grid-template-columns: 1fr;
-}
-
-@media (min-width: 768px) {
-  .featured-row {
-    grid-template-columns: repeat(3, 1fr);
-  }
+.showcase + .text-center {
+  margin-top: 2.5rem;
 }
 
 .btn-text-link {
@@ -998,7 +976,6 @@ html.dark .portfolio-section::before {
   gap: 2rem;
   padding: 3.5rem 0;
   border-top: 1px solid var(--border-color);
-  scroll-margin-top: 5rem;
 }
 
 .case-row[hidden] {

@@ -1174,8 +1174,9 @@ html:not(.dark) #mainNav.nav-solid {
   border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
 }
 
-/* Open: hover only (hover-capable screens). The panel widens, the logo and
-   text give way, and the recording plays full-bleed with nothing over it. */
+/* Hover only (hover-capable screens). The panel widens at once; after a
+   short rest (.is-playing, set by initShowcaseVideos) the logo and text give
+   way and the recording plays full-bleed with nothing over it. */
 @media (hover: hover) and (min-width: 768px) {
   .panel-more {
     display: none;
@@ -1185,16 +1186,16 @@ html:not(.dark) #mainNav.nav-solid {
     flex-grow: 2.2;
   }
 
-  .panel:hover .panel-video {
+  .panel.is-playing .panel-video {
     opacity: 1;
   }
 
-  .panel:hover .panel-brand {
+  .panel.is-playing .panel-brand {
     opacity: 0;
     transform: scale(0.92);
   }
 
-  .panel:hover .panel-body {
+  .panel.is-playing .panel-body {
     opacity: 0;
     transform: translateY(0.75rem);
   }
@@ -1995,9 +1996,272 @@ html.dark .alert-danger {
 }
 
 /* =========================================================
+   FEEDBACK WIDGET
+   Glass pill bottom-left (the back-to-top button owns bottom-right) that
+   opens a small panel above it.
+   ========================================================= */
+.feedback {
+  position: fixed;
+  left: 25px;
+  bottom: 25px;
+  z-index: 1050;
+}
+
+.feedback-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 48px;
+  padding: 0 1.15rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-color);
+  background: var(--fixed-dark-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 14px var(--shadow-color);
+  cursor: pointer;
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.feedback-toggle i {
+  color: #FFC94D;
+}
+
+.feedback-toggle:hover {
+  box-shadow: 0 8px 22px var(--shadow-glow);
+}
+
+.feedback-toggle:active {
+  transform: scale(0.97);
+}
+
+.feedback-toggle:focus-visible,
+.feedback-close:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 2px;
+}
+
+.feedback-panel {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 12px);
+  width: min(22rem, calc(100vw - 50px));
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem;
+  border-radius: 18px;
+  background: var(--bg-surface);
+  color: var(--text-main);
+  border: var(--border-width) solid var(--border-color);
+  box-shadow: 0 20px 50px var(--shadow-color);
+  transform-origin: bottom left;
+  animation: feedback-in 260ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.feedback-panel[hidden] {
+  display: none;
+}
+
+@keyframes feedback-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+}
+
+.feedback-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.feedback-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.feedback-sub {
+  margin-top: 0.15rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.feedback-close {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: var(--text-muted);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.feedback-close:hover {
+  color: var(--text-main);
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+
+.feedback-stars {
+  margin: 0.35rem 0 0.25rem;
+  border: 0;
+  padding: 0;
+}
+
+/* Every star lights up through the hovered or checked one: light the whole
+   row, then dim the labels after it. */
+.feedback-stars-row {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.feedback-stars input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.feedback-stars label {
+  font-size: 1.6rem;
+  line-height: 1;
+  color: color-mix(in srgb, var(--text-muted) 40%, transparent);
+  cursor: pointer;
+  transition: color 120ms ease, transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.feedback-stars label:hover {
+  transform: scale(1.12);
+}
+
+.feedback-stars-row:has(input:checked) label,
+.feedback-stars-row:hover label {
+  color: #FFC94D;
+}
+
+.feedback-stars-row input:checked + label ~ label,
+.feedback-stars-row label:hover ~ label {
+  color: color-mix(in srgb, var(--text-muted) 40%, transparent);
+}
+
+.feedback-stars input:focus-visible + label {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.feedback-label {
+  margin-top: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.feedback-comment {
+  resize: vertical;
+  min-height: 5.5rem;
+}
+
+.feedback-hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.feedback-status {
+  min-height: 1.2em;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.feedback-status[data-state="success"] {
+  color: #2ecc71;
+}
+
+.feedback-status[data-state="error"] {
+  color: #e74c3c;
+}
+
+.feedback-send {
+  justify-content: center;
+}
+
+.feedback-send:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+@media (max-width: 639px) {
+  .feedback {
+    left: 16px;
+    bottom: 16px;
+  }
+
+  .feedback-toggle span {
+    display: none;
+  }
+
+  .feedback-toggle {
+    width: 48px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .feedback-panel {
+    width: calc(100vw - 32px);
+  }
+}
+
+/* =========================================================
+   PAGE TRANSITIONS
+   Moving between index.html and projects.html cross-fades the page with a
+   slight rise, while the nav stays put. Uses cross-document view
+   transitions; browsers without them simply switch pages as before.
+   ========================================================= */
+@view-transition {
+  navigation: auto;
+}
+
+#mainNav {
+  view-transition-name: site-nav;
+}
+
+::view-transition-old(root) {
+  animation: page-out 220ms ease-in both;
+}
+
+::view-transition-new(root) {
+  animation: page-in 420ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+@keyframes page-out {
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+    filter: blur(6px);
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(6px);
+  }
+}
+
+/* =========================================================
    REDUCED MOTION
    ========================================================= */
 @media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+
   .code-particle {
     animation: none;
     display: none;

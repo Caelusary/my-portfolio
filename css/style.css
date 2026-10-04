@@ -1,22 +1,15 @@
 /* =========================================================
    CSS CUSTOM PROPERTIES (THEME TOKENS)
-   Tailwind (CDN/Play build) only JIT-compiles utility classes found
-   directly in the HTML — it can't process @apply in this external
-   stylesheet, so custom component classes below are plain CSS.
+   Tailwind utilities come from css/tailwind.css (prebuilt, loaded after
+   this file, so a utility class wins over a rule here at equal
+   specificity); custom component classes below are plain CSS.
 
    Identity: purple (#6C63FF) -> cyan (#00D2FF). Light and dark
    themes are both fully designed (toggle persists via localStorage),
-   defaulting to dark. The hero section now fully re-themes too (see
-   --hero-* tokens below): its WebGL aurora shader carries a second
-   light-mode palette (js/script.js, uLight uniform, swapped via a
-   MutationObserver on html.dark). The photo itself (profile-hero-
-   cutout.png) is a real alpha-channel cutout, so it needs no per-theme
-   handling at all — see the .hero-photo comment further down. Every
-   other section
-   (nav, portfolio, about, contact, footer, forms) fully
-   re-themes via the variables below too, so text stays readable in
-   both modes. The nav bar is the deliberate exception: it stays a
-   fixed dark glass bar in both themes (see its own header comment).
+   defaulting to dark. Every section (portfolio, about, contact, footer,
+   forms) re-themes via the variables below. Two deliberate exceptions
+   stay dark in both themes: the nav bar (fixed dark glass) and the hero,
+   which is built around a dark photo (see the HERO SECTION comment).
    ========================================================= */
 :root {
   --accent: #6C63FF;
@@ -220,7 +213,20 @@ body.custom-cursor-active [role="button"] {
    NAVIGATION BAR (fixed dark glass — always readable regardless
    of the page's own light/dark theme, see header comment above)
    ========================================================= */
+/* Shared page width: grows with the screen up to 90rem (1440px) instead of
+   locking to a fixed column, with gutters that scale from 1rem to 3rem.
+   The nav and hero both use it so their edges line up on every screen. */
+.site-container {
+  width: min(90rem, 100% - 2 * clamp(1rem, 4vw, 3rem));
+  margin-inline: auto;
+}
+
 #mainNav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
   background-color: rgba(10, 10, 26, 0.18);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -236,6 +242,15 @@ body.custom-cursor-active [role="button"] {
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
 }
 
+.nav-inner {
+  position: relative;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
 .nav-logo {
   display: inline-flex;
   align-items: center;
@@ -243,6 +258,7 @@ body.custom-cursor-active [role="button"] {
   font-weight: 700;
   color: #fff;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .nav-logo-mark {
@@ -260,71 +276,96 @@ body.custom-cursor-active [role="button"] {
   box-shadow: 0 4px 16px rgba(108, 99, 255, 0.35);
 }
 
-.nav-link {
-  color: rgba(255, 255, 255, 0.85);
-  font-weight: 500;
-  display: inline-block;
-  padding: 0.5rem 0.85rem;
-  border-radius: 0.5rem;
-  position: relative;
-  transition: color var(--transition-fast), transform var(--transition-fast), background-color var(--transition-fast);
+.nav-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 1.15rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
 }
 
-.nav-link::after {
-  content: '';
+/* Phones: the group is a glass dropdown under the bar. JS toggles .hidden. */
+.nav-panel {
   position: absolute;
-  left: 0.85rem;
-  right: 0.85rem;
-  bottom: 0.2rem;
-  height: 2px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-cyan));
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--transition-fast);
+  top: calc(100% + 0.5rem);
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 16px;
+  background: rgba(12, 12, 30, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+
+.nav-links-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nav-link {
+  display: block;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
 }
 
 .nav-link:hover {
-  color: #ffffff;
-  transform: translateY(-2px);
-}
-
-.nav-link:hover::after,
-.nav-link.active::after {
-  transform: scaleX(1);
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.08);
 }
 
 .nav-link.active {
-  color: #ffffff;
-  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.14);
 }
 
-#navLinks {
-  border-radius: 0 0 1rem 1rem;
+.nav-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
 }
 
-@media (min-width: 768px) {
-  #navLinks {
-    border-radius: 0;
-  }
+.nav-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
 }
 
 .lang-switch {
   display: inline-flex;
-  background: rgba(255, 255, 255, 0.12);
-  border-radius: 20px;
+  align-items: center;
+  height: 2.75rem;
   padding: 3px;
   gap: 2px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .lang-btn {
-  background: transparent;
+  height: 100%;
+  padding: 0 0.85rem;
   border: none;
+  border-radius: 999px;
+  background: transparent;
   color: rgba(255, 255, 255, 0.75);
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.03em;
-  padding: 0.3rem 0.7rem;
-  border-radius: 16px;
   transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
@@ -338,43 +379,266 @@ body.custom-cursor-active [role="button"] {
 }
 
 .btn-dark-toggle {
-  background: rgba(255, 255, 255, 0.12);
-  border: none;
-  border-radius: 50%;
-  width: 42px;
-  height: 42px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 1rem;
   transition: transform var(--transition-fast), background var(--transition-fast);
 }
 
 .btn-dark-toggle:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.18);
   transform: rotate(15deg);
 }
 
+/* Desktop and tablets: the same group becomes one glass pill on the right,
+   so links and controls read as a single unit instead of scattered pieces. */
+@media (min-width: 768px) {
+  .nav-inner {
+    height: 4.5rem;
+  }
+
+  .nav-toggle {
+    display: none;
+  }
+
+  #navLinks.nav-panel {
+    position: static;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.3rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .nav-links-group {
+    flex-direction: row;
+  }
+
+  .nav-link {
+    padding: 0.5rem 0.95rem;
+  }
+
+  .nav-divider {
+    width: 1px;
+    height: 1.5rem;
+    margin: 0 0.3rem;
+  }
+
+  .lang-switch,
+  .btn-dark-toggle {
+    height: 2.25rem;
+  }
+
+  .btn-dark-toggle {
+    width: 2.25rem;
+  }
+}
+
+@media (max-width: 379px) {
+  .nav-logo-text {
+    display: none;
+  }
+}
+
 /* =========================================================
-   HERO SECTION (re-themes with light/dark — see header comment)
+   HERO SECTION
+   Always dark, in both themes: it's built around a dark photo, like the nav
+   is always dark glass. The hero's tokens are pinned to their dark values
+   here so the light theme can't turn its text dark over the photo.
    ========================================================= */
 .hero-section {
+  --hero-bg-base: #0A0A1A;
+  --hero-text: #FFFFFF;
+  --hero-name-color: #D8D4FF;
+  --hero-text-soft: rgba(255, 255, 255, 0.9);
+  --hero-text-muted: rgba(255, 255, 255, 0.72);
+  --hero-overlay: rgba(6, 9, 13, 0.86); /* aurora reads as a faint glow, not a bright cloud */
+  --hero-btn-outline-border: rgba(255, 255, 255, 0.5);
+  --hero-social-color: rgba(255, 255, 255, 0.78);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  min-height: 100vh;
+  min-height: 100svh;
   background-color: var(--hero-bg-base);
   color: var(--hero-text);
-  transition: background-color var(--transition-med), color var(--transition-med);
+}
+
+.hero-canvas,
+.hero-overlay,
+.hero-particles {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-overlay {
+  background: var(--hero-overlay);
+}
+
+.hero-particles {
+  overflow: hidden;
+}
+
+/* Phones (portrait): the photo fills the hero with your face in the upper
+   half; a fade darkens the lower half for the text. */
+.hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 28%;
+}
+
+.hero-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom,
+    rgba(10, 10, 26, 0.55) 0%,
+    rgba(10, 10, 26, 0) 18%,
+    rgba(10, 10, 26, 0) 38%,
+    rgba(10, 10, 26, 0.88) 62%,
+    #0A0A1A 100%);
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 1.75rem;
+  width: 100%;
+  padding: 6rem 0 2.5rem;
+}
+
+.hero-title {
+  margin: 0;
+  font-size: clamp(2.75rem, 11vw, 4rem);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 .hero-name {
   color: var(--hero-name-color);
-  transition: color var(--transition-med);
 }
 
 .hero-subtitle {
+  margin-top: 1rem;
+  font-size: clamp(1.05rem, 1.2vw + 0.8rem, 1.6rem);
+  font-weight: 500;
   color: var(--hero-text-soft);
 }
 
 .hero-tagline {
+  margin-top: 0.5rem;
+  max-width: 34rem;
+  font-size: clamp(0.95rem, 0.5vw + 0.85rem, 1.15rem);
+  font-weight: 300;
+  line-height: 1.6;
   color: var(--hero-text-muted);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem 2rem;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* Wide screens, and phones turned sideways: the photo moves to the right
+   ~60% and dissolves into the dark on its left and bottom edges; the name,
+   text and actions sit together as one block on the dark side. */
+@media (min-width: 1024px), (orientation: landscape) and (min-width: 640px) {
+  .hero-media {
+    left: auto;
+    width: 62%;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 34%), linear-gradient(to top, transparent 0%, #000 22%);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(to right, transparent 0%, #000 34%), linear-gradient(to top, transparent 0%, #000 22%);
+    mask-composite: intersect;
+  }
+
+  .hero-media img {
+    object-position: 50% 24%;
+  }
+
+  .hero-media::after {
+    background: linear-gradient(to bottom, rgba(10, 10, 26, 0.45) 0%, transparent 16%);
+  }
+
+  .hero-content {
+    max-width: min(46rem, 52%);
+    justify-content: center;
+    gap: clamp(2rem, 6vh, 3.5rem);
+    padding: clamp(5.5rem, 12vh, 8rem) 0 clamp(2.5rem, 8vh, 5rem);
+  }
+
+  .hero-title {
+    font-size: clamp(3.25rem, 6.6vw, 7.5rem);
+  }
+}
+
+/* Short screens (phones sideways, small laptops): tighten so it all fits
+   in one screen without overlapping. */
+@media (orientation: landscape) and (max-height: 560px) {
+  .hero-content {
+    gap: 1rem;
+    padding: 5rem 0 1.5rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.25rem, 13vh, 4rem);
+  }
+
+  .hero-subtitle {
+    margin-top: 0.5rem;
+  }
+
+  .hero-tagline {
+    display: none;
+  }
 }
 
 /* JS-only enhancement: added by initHeroNameShine once it confirms it can
@@ -415,16 +679,6 @@ body.custom-cursor-active [role="button"] {
     transform: translateY(0);
     background-position: -60% 0;
   }
-}
-
-/* Mutes the animated shader behind it so the hero reads as a moody
-   backdrop while still letting its motion/color show through. Tints dark
-   in dark mode, soft white in light mode (see --hero-overlay). */
-.hero-overlay {
-  background: var(--hero-overlay);
-  z-index: 0;
-  pointer-events: none;
-  transition: background-color var(--transition-med);
 }
 
 /* Radial glow that follows the cursor (position set via --mx/--my custom
@@ -526,56 +780,6 @@ body.custom-cursor-active [role="button"] {
 .hero-socials a:hover {
   color: var(--accent-cyan);
   transform: translateY(-3px);
-}
-
-/* Hero photo wrap: on mobile it's a centered block above the text; from lg
-   up it breaks out of the text column and bleeds to the section's
-   right/bottom edges, like a large-format editorial hero shot. This
-   wrapper (not the <img> itself) owns the sizing/position rules, sized via
-   aspect-ratio to match the source photo exactly (432:577). */
-.hero-photo-wrap {
-  position: relative;
-  display: block;
-  width: min(240px, 55vw);
-  aspect-ratio: 432 / 577;
-  margin: 0 auto 2rem;
-  opacity: 0;
-  animation: heroPhotoFadeIn 1s ease-out 1.2s forwards;
-}
-
-@media (min-width: 1024px) {
-  .hero-photo-wrap {
-    position: absolute;
-    margin: 0;
-    left: auto;
-    top: auto;
-    right: 0;
-    bottom: 0;
-    width: auto;
-    height: 92%;
-    aspect-ratio: 432 / 577;
-    max-width: 50%;
-  }
-}
-
-/* profile-hero-cutout.png has a real alpha channel (proper cutout, not a
-   flat-color background), so it composites correctly over anything — the
-   shader, the light-mode background, either theme — with no blend-mode
-   trick, no swapped second image, nothing to keep in sync with the theme
-   toggle. The wrapper owns the one-shot entrance fade-in/scale, starting
-   once the name has already appeared (1.2s delay). */
-.hero-photo {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  z-index: 1;
-}
-
-@keyframes heroPhotoFadeIn {
-  0% { opacity: 0; transform: scale(0.97); }
-  100% { opacity: 1; transform: scale(1); }
 }
 
 /* =========================================================
@@ -1164,6 +1368,75 @@ html.dark .about-section::before {
   50% { transform: translate(-8%, -6%) scale(1.15); }
 }
 
+/* Photo 2 beside the intro: stacked and centred on phones, side by side
+   from 900px. The photo gets the same palette treatment as the rest of the
+   site: desaturated and darkened, then tinted purple-to-cyan. */
+.about-intro {
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+  text-align: center;
+}
+
+.about-photo {
+  position: relative;
+  margin: 0 auto;
+  width: min(22rem, 100%);
+  aspect-ratio: 4 / 5;
+  border-radius: 18px;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 24px 60px var(--shadow-color);
+}
+
+.about-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.55) contrast(1.08) brightness(0.8);
+}
+
+.about-photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, var(--accent), var(--accent-cyan));
+  mix-blend-mode: color;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.about-copy {
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+@media (min-width: 900px) {
+  .about-intro {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(2.5rem, 5vw, 5rem);
+    text-align: left;
+  }
+
+  .about-photo {
+    width: 100%;
+    max-width: 30rem;
+    margin: 0;
+    justify-self: end;
+  }
+
+  .about-copy {
+    margin: 0;
+  }
+
+  .about-intro .about-badges,
+  .about-intro .cv-actions {
+    justify-content: flex-start;
+  }
+}
+
 .about-text {
   color: var(--text-muted);
   font-size: 1.1rem;
@@ -1531,10 +1804,6 @@ html.dark .alert-danger {
    RESPONSIVE TWEAKS
    ========================================================= */
 @media (max-width: 767.98px) {
-  #mainNav {
-    background-color: var(--fixed-dark-glass);
-  }
-
   .email-form {
     padding: 1.25rem;
   }

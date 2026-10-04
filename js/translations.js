@@ -78,8 +78,8 @@ const translations = {
   // About section
   'about.title': { en: 'About Me', tl: 'Tungkol sa Akin' },
   'about.text': {
-    en: "I'm a 3rd year BS Computer Science student at De La Salle Lipa who enjoys turning ideas into clean, functional web experiences. I love working across the stack — from crafting responsive interfaces to wiring up APIs and databases — and I'm always looking for the next interesting problem to solve.",
-    tl: 'Ako ay isang 3rd year BS Computer Science na estudyante sa De La Salle Lipa na mahilig gumawa ng malinis at functional na karanasan sa web mula sa mga simpleng ideya. Mahilig akong magtrabaho sa buong stack — mula sa paggawa ng responsive na interface hanggang sa pag-set up ng mga API at database — at lagi akong naghahanap ng susunod na kawili-wiling problema na lulutasin.'
+    en: "I'm a 3rd year BS Computer Science student at De La Salle Lipa who enjoys turning ideas into clean, functional web experiences. I love working across the stack, from crafting responsive interfaces to wiring up APIs and databases, and I'm always looking for the next interesting problem to solve.",
+    tl: 'Ako ay isang 3rd year BS Computer Science na estudyante sa De La Salle Lipa na mahilig gumawa ng malinis at functional na karanasan sa web mula sa mga simpleng ideya. Mahilig akong magtrabaho sa buong stack, mula sa paggawa ng responsive na interface hanggang sa pag-set up ng mga API at database, at lagi akong naghahanap ng susunod na kawili-wiling problema na lulutasin.'
   },
   'about.viewCv': { en: 'View CV', tl: 'Tingnan ang CV' },
   'about.downloadCv': { en: 'Download CV', tl: 'I-download ang CV' },
@@ -182,5 +182,20 @@ const translations = {
 
   // Footer
   'footer.rights': { en: 'All Rights Reserved.', tl: 'Nakalaan ang Lahat ng Karapatan.' },
-  'footer.builtWith': { en: 'Built with ❤️ and a lot of coffee.', tl: 'Ginawa nang may ❤️ at maraming kape.' }
+  'footer.builtWith': { en: 'Built with ❤️ and a lot of coffee.', tl: 'Ginawa nang may ❤️ at maraming kape.' },
+
+  // Feedback widget
+  'feedback.open': { en: 'Feedback', tl: 'Puna' },
+  'feedback.title': { en: 'Rate this portfolio', tl: 'I-rate ang portfolio na ito' },
+  'feedback.subtitle': { en: 'Only I can see what you send.', tl: 'Ako lang ang makakakita ng ipapadala mo.' },
+  'feedback.rating': { en: 'Your rating', tl: 'Ang rating mo' },
+  'feedback.comment': { en: 'Opinions or suggestions', tl: 'Mga opinyon o mungkahi' },
+  'feedback.commentPlaceholder': { en: "What worked, what didn't, what you'd change...", tl: 'Ano ang maganda, ano ang hindi, ano ang babaguhin mo...' },
+  'feedback.name': { en: 'Name (optional)', tl: 'Pangalan (opsyonal)' },
+  'feedback.send': { en: 'Send feedback', tl: 'Ipadala ang puna' },
+  'feedback.sending': { en: 'Sending...', tl: 'Ipinapadala...' },
+  'feedback.thanks': { en: 'Thanks! Got it.', tl: 'Salamat! Natanggap ko na.' },
+  'feedback.error': { en: "Couldn't send that. Try again in a bit.", tl: 'Hindi naipadala. Subukan ulit mamaya.' },
+  'feedback.needRating': { en: 'Pick a star rating first.', tl: 'Pumili muna ng star rating.' },
+  'feedback.close': { en: 'Close', tl: 'Isara' }
 };

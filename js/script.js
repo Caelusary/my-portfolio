@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollSpy,
     initSmoothScroll,
     initShowcaseShine,
+    initShowcaseVideos,
     initProjectFilter,
     initCaseGallery,
     initContactForm,
@@ -210,9 +211,7 @@ function initSmoothScroll() {
 
 /* =========================================================
    HOME: BANNER LIGHT SWEEP ON SCROLL-IN
-   The sweep otherwise only plays on hover/focus, which touch devices never
-   really get, so it also plays once when the banner comes into view. The
-   class comes off when the sweep ends so desktop hover can replay it.
+   Plays once when the banner comes into view.
    ========================================================= */
 function initShowcaseShine() {
   const showcase = document.querySelector('.showcase');
@@ -227,6 +226,31 @@ function initShowcaseShine() {
 
   showcase.addEventListener('animationend', () => showcase.classList.remove('is-shining'));
   observer.observe(showcase);
+}
+
+/* =========================================================
+   HOME: PANEL RECORDINGS
+   Hovering a panel plays its recording from the start; leaving stops and
+   rewinds it. Hover only: touch screens keep the logo and summary. Nothing
+   plays with reduced motion; hovering then shows the poster frame instead.
+   ========================================================= */
+function initShowcaseVideos() {
+  const panels = [...document.querySelectorAll('.panel')].filter((p) => p.querySelector('video'));
+  if (!panels.length) return;
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const hoverable = window.matchMedia('(hover: hover) and (min-width: 768px)');
+
+  panels.forEach((panel) => {
+    const video = panel.querySelector('video');
+    panel.addEventListener('pointerenter', () => {
+      if (hoverable.matches && !reduce.matches) video.play().catch(() => {});
+    });
+    panel.addEventListener('pointerleave', () => {
+      video.pause();
+      video.currentTime = 0;
+    });
+  });
 }
 
 /* =========================================================

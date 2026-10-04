@@ -29,16 +29,23 @@ const translations = {
 
   // Portfolio section
   'portfolio.title': { en: 'My Projects', tl: 'Aking mga Proyekto' },
-  'portfolio.viewAll': { en: 'View All Projects', tl: 'Tingnan ang Lahat ng Proyekto' },
+  'portfolio.eyebrow': { en: 'Selected work', tl: 'Mga piling gawa' },
+  'portfolio.viewAll': { en: 'View all projects', tl: 'Tingnan ang lahat ng proyekto' },
 
   // Projects page
-  'projects.back': { en: 'Back to home', tl: 'Bumalik sa home' },
+  'projects.back': { en: 'Back', tl: 'Bumalik' },
   'projects.title': { en: 'All Projects', tl: 'Lahat ng Proyekto' },
   'projects.intro': {
     en: "Everything I've built and shipped so far, from vanilla JavaScript experiments to full-stack apps.",
     tl: 'Lahat ng nagawa at nai-ship ko na, mula sa mga eksperimento sa vanilla JavaScript hanggang sa mga full-stack na app.'
   },
   'projects.filterLabel': { en: 'Filter projects', tl: 'I-filter ang mga proyekto' },
+  'projects.ctaTitle': { en: 'Like what you see?', tl: 'Nagustuhan mo ba ang nakita mo?' },
+  'projects.ctaText': {
+    en: "Whether it's a project, a collaboration, or a question about one of these builds, I'd like to hear from you.",
+    tl: 'Proyekto man, kolaborasyon, o tanong tungkol sa isa sa mga ginawa ko, gusto kong marinig mula sa iyo.',
+  },
+  'projects.ctaButton': { en: 'Get in touch', tl: 'Makipag-ugnayan' },
   'filter.all': { en: 'All', tl: 'Lahat' },
   'filter.fullstack': { en: 'Full Stack', tl: 'Full Stack' },
   'filter.frontend': { en: 'Frontend', tl: 'Frontend' },

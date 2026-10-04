@@ -4,19 +4,19 @@ A cinematic personal portfolio for Zachary Scott (Full-Stack Developer & Creativ
 
 ## Features
 
-- **Purple/cyan design system** (`#6C63FF` → `#00D2FF`) with a full dark theme (default) and light theme, both fully re-themed via CSS custom properties — persisted in `localStorage`. The hero section re-themes too: its WebGL aurora shader carries a second light-mode color palette that crossfades on toggle.
-- **Hero section** with a real alpha-channel cutout photo composited over an animated WebGL "aurora" background (Three.js), a cursor-reactive glow, floating code-snippet particles, and a scroll-replayable name "shine" animation.
+- **Purple/cyan design system** (`#6C63FF` → `#00D2FF`) with a full dark theme (default) and light theme, both fully re-themed via CSS custom properties — persisted in `localStorage`. The nav and the hero stay dark in both themes, since the hero is built around a dark photo.
+- **Hero section** with a full-bleed portrait whose dark foliage dissolves into the page: it fills the right side on wide screens (and phones held sideways) and the whole hero on phones, with the name, tagline, and actions grouped on the dark side. Behind it runs a faint animated WebGL "aurora" (Three.js), plus a cursor-reactive glow, floating code-snippet particles, and a scroll-replayable name "shine" animation. The page width grows with the screen up to 1440px.
 - **Custom cursor** (dot + trailing ring) that grows/glows over interactive elements — desktop only (fine pointer + hover-capable), automatically disabled on touch devices and under `prefers-reduced-motion`.
 - **Click ripple effect** — a small glowing ring pulses outward from every click and fades, skipped under `prefers-reduced-motion`.
-- **Responsive navigation bar** with a glassmorphism blurred background, a "ZS" monogram logo, sliding underline link-hover effect, scrollspy (active link highlighting via `IntersectionObserver`), and smooth scrolling to in-page sections.
+- **Responsive navigation bar**: a "ZS" monogram logo plus one glass pill holding the links, language switch, and theme toggle, aligned to the page width; on phones the same group opens as a dropdown from a hamburger button. Includes scrollspy (active link highlighting via `IntersectionObserver`), and smooth scrolling to in-page sections.
 - **Scroll-reveal animations** (GSAP + ScrollTrigger) on section headings, project cards, and the contact card — fade/rise into view, with a `prefers-reduced-motion` override that disables all of it.
 - **Scroll progress bar** showing how far down the page you are.
 - **EN / Filipino language toggle** with a full translation dictionary (`js/translations.js`), persisted in `localStorage`, falling back to English for any untranslated string.
 - **Portfolio section** featuring three projects (Trip Planner, Twogether, Ambag) as one full-width glass banner cut into three diagonal slices, one screenshot per project. The seams glow in the accent gradient, a light sweep crosses the glass once when it scrolls into view and again on hover, and hovering a slice dims the other two. Each slice links straight to that project on the projects page, which opens already scrolled to it, and a **View All Projects** button links to the full list.
 - **Projects page** (`projects.html`) listing all six projects as alternating case-study rows: a screenshot gallery (thumbnails swap the main image), role and duration, description, feature list, tech badges, and Live Demo / GitHub links. Filter chips narrow the list to Full Stack, Frontend, or In Progress.
-- **About section** with a bio, a real skills badge row, View/Download CV buttons (linking to an actual PDF résumé), and a Certifications area listing completed certificates (with links to the real certificate PDFs where available) plus certifications currently in progress.
+- **About section** with a portrait tinted in the site palette beside the bio (stacked on phones), a real skills badge row, View/Download CV buttons (linking to an actual PDF résumé), and a Certifications area listing completed certificates (with links to the real certificate PDFs where available) plus certifications currently in progress.
 - **Contact form** ("Get In Touch") with real-time client-side validation (valid/invalid field styling as you type or blur) and submission via the [EmailJS](https://www.emailjs.com/) browser SDK (`emailjs.sendForm`). Success and error alerts are shown after submission attempts.
-- **Footer** with social links (Facebook, GitHub, Instagram, phone) and quick navigation.
+- **Footer** with social links (Facebook, GitHub, Instagram, WordPress, phone) and quick navigation.
 - **Back-to-top button** that appears after scrolling and smooth-scrolls back to the top.
 - **Auto-updating copyright year** in the footer.
 - **Accessibility touches**: a skip-to-content link, visible focus outlines, `aria-*` attributes on interactive elements, lazy-loaded below-the-fold images, and every motion-heavy feature (cursor, banner light sweep, cursor glow, particles, shader animation, click ripple) gracefully skipped under `prefers-reduced-motion` or on touch devices.
@@ -53,7 +53,7 @@ portfolio/
 │   └── sync-chrome.mjs     # Copies the shared nav and footer from index.html into projects.html
 ├── tailwind.config.js      # Tailwind theme (fonts, colors) and the files it scans for classes
 ├── vercel.json             # /projects rewrite and security headers (CSP, frame, sniffing, referrer)
-├── images/                 # Hero photo (real alpha-channel cutout)
+├── images/                 # Hero and About portraits (WebP, two sizes each), link preview images, favicon
 ├── project-screenshots/    # Real screenshots used in the project cards and galleries
 └── about-me/                # Real CV and certification PDFs linked from the About section
 ```

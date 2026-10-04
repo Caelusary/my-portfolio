@@ -101,10 +101,9 @@
 
     <!-- ============ PROJECTS PAGE HEADER ============ -->
     <header class="projects-hero pt-32 md:pt-40 pb-10 md:pb-14">
-      <div class="max-w-6xl mx-auto px-4 md:px-6">
-        <a href="index.html#portfolio" class="btn-text-link projects-back">
-          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-          <span data-i18n="projects.back">Back to home</span>
+      <div class="site-container">
+        <a href="index.html#portfolio" class="projects-back">
+          <span data-i18n="projects.back">Back</span>
         </a>
         <h1 class="projects-title" data-i18n="projects.title">All Projects</h1>
         <p class="projects-intro" data-i18n="projects.intro">Everything I've built and shipped so far, from vanilla JavaScript experiments to full-stack apps.</p>
@@ -121,8 +120,8 @@
     <!-- ============ PROJECT LIST ============ -->
     <!-- Each row: gallery (main shot + thumbnails that swap it) beside the write-up.
          data-tags drives the filter chips above. -->
-    <section class="projects-list pb-24" aria-live="polite">
-      <div class="max-w-6xl mx-auto px-4 md:px-6">
+    <section class="projects-list pb-6" aria-live="polite">
+      <div class="site-container">
 
         <!-- 01 Trip Planner -->
         <article id="trip-planner" class="case-row reveal" data-tags="fullstack">
@@ -131,7 +130,7 @@
               <img src="project-screenshots/trip-planner(1).png" class="case-main-img" alt="Trip Planner attraction browsing screenshot" width="1350" height="644">
               <figcaption class="case-caption" data-i18n="screenshot.exploreAttractions">Explore Attractions</figcaption>
             </figure>
-            <div class="case-thumbs">
+            <div class="case-thumbs case-thumbs--zoom">
               <button type="button" class="case-thumb" aria-pressed="true" data-src="project-screenshots/trip-planner(1).png" data-alt="Trip Planner attraction browsing screenshot" data-caption="screenshot.exploreAttractions"><img src="project-screenshots/trip-planner(1).png" alt="" loading="lazy"><span class="sr-only" data-i18n="screenshot.exploreAttractions">Explore Attractions</span></button>
               <button type="button" class="case-thumb" aria-pressed="false" data-src="project-screenshots/trip-planner(7).png" data-alt="Trip Planner trip form screenshot" data-caption="screenshot.tripForm"><img src="project-screenshots/trip-planner(7).png" alt="" loading="lazy"><span class="sr-only" data-i18n="screenshot.tripForm">Trip Form</span></button>
               <button type="button" class="case-thumb" aria-pressed="false" data-src="project-screenshots/trip-planner(4).png" data-alt="Trip Planner upcoming trips screenshot" data-caption="screenshot.upcomingTrips"><img src="project-screenshots/trip-planner(4).png" alt="" loading="lazy"><span class="sr-only" data-i18n="screenshot.upcomingTrips">Upcoming Trips</span></button>
@@ -343,7 +342,7 @@
             <div class="card-tech-row">
               <span class="badge tech-badge">HTML/CSS</span>
               <span class="badge tech-badge">Vanilla JS</span>
-              <span class="badge tech-badge">OpenWeatherMap API</span>
+              <span class="badge tech-badge">OpenWeatherMap</span>
               <span class="badge tech-badge">Leaflet/OSM</span>
               <span class="badge tech-badge">CSS Animations</span>
             </div>
@@ -354,6 +353,15 @@
           </div>
         </article>
 
+      </div>
+    </section>
+
+    <!-- ============ CLOSING CTA ============ -->
+    <section class="projects-cta">
+      <div class="site-container projects-cta-inner reveal">
+        <h2 class="projects-cta-title" data-i18n="projects.ctaTitle">Like what you see?</h2>
+        <p class="projects-cta-text" data-i18n="projects.ctaText">Whether it's a project, a collaboration, or a question about one of these builds, I'd like to hear from you.</p>
+        <a href="index.html#contact" class="btn-view-details projects-cta-btn"><span data-i18n="projects.ctaButton">Get in touch</span></a>
       </div>
     </section>
 

@@ -58,32 +58,40 @@
 
   <!-- shared:nav:start (edit in index.html, then `npm run sync`) -->
   <!-- ============ NAVIGATION BAR ============ -->
-  <nav id="mainNav" class="fixed top-0 inset-x-0 z-40 transition-colors duration-300" aria-label="Main navigation">
-    <div class="max-w-6xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
+  <nav id="mainNav" class="site-nav" aria-label="Main navigation">
+    <div class="site-container nav-inner">
       <a href="#home" class="nav-logo">
         <span class="nav-logo-mark" aria-hidden="true">ZS</span>
-        <span class="hidden sm:inline">Zachary Scott</span>
+        <span class="nav-logo-text">Zachary Scott</span>
       </a>
 
-      <button id="navToggle" class="md:hidden text-white p-2" aria-controls="navLinks" aria-expanded="false" aria-label="Toggle navigation">
-        <i class="fa-solid fa-bars text-xl" aria-hidden="true"></i>
+      <button id="navToggle" class="nav-toggle" type="button" aria-controls="navLinks" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars" aria-hidden="true"></i>
       </button>
 
-      <div id="navLinks" class="hidden md:flex flex-col md:flex-row md:items-center gap-1 md:gap-2 absolute md:static top-16 inset-x-0 bg-slate-900/95 md:bg-transparent backdrop-blur md:backdrop-blur-none px-4 md:px-0 py-4 md:py-0">
-        <a href="#home" class="nav-link" data-i18n="nav.home">Home</a>
-        <a href="#portfolio" class="nav-link" data-i18n="nav.portfolio">Portfolio</a>
-        <a href="#about" class="nav-link" data-i18n="nav.about">About</a>
-        <a href="#contact" class="nav-link" data-i18n="nav.contact">Contact</a>
-
-        <div class="lang-switch mt-2 md:mt-0 md:ml-2" role="group" data-i18n-aria-label="a11y.langSelector" aria-label="Language selector">
-          <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
-          <button type="button" class="lang-btn" data-lang="tl" aria-pressed="false">FIL</button>
+      <!-- One glass group: links, then language and theme controls. On phones
+           it becomes the dropdown panel the hamburger opens. -->
+      <div id="navLinks" class="nav-panel hidden">
+        <div class="nav-links-group">
+          <a href="#home" class="nav-link" data-i18n="nav.home">Home</a>
+          <a href="#portfolio" class="nav-link" data-i18n="nav.portfolio">Portfolio</a>
+          <a href="#about" class="nav-link" data-i18n="nav.about">About</a>
+          <a href="#contact" class="nav-link" data-i18n="nav.contact">Contact</a>
         </div>
 
-        <button id="darkModeToggle" class="btn-dark-toggle mt-2 md:mt-0 md:ml-2" type="button"
-          data-i18n-aria-label="a11y.darkModeToggle" aria-label="Toggle dark mode" aria-pressed="false">
-          <span id="darkModeIcon" aria-hidden="true">🌙</span>
-        </button>
+        <span class="nav-divider" aria-hidden="true"></span>
+
+        <div class="nav-controls">
+          <div class="lang-switch" role="group" data-i18n-aria-label="a11y.langSelector" aria-label="Language selector">
+            <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+            <button type="button" class="lang-btn" data-lang="tl" aria-pressed="false">FIL</button>
+          </div>
+
+          <button id="darkModeToggle" class="btn-dark-toggle" type="button"
+            data-i18n-aria-label="a11y.darkModeToggle" aria-label="Toggle dark mode" aria-pressed="false">
+            <span id="darkModeIcon" aria-hidden="true">🌙</span>
+          </button>
+        </div>
       </div>
     </div>
   </nav>
@@ -92,32 +100,42 @@
   <main id="main-content">
 
     <!-- ============ HERO SECTION ============ -->
-    <header id="home" class="relative overflow-hidden min-h-screen flex items-center hero-section pt-20">
-      <canvas id="heroCanvas" class="absolute inset-0 w-full h-full -z-10" aria-hidden="true"></canvas>
-      <div class="hero-overlay absolute inset-0" aria-hidden="true"></div>
+    <header id="home" class="hero-section">
+      <canvas id="heroCanvas" class="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero-overlay" aria-hidden="true"></div>
       <div class="hero-mouse-glow" id="heroMouseGlow" aria-hidden="true"></div>
-      <div id="codeParticles" class="absolute inset-0 overflow-hidden" aria-hidden="true"></div>
+      <div id="codeParticles" class="hero-particles" aria-hidden="true"></div>
 
-      <div class="max-w-6xl mx-auto px-4 md:px-6 w-full">
-        <div class="hero-photo-wrap" id="heroPhotoWrap">
-          <img src="images/profile-hero-cutout.png" class="hero-photo" id="heroPhoto" alt="Portrait of Zachary Scott D. Ruiz">
-        </div>
-        <div class="relative z-10 lg:max-w-xl text-center lg:text-left reveal">
-          <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold leading-[1.05] tracking-tight">
-            <span class="hero-name" id="heroName">Zachary Scott</span>
-          </h1>
-          <p class="mt-6 text-xl md:text-2xl font-medium hero-subtitle" data-i18n="hero.subtitle">Full Stack Developer &amp; Creative Thinker</p>
-          <p class="mt-2 text-base md:text-lg hero-tagline font-light" data-i18n="hero.tagline">I craft high-performance web experiences that blend code with design.</p>
-          <div class="mt-8 flex flex-wrap items-center justify-start gap-4">
-            <a href="#portfolio" class="btn-hero" data-i18n="hero.cta">View My Work</a>
-            <a href="#contact" class="btn-hero-outline" data-i18n="hero.ctaSecondary">Let's Talk</a>
+      <!-- Full-bleed portrait: fills the right side on wide screens and the
+           whole hero on phones, its edges masked so the dark foliage dissolves
+           into the page. The grade (cooler, calmer green) is baked into the file. -->
+      <div class="hero-media">
+        <img src="images/hero-portrait-1536.webp"
+          srcset="images/hero-portrait-900.webp 900w, images/hero-portrait-1536.webp 1536w"
+          sizes="(min-width: 1024px) 62vw, 100vw"
+          width="1536" height="2048" alt="Zachary Scott smiling in front of dark green foliage" fetchpriority="high">
+      </div>
+
+      <div class="site-container hero-inner">
+        <div class="hero-content reveal">
+          <div class="hero-heading">
+            <h1 class="hero-title"><span class="hero-name" id="heroName">Zachary Scott</span></h1>
+            <p class="hero-subtitle" data-i18n="hero.subtitle">Full Stack Developer &amp; Creative Thinker</p>
+            <p class="hero-tagline" data-i18n="hero.tagline">I craft high-performance web experiences that blend code with design.</p>
           </div>
-          <div class="hero-socials mt-8 justify-start">
-            <a href="https://www.facebook.com/zacharyscott.ruiz" aria-label="Facebook" target="_blank" rel="noopener"><i class="fa-brands fa-facebook" aria-hidden="true"></i></a>
-            <a href="https://github.com/Caelusary" aria-label="GitHub" target="_blank" rel="noopener"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
-            <a href="https://www.instagram.com/definitely_notzach" aria-label="Instagram" target="_blank" rel="noopener"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
-            <a href="https://zacharyscottruiz.wordpress.com/" aria-label="WordPress" target="_blank" rel="noopener"><i class="fa-brands fa-wordpress" aria-hidden="true"></i></a>
-            <a href="tel:+639454632859" aria-label="Call" title="(63) 9454632859"><i class="fa-solid fa-phone" aria-hidden="true"></i></a>
+
+          <div class="hero-actions">
+            <div class="hero-buttons">
+              <a href="#portfolio" class="btn-hero" data-i18n="hero.cta">View My Work</a>
+              <a href="#contact" class="btn-hero-outline" data-i18n="hero.ctaSecondary">Let's Talk</a>
+            </div>
+            <div class="hero-socials">
+              <a href="https://www.facebook.com/zacharyscott.ruiz" aria-label="Facebook" target="_blank" rel="noopener"><i class="fa-brands fa-facebook" aria-hidden="true"></i></a>
+              <a href="https://github.com/Caelusary" aria-label="GitHub" target="_blank" rel="noopener"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
+              <a href="https://www.instagram.com/definitely_notzach" aria-label="Instagram" target="_blank" rel="noopener"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+              <a href="https://zacharyscottruiz.wordpress.com/" aria-label="WordPress" target="_blank" rel="noopener"><i class="fa-brands fa-wordpress" aria-hidden="true"></i></a>
+              <a href="tel:+639454632859" aria-label="Call" title="(63) 9454632859"><i class="fa-solid fa-phone" aria-hidden="true"></i></a>
+            </div>
           </div>
         </div>
       </div>
@@ -161,12 +179,19 @@
 
     <!-- ============ ABOUT SECTION ============ -->
     <section id="about" class="about-section py-20">
-      <div class="max-w-6xl mx-auto px-4 md:px-6">
-        <div class="text-center mb-8 reveal">
+      <div class="site-container">
+        <div class="text-center mb-12 reveal">
           <h2 class="section-title" data-i18n="about.title">About Me</h2>
           <div class="section-underline mx-auto"></div>
         </div>
-        <div class="max-w-2xl mx-auto text-center reveal">
+        <div class="about-intro">
+          <figure class="about-photo reveal">
+            <img src="images/about-portrait-960.webp"
+              srcset="images/about-portrait-600.webp 600w, images/about-portrait-960.webp 960w"
+              sizes="(min-width: 900px) 34vw, 90vw"
+              width="960" height="1200" alt="Zachary Scott looking off to the side on a sports field" loading="lazy">
+          </figure>
+        <div class="about-copy reveal">
           <p class="about-text" data-i18n="about.text">
             I'm a 3rd year BS Computer Science student at De La Salle Lipa who enjoys turning ideas
             into clean, functional web experiences. I love working across the stack — from
@@ -193,6 +218,7 @@
               <i class="fa-solid fa-download me-1" aria-hidden="true"></i> <span data-i18n="about.downloadCv">Download CV</span>
             </a>
           </div>
+        </div>
         </div>
 
         <div class="mt-16 reveal">

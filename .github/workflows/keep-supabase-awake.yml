@@ -1,0 +1,24 @@
+# Free Supabase projects pause after about a week without activity. The
+# trip-planner project backs both the Trip Planner demo and this site's
+# feedback widget, so this makes one tiny database read every 3 days to keep
+# it awake. The key is the publishable one already shipped in js/script.js;
+# row-level security means the read returns no rows.
+name: Keep Supabase awake
+
+on:
+  schedule:
+    - cron: '0 3 */3 * *' # 03:00 UTC every third day
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Query trip-planner
+        env:
+          SUPABASE_URL: https://btxzksfrjzhrsykjdhil.supabase.co
+          SUPABASE_KEY: sb_publishable_li7KizdC9USPXekPgWzl_Q_bwhXZzyC
+        run: |
+          curl --fail --silent --show-error --max-time 30 \
+            "$SUPABASE_URL/rest/v1/trips?select=id&limit=1" \
+            -H "apikey: $SUPABASE_KEY"

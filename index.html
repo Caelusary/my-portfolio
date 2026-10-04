@@ -142,36 +142,63 @@
     </header>
 
     <!-- ============ PORTFOLIO SECTION ============ -->
-    <!-- Three featured projects as a full-width banner cut into diagonal
-         slices, one screenshot per project; each slice links straight to that
-         project on projects.html, which holds the full details. -->
+    <!-- Three featured projects as a full-width row of expanding panels; each
+         panel links straight to that project on projects.html, which holds
+         the full details. -->
     <section id="portfolio" class="portfolio-section py-20 md:py-28">
-      <div class="max-w-6xl mx-auto px-4 md:px-6">
-        <div class="text-center mb-16 reveal">
-          <h2 class="section-title">⭐ <span data-i18n="portfolio.title">My Projects</span></h2>
-          <div class="section-underline mx-auto"></div>
-        </div>
-
-        <div class="showcase reveal">
-          <a href="projects.html#trip-planner" class="slice slice-1" aria-label="Trip Planner: view project">
-            <img src="project-screenshots/trip-planner(1).png" alt="" width="1350" height="644" loading="lazy">
-            <span class="slice-label">Trip Planner <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
-          </a>
-          <a href="projects.html#twogether" class="slice slice-2" aria-label="Twogether: view project">
-            <img src="project-screenshots/twogether(3).png" alt="" width="1350" height="644" loading="lazy">
-            <span class="slice-label">Twogether <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
-          </a>
-          <a href="projects.html#ambag" class="slice slice-3" aria-label="Ambag: view project">
-            <img src="project-screenshots/ambag(1).png" alt="" width="1350" height="645" loading="lazy">
-            <span class="slice-label">Ambag <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
-          </a>
-        </div>
-
-        <div class="text-center mt-12 reveal">
+      <div class="site-container">
+        <div class="section-head reveal">
+          <div>
+            <p class="section-eyebrow" data-i18n="portfolio.eyebrow">Selected work</p>
+            <h2 class="section-head-title" data-i18n="portfolio.title">My Projects</h2>
+          </div>
           <a href="projects.html" class="btn-outline btn-view-all">
-            <span data-i18n="portfolio.viewAll">View All Projects</span>
+            <span data-i18n="portfolio.viewAll">View all projects</span>
             <span class="view-all-count">6</span>
-            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Expanding panels: each shows its logo, and hovering one widens it and
+           plays a recording of the app. Touch screens show the summary instead,
+           and phones get a swipeable row. -->
+      <div class="showcase reveal">
+        <div class="showcase-track">
+          <a href="projects.html#trip-planner" class="panel panel--trip">
+            <span class="panel-brand" aria-hidden="true"><svg class="panel-logo" viewBox="0 0 24 24" fill="none"><path d="M12 3L4 20L12 16L20 20L12 3Z" fill="#5FD4C4" fill-opacity="0.95"/></svg></span>
+            <video class="panel-video" muted loop playsinline preload="none" poster="project-videos/trip-poster.jpg" aria-hidden="true"><source src="project-videos/trip.mp4" type="video/mp4"></video>
+            <span class="panel-body">
+              <span class="panel-index">01</span>
+              <span class="panel-title">Trip Planner</span>
+              <span class="panel-more"><span class="panel-more-inner">
+                <span class="panel-desc" data-i18n="project.trip.desc">A full-stack trip planner with accounts, multi-city itineraries, per-destination weather forecasts, and a 3D attraction carousel.</span>
+                <span class="panel-tags"><span class="panel-tag">Next.js</span><span class="panel-tag">TypeScript</span><span class="panel-tag">Supabase</span></span>
+              </span></span>
+            </span>
+          </a>
+          <a href="projects.html#twogether" class="panel panel--twogether">
+            <span class="panel-brand" aria-hidden="true"><svg class="panel-logo" viewBox="0 0 100 100"><path d="M50 88C21 66 7 50 7 33 7 19 18 9 31 9c8 0 15 4 19 11 4-7 11-11 19-11 13 0 24 10 24 24 0 17-14 33-43 55z" fill="#FF8FA8"/><ellipse cx="37" cy="40" rx="8" ry="10" fill="#fff"/><ellipse cx="63" cy="40" rx="8" ry="10" fill="#fff"/><circle cx="39" cy="42" r="4.2" fill="#4A3B33"/><circle cx="65" cy="42" r="4.2" fill="#4A3B33"/></svg></span>
+            <video class="panel-video" muted loop playsinline preload="none" poster="project-videos/twogether-poster.jpg" aria-hidden="true"><source src="project-videos/twogether.mp4" type="video/mp4"></video>
+            <span class="panel-body">
+              <span class="panel-index">02</span>
+              <span class="panel-title">Twogether</span>
+              <span class="panel-more"><span class="panel-more-inner">
+                <span class="panel-desc" data-i18n="project.mood.desc">A full-stack couples app for mood tracking, playful mini-games, and shared photo memories.</span>
+                <span class="panel-tags"><span class="panel-tag">Vanilla JS</span><span class="panel-tag">Supabase</span><span class="panel-tag">PostgreSQL</span></span>
+              </span></span>
+            </span>
+          </a>
+          <a href="projects.html#ambag" class="panel panel--ambag">
+            <span class="panel-brand" aria-hidden="true"><svg class="panel-logo" viewBox="0 0 100 100"><g fill="none" stroke-width="14" stroke-linecap="round"><path d="M33.52 20.26A34 34 0 0 1 66.48 20.26" stroke="#c67139"/><path d="M79.74 33.52A34 34 0 0 1 79.74 66.48" stroke="#647550"/><path d="M66.48 79.74A34 34 0 0 1 33.52 79.74" stroke="#dd9563"/><path d="M20.26 66.48A34 34 0 0 1 20.26 33.52" stroke="#522a15"/></g></svg></span>
+            <video class="panel-video" muted loop playsinline preload="none" poster="project-videos/ambag-poster.jpg" aria-hidden="true"><source src="project-videos/ambag.mp4" type="video/mp4"></video>
+            <span class="panel-body">
+              <span class="panel-index">03</span>
+              <span class="panel-title">Ambag</span>
+              <span class="panel-more"><span class="panel-more-inner">
+                <span class="panel-desc" data-i18n="project.ambag.desc">A group-project tracker where a task only counts as done once proof is attached, backed by an immutable activity log.</span>
+                <span class="panel-tags"><span class="panel-tag">Next.js</span><span class="panel-tag">React</span><span class="panel-tag">TypeScript</span></span>
+              </span></span>
+            </span>
           </a>
         </div>
       </div>

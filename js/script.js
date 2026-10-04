@@ -6,6 +6,13 @@ const EMAILJS_PUBLIC_KEY = 'V-b5rP4yFb6ZoE5xE';
 const EMAILJS_SERVICE_ID = 'service_lvv2185';
 const EMAILJS_TEMPLATE_ID = 'template_5hyd0k3';
 
+// Feedback widget: Supabase project URL and its publishable (anon) key. The
+// key can only insert into portfolio_feedback (see supabase/feedback.sql);
+// nobody but the project owner can read the rows. Left empty, the widget
+// stays hidden.
+const FEEDBACK_SUPABASE_URL = 'https://btxzksfrjzhrsykjdhil.supabase.co';
+const FEEDBACK_SUPABASE_KEY = 'sb_publishable_li7KizdC9USPXekPgWzl_Q_bwhXZzyC';
+
 let currentLang = 'en';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -13,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // rest of the page down with it.
   [
     initHashLanding, // before the reveal, so a linked-to row never fades in
+    initBackLink,
     initGsapReveal, // runs first: reveal must never depend on anything else succeeding
     initHeroShader,
     initHeroNameShine,
@@ -22,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initClickRipple,
     initScrollProgress,
     initEmailJS,
+    initFeedback, // before the language toggle, so its text gets translated
     initDarkMode,
     initLanguageToggle,
     initNavScrollEffect,
@@ -230,10 +239,13 @@ function initShowcaseShine() {
 
 /* =========================================================
    HOME: PANEL RECORDINGS
-   Hovering a panel plays its recording from the start; leaving stops and
-   rewinds it. Hover only: touch screens keep the logo and summary. Nothing
-   plays with reduced motion; hovering then shows the poster frame instead.
+   Resting on a panel for PLAY_DELAY plays its recording from the start, so
+   sweeping the mouse across the row doesn't set videos off. Leaving stops
+   and rewinds it. Hover only: touch screens keep the logo and summary.
+   Nothing plays with reduced motion.
    ========================================================= */
+const PLAY_DELAY = 700;
+
 function initShowcaseVideos() {
   const panels = [...document.querySelectorAll('.panel')].filter((p) => p.querySelector('video'));
   if (!panels.length) return;
@@ -243,10 +255,18 @@ function initShowcaseVideos() {
 
   panels.forEach((panel) => {
     const video = panel.querySelector('video');
+    let timer;
     panel.addEventListener('pointerenter', () => {
-      if (hoverable.matches && !reduce.matches) video.play().catch(() => {});
+      if (!hoverable.matches || reduce.matches) return;
+      video.preload = 'auto'; // start fetching during the delay
+      timer = setTimeout(() => {
+        panel.classList.add('is-playing');
+        video.play().catch(() => {});
+      }, PLAY_DELAY);
     });
     panel.addEventListener('pointerleave', () => {
+      clearTimeout(timer);
+      panel.classList.remove('is-playing');
       video.pause();
       video.currentTime = 0;
     });
@@ -254,17 +274,18 @@ function initShowcaseVideos() {
 }
 
 /* =========================================================
-   PROJECTS PAGE: LAND DIRECTLY ON A LINKED PROJECT
-   Arriving via projects.html#ambag should show Ambag at once. The site's
-   smooth scrolling would otherwise animate down from the top, and the
-   scroll reveal would then fade the row in, so both are skipped for it.
+   LAND DIRECTLY ON A LINKED SECTION
+   Arriving via projects.html#ambag or index.html#contact should show that
+   spot at once. The site's smooth scrolling would otherwise animate down
+   from the top (or lose the jump while the page loads), so it's pinned
+   instantly. A linked project row also skips its scroll-reveal fade.
    ========================================================= */
 function initHashLanding() {
   const id = decodeURIComponent(location.hash.slice(1));
   const target = id && document.getElementById(id);
-  if (!target || !target.classList.contains('case-row')) return;
+  if (!target) return;
 
-  target.classList.remove('reveal');
+  if (target.classList.contains('case-row')) target.classList.remove('reveal');
   const root = document.documentElement;
   root.style.scrollBehavior = 'auto';
   target.scrollIntoView({ block: 'start' });
@@ -273,6 +294,144 @@ function initHashLanding() {
     target.scrollIntoView({ block: 'start' });
     root.style.scrollBehavior = '';
   }, { once: true });
+}
+
+/* =========================================================
+   FEEDBACK WIDGET
+   A "Feedback" pill pinned bottom-left on every page opens a small panel:
+   a 1-5 star rating, a comment, and an optional name. Rows go straight to
+   Supabase's REST API as insert-only, so visitors can send but never read.
+   ========================================================= */
+function initFeedback() {
+  if (!FEEDBACK_SUPABASE_URL || !FEEDBACK_SUPABASE_KEY) return;
+
+  const stars = [1, 2, 3, 4, 5].map((n) => `
+          <input type="radio" name="rating" id="fbStar${n}" value="${n}">
+          <label for="fbStar${n}" aria-label="${n} / 5"><i class="fa-solid fa-star" aria-hidden="true"></i></label>`).join('');
+
+  const root = document.createElement('div');
+  root.className = 'feedback';
+  root.innerHTML = `
+    <button type="button" class="feedback-toggle" aria-expanded="false" aria-controls="feedbackPanel">
+      <i class="fa-solid fa-star" aria-hidden="true"></i>
+      <span data-i18n="feedback.open">Feedback</span>
+    </button>
+    <form class="feedback-panel" id="feedbackPanel" role="dialog" aria-labelledby="feedbackTitle" hidden novalidate>
+      <div class="feedback-head">
+        <div>
+          <h2 class="feedback-title" id="feedbackTitle" data-i18n="feedback.title">Rate this portfolio</h2>
+          <p class="feedback-sub" data-i18n="feedback.subtitle">Only I can see what you send.</p>
+        </div>
+        <button type="button" class="feedback-close" data-i18n-aria-label="feedback.close" aria-label="Close">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+      <fieldset class="feedback-stars">
+        <legend class="sr-only" data-i18n="feedback.rating">Your rating</legend>
+        <div class="feedback-stars-row">${stars}
+        </div>
+      </fieldset>
+      <label class="feedback-label" for="fbComment" data-i18n="feedback.comment">Opinions or suggestions</label>
+      <textarea class="form-control feedback-comment" id="fbComment" name="comment" rows="4" maxlength="1000"
+        data-i18n-placeholder="feedback.commentPlaceholder"></textarea>
+      <label class="feedback-label" for="fbName" data-i18n="feedback.name">Name (optional)</label>
+      <input class="form-control" id="fbName" name="name" type="text" maxlength="60" autocomplete="name">
+      <input class="feedback-hp" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <p class="feedback-status" role="status"></p>
+      <button type="submit" class="btn-view-details feedback-send"><span data-i18n="feedback.send">Send feedback</span></button>
+    </form>`;
+  document.body.appendChild(root);
+
+  const toggle = root.querySelector('.feedback-toggle');
+  const panel = root.querySelector('.feedback-panel');
+  const status = root.querySelector('.feedback-status');
+  const sendBtn = root.querySelector('.feedback-send');
+
+  const setOpen = (open) => {
+    panel.hidden = !open;
+    toggle.setAttribute('aria-expanded', String(open));
+    root.classList.toggle('is-open', open);
+    if (open) panel.querySelector('input[name="rating"]').focus();
+  };
+  const close = () => {
+    setOpen(false);
+    toggle.focus();
+  };
+
+  toggle.addEventListener('click', () => setOpen(panel.hidden));
+  root.querySelector('.feedback-close').addEventListener('click', close);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !panel.hidden) close();
+  });
+  document.addEventListener('pointerdown', (e) => {
+    if (!panel.hidden && !root.contains(e.target)) setOpen(false);
+  });
+
+  const setStatus = (key, state = '') => {
+    status.textContent = getTranslation(key);
+    status.dataset.state = state;
+  };
+
+  panel.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = new FormData(panel);
+    if (data.get('website')) return; // honeypot: bots fill every field
+    const rating = Number(data.get('rating'));
+    if (!rating) {
+      setStatus('feedback.needRating', 'error');
+      return;
+    }
+
+    sendBtn.disabled = true;
+    setStatus('feedback.sending');
+    try {
+      const res = await fetch(`${FEEDBACK_SUPABASE_URL}/rest/v1/portfolio_feedback`, {
+        method: 'POST',
+        headers: {
+          apikey: FEEDBACK_SUPABASE_KEY,
+          Authorization: `Bearer ${FEEDBACK_SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          Prefer: 'return=minimal' // insert-only: the key can't read the row back
+        },
+        body: JSON.stringify({
+          rating,
+          comment: String(data.get('comment') || '').trim() || null,
+          name: String(data.get('name') || '').trim() || null,
+          page: location.pathname
+        })
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      panel.reset();
+      setStatus('feedback.thanks', 'success');
+    } catch (err) {
+      console.error('Feedback failed:', err);
+      setStatus('feedback.error', 'error');
+    } finally {
+      sendBtn.disabled = false;
+    }
+  });
+}
+
+/* =========================================================
+   PROJECTS PAGE: BACK LINK
+   Goes back to whichever page of this site you came from, at the spot you
+   left it. Opened directly (no same-site history), it keeps its href.
+   ========================================================= */
+function initBackLink() {
+  const back = document.querySelector('.projects-back');
+  if (!back) return;
+
+  back.addEventListener('click', (e) => {
+    let sameSite = false;
+    try {
+      sameSite = new URL(document.referrer).origin === location.origin;
+    } catch (err) {
+      // No referrer: fall through to the link's own href.
+    }
+    if (!sameSite || history.length < 2) return;
+    e.preventDefault();
+    history.back();
+  });
 }
 
 /* =========================================================

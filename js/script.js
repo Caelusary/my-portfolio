@@ -465,31 +465,14 @@ function initHeroShader() {
   const uniforms = {
     uTime: { value: 0 },
     uResolution: { value: new THREE.Vector2(1, 1) },
-    uMouse: { value: new THREE.Vector2(0.5, 0.5) },
-    // 0 = dark palette, 1 = light palette. Crossfades in animate() rather
-    // than snapping, so a theme toggle mid-scroll doesn't hard-cut.
-    uLight: { value: 0 }
+    uMouse: { value: new THREE.Vector2(0.5, 0.5) }
   };
-  let targetLight = 0;
 
-  // Matches the hero's own base color (--hero-bg-base) for the given theme.
-  // The renderer is opaque (alpha: false), so any pixel it hasn't drawn to
-  // yet — e.g. a drawing-buffer resize that briefly lags the canvas's
-  // displayed size — shows this color instead of defaulting to pure black,
-  // which would otherwise read as a visible seam against the rest of the
-  // hero.
-  function syncShaderTheme(renderNow) {
-    const isLight = !document.documentElement.classList.contains('dark');
-    targetLight = isLight ? 1 : 0;
-    renderer.setClearColor(isLight ? 0xf1effb : 0x0a0a1a, 1);
-    if (renderNow) {
-      uniforms.uLight.value = targetLight;
-      renderer.render(scene, camera);
-    }
-  }
-  syncShaderTheme(false);
-  new MutationObserver(() => syncShaderTheme(prefersReducedMotion))
-    .observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+  // The hero stays dark in both themes (it's built around a dark photo), so
+  // the shader always uses its dark palette. The renderer is opaque, so any
+  // pixel it hasn't drawn yet (e.g. mid-resize) shows the hero's base color
+  // instead of pure black, which would read as a seam.
+  renderer.setClearColor(0x0a0a1a, 1);
 
   const material = new THREE.ShaderMaterial({
     uniforms,
@@ -505,10 +488,9 @@ function initHeroShader() {
       uniform float uTime;
       uniform vec2 uResolution;
       uniform vec2 uMouse;
-      uniform float uLight;
       varying vec2 vUv;
 
-      vec3 paletteDark(float t) {
+      vec3 palette(float t) {
         vec3 c1 = vec3(0.039, 0.039, 0.102);
         vec3 c2 = vec3(0.424, 0.388, 1.0);
         vec3 c3 = vec3(0.0, 0.824, 1.0);
@@ -517,25 +499,6 @@ function initHeroShader() {
         col = mix(col, c3, smoothstep(0.35, 0.7, t));
         col = mix(col, c4, smoothstep(0.65, 1.0, t) * 0.5);
         return col;
-      }
-
-      // Same three-stop sweep, re-tuned for a light backdrop: base near
-      // --hero-bg-base instead of near-black, and the top highlight is a
-      // saturated purple instead of near-white (white would just vanish
-      // into a light base).
-      vec3 paletteLight(float t) {
-        vec3 c1 = vec3(0.945, 0.937, 0.984);
-        vec3 c2 = vec3(0.72, 0.69, 1.0);
-        vec3 c3 = vec3(0.55, 0.9, 1.0);
-        vec3 c4 = vec3(0.42, 0.35, 0.95);
-        vec3 col = mix(c1, c2, smoothstep(0.0, 0.4, t));
-        col = mix(col, c3, smoothstep(0.35, 0.7, t));
-        col = mix(col, c4, smoothstep(0.65, 1.0, t) * 0.5);
-        return col;
-      }
-
-      vec3 palette(float t) {
-        return mix(paletteDark(t), paletteLight(t), uLight);
       }
 
       float hash(vec2 p) {
@@ -626,7 +589,7 @@ function initHeroShader() {
   window.addEventListener('resize', remeasure, { passive: true });
 
   if (prefersReducedMotion) {
-    syncShaderTheme(true);
+    renderer.render(scene, camera);
     return;
   }
 
@@ -647,9 +610,6 @@ function initHeroShader() {
     // of snapping every mousemove event.
     uniforms.uMouse.value.x += (targetMouse.x - uniforms.uMouse.value.x) * 0.04;
     uniforms.uMouse.value.y += (targetMouse.y - uniforms.uMouse.value.y) * 0.04;
-    // Same lerp treatment for a light/dark theme toggle: crossfades the
-    // palette instead of hard-cutting mid-scroll.
-    uniforms.uLight.value += (targetLight - uniforms.uLight.value) * 0.05;
     renderer.render(scene, camera);
     rafId = requestAnimationFrame(animate);
   }

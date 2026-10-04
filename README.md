@@ -12,12 +12,14 @@ A cinematic personal portfolio for Zachary Scott (Full-Stack Developer & Creativ
 - **Scroll-reveal animations** (GSAP + ScrollTrigger) on section headings, project cards, and the contact card — fade/rise into view, with a `prefers-reduced-motion` override that disables all of it.
 - **Scroll progress bar** showing how far down the page you are.
 - **EN / Filipino language toggle** with a full translation dictionary (`js/translations.js`), persisted in `localStorage`, falling back to English for any untranslated string.
-- **Portfolio section** featuring three projects (Trip Planner, Twogether, Ambag) as one full-width glass row of expanding panels, each on its app's brand colors with its logo. A light sweep crosses the row once when it scrolls into view. On hover-capable screens, hovering a panel widens it, dims the other two, and plays a short recording of the app full-bleed (`project-videos/`); leaving stops and rewinds it. Touch screens show each panel's summary and tags instead, and phones get a swipeable row. Each panel links straight to that project on the projects page, which opens already scrolled to it, and a **View all projects** button beside the heading links to the full list.
-- **Projects page** (`projects.html`) listing all six projects as alternating case-study rows: a screenshot gallery (thumbnails swap the main image), role and duration, description, feature list, tech badges, and Live Demo / GitHub links. Filter chips narrow the list to Full Stack, Frontend, or In Progress (one swipeable row on phones), and a closing "Like what you see?" call to action links to the contact form.
+- **Portfolio section** featuring three projects (Trip Planner, Twogether, Ambag) as one full-width glass row of expanding panels, each on its app's brand colors with its logo. A light sweep crosses the row once when it scrolls into view. On hover-capable screens, hovering a panel widens it and dims the other two; resting on it for 0.7s plays a short recording of the app full-bleed (`project-videos/`), and leaving stops and rewinds it. Touch screens show each panel's summary and tags instead, and phones get a swipeable row. Each panel links straight to that project on the projects page, which opens already scrolled to it, and a **View all projects** button beside the heading links to the full list.
+- **Projects page** (`projects.html`) listing all six projects as alternating case-study rows: a screenshot gallery (thumbnails swap the main image), role and duration, description, feature list, tech badges, and Live Demo / GitHub links. Filter chips narrow the list to Full Stack, Frontend, or In Progress (one swipeable row on phones), and a closing "Like what you see?" call to action links to the contact form. Its **Back** link returns to whichever page of the site you came from, at the spot you left it.
 - **About section** with a portrait tinted in the site palette beside the bio (stacked on phones), a real skills badge row, View/Download CV buttons (linking to an actual PDF résumé), and a Certifications area listing completed certificates (with links to the real certificate PDFs where available) plus certifications currently in progress.
 - **Contact form** ("Get In Touch") with real-time client-side validation (valid/invalid field styling as you type or blur) and submission via the [EmailJS](https://www.emailjs.com/) browser SDK (`emailjs.sendForm`). Success and error alerts are shown after submission attempts.
 - **Footer** with social links (Facebook, GitHub, Instagram, WordPress, phone) and quick navigation.
 - **Back-to-top button** that appears after scrolling and smooth-scrolls back to the top.
+- **Feedback widget**: a "Feedback" pill pinned bottom-left on both pages opens a panel with a 1-5 star rating, an opinions/suggestions box, and an optional name. Entries go straight into a Supabase table that visitors can insert into but never read; only the project owner sees them, in the Supabase dashboard.
+- **Page transitions**: moving between the home and projects pages cross-fades with a slight rise while the nav stays put (cross-document view transitions; browsers without them switch instantly). Links to a section, like `index.html#contact`, land on it directly.
 - **Auto-updating copyright year** in the footer.
 - **Accessibility touches**: a skip-to-content link, visible focus outlines, `aria-*` attributes on interactive elements, lazy-loaded below-the-fold images, and every motion-heavy feature (cursor, banner light sweep, project recordings, cursor glow, particles, shader animation, click ripple) gracefully skipped under `prefers-reduced-motion` or on touch devices.
 
@@ -56,6 +58,10 @@ portfolio/
 ├── images/                 # Hero and About portraits (WebP, two sizes each), link preview images, favicon
 ├── project-screenshots/    # Real screenshots used in the project cards and galleries
 ├── project-videos/         # Short app recordings (MP4 + poster) played in the home page panels
+├── supabase/
+│   └── feedback.sql        # Insert-only feedback table and its row-level security policy
+├── .github/workflows/
+│   └── keep-supabase-awake.yml  # Pings the Supabase project every 3 days so the free tier doesn't pause it
 └── about-me/                # Real CV and certification PDFs linked from the About section
 ```
 
@@ -92,6 +98,19 @@ const EMAILJS_TEMPLATE_ID = 'template_5hyd0k3';
 ```
 
 To use the form with your own EmailJS account, replace these three values with your own public key, service ID, and template ID from your [EmailJS dashboard](https://dashboard.emailjs.com/).
+
+## Feedback widget setup (Supabase)
+
+The widget posts to Supabase's REST API with a project URL and **publishable** key, set at the top of `js/script.js`:
+
+```js
+const FEEDBACK_SUPABASE_URL = 'https://btxzksfrjzhrsykjdhil.supabase.co';
+const FEEDBACK_SUPABASE_KEY = 'sb_publishable_...';
+```
+
+The table lives in the same Supabase project as Trip Planner. The publishable key is meant to be public: `supabase/feedback.sql` creates `portfolio_feedback` with row-level security that lets that key insert rows and nothing else, so it can't read, edit, or delete feedback. Read entries in the Supabase dashboard under Table Editor, `portfolio_feedback`. To use your own project, run `supabase/feedback.sql` in its SQL Editor, swap in its URL and publishable key, and update the URL in `.github/workflows/keep-supabase-awake.yml`. Leaving either value empty hides the widget.
+
+Free Supabase projects pause after about a week without activity, so the GitHub Action makes one tiny read every 3 days. GitHub disables scheduled workflows in repositories with no commits for 60 days; re-enable it under the repository's Actions tab if that happens.
 
 ## Live site
 

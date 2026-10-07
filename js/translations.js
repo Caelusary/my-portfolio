@@ -31,6 +31,8 @@ const translations = {
   'portfolio.title': { en: 'My Projects', tl: 'Aking mga Proyekto' },
   'portfolio.eyebrow': { en: 'Selected work', tl: 'Mga piling gawa' },
   'portfolio.viewAll': { en: 'View all projects', tl: 'Tingnan ang lahat ng proyekto' },
+  'portfolio.hintHover': { en: 'Hover to preview', tl: 'I-hover para makita' },
+  'portfolio.hintHold': { en: 'Hold to preview', tl: 'Pindutin nang matagal para makita' },
 
   // Projects page
   'projects.back': { en: 'Back', tl: 'Bumalik' },

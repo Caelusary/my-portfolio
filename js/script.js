@@ -240,12 +240,16 @@ function initShowcaseShine() {
 
 /* =========================================================
    HOME: PANEL RECORDINGS
-   Resting on a panel for PLAY_DELAY plays its recording from the start, so
-   sweeping the mouse across the row doesn't set videos off. Leaving stops
-   and rewinds it. Hover only: touch screens keep the logo and summary.
-   Nothing plays with reduced motion.
+   One panel plays at a time, from the start, full-bleed (.is-playing).
+   Laptops: resting the mouse on a panel for HOVER_DELAY; leaving stops it.
+   Touch screens: holding a finger on a panel for HOLD_DELAY (a ring fills
+   around the hint while you hold), or a panel resting mostly on screen for
+   DWELL_DELAY. Scrolling it away stops it. A hold never also opens the link.
+   Reduced motion: hover and dwell never play; a deliberate hold still does.
    ========================================================= */
-const PLAY_DELAY = 700;
+const HOVER_DELAY = 700;
+const HOLD_DELAY = 450;
+const DWELL_DELAY = 2500;
 
 function initShowcaseVideos() {
   const panels = [...document.querySelectorAll('.panel')].filter((p) => p.querySelector('video'));
@@ -254,24 +258,90 @@ function initShowcaseVideos() {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   const hoverable = window.matchMedia('(hover: hover) and (min-width: 768px)');
 
+  const stop = (panel) => {
+    const video = panel.querySelector('video');
+    clearTimeout(panel._dwell);
+    panel.classList.remove('is-playing', 'is-holding');
+    video.pause();
+    video.currentTime = 0;
+  };
+  const play = (panel) => {
+    panels.forEach((other) => other !== panel && other.classList.contains('is-playing') && stop(other));
+    const video = panel.querySelector('video');
+    video.preload = 'auto';
+    panel.classList.add('is-playing');
+    video.play().catch(() => {});
+  };
+
   panels.forEach((panel) => {
     const video = panel.querySelector('video');
-    let timer;
-    panel.addEventListener('pointerenter', () => {
-      if (!hoverable.matches || reduce.matches) return;
+    panel.style.setProperty('--hold-time', `${HOLD_DELAY}ms`);
+
+    // Laptops: hover.
+    let hoverTimer;
+    panel.addEventListener('pointerenter', (e) => {
+      if (e.pointerType !== 'mouse' || !hoverable.matches || reduce.matches) return;
       video.preload = 'auto'; // start fetching during the delay
-      timer = setTimeout(() => {
-        panel.classList.add('is-playing');
-        video.play().catch(() => {});
-      }, PLAY_DELAY);
+      hoverTimer = setTimeout(() => play(panel), HOVER_DELAY);
     });
-    panel.addEventListener('pointerleave', () => {
-      clearTimeout(timer);
-      panel.classList.remove('is-playing');
-      video.pause();
-      video.currentTime = 0;
+    panel.addEventListener('pointerleave', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      clearTimeout(hoverTimer);
+      stop(panel);
+    });
+
+    // Touch: press and hold.
+    let holdTimer;
+    let held = false;
+    let start = null;
+    const cancelHold = () => {
+      clearTimeout(holdTimer);
+      panel.classList.remove('is-holding');
+      start = null;
+    };
+    panel.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'mouse') return;
+      held = false;
+      start = { x: e.clientX, y: e.clientY };
+      video.preload = 'auto';
+      panel.classList.add('is-holding');
+      holdTimer = setTimeout(() => {
+        held = true;
+        panel.classList.remove('is-holding');
+        play(panel);
+      }, HOLD_DELAY);
+    });
+    panel.addEventListener('pointermove', (e) => {
+      // A swipe or scroll isn't a hold.
+      if (start && Math.hypot(e.clientX - start.x, e.clientY - start.y) > 10) cancelHold();
+    });
+    ['pointerup', 'pointercancel'].forEach((type) => panel.addEventListener(type, cancelHold));
+    panel.addEventListener('click', (e) => {
+      if (!held) return;
+      e.preventDefault(); // the hold was to watch, not to open the project
+      held = false;
+    });
+    // A long press would otherwise open the browser's link menu.
+    panel.addEventListener('contextmenu', (e) => {
+      if (!hoverable.matches) e.preventDefault();
     });
   });
+
+  // Touch: a panel that rests mostly on screen plays after a moment; one that
+  // leaves stops.
+  if (!('IntersectionObserver' in window)) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(({ target: panel, isIntersecting }) => {
+      clearTimeout(panel._dwell);
+      if (!isIntersecting) {
+        if (panel.classList.contains('is-playing')) stop(panel);
+        return;
+      }
+      if (hoverable.matches || reduce.matches) return;
+      panel._dwell = setTimeout(() => play(panel), DWELL_DELAY);
+    });
+  }, { threshold: 0.75 });
+  panels.forEach((panel) => observer.observe(panel));
 }
 
 /* =========================================================

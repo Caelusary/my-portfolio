@@ -128,7 +128,7 @@ const translations = {
   'screenshot.weatherMap': { en: 'Weather Map', tl: 'Mapa ng Panahon' },
   'screenshot.forecast': { en: 'Forecast', tl: 'Pagtataya ng Panahon' },
   'screenshot.moodCheckin': { en: 'Mood Check-in', tl: 'Pag-check ng Mood' },
-  'screenshot.signupPairing': { en: 'Sign Up & Pairing', tl: 'Pagpaparehistro at Pagpapares' },
+  'screenshot.playground': { en: 'Playground', tl: 'Palaruan' },
   'screenshot.lobby': { en: 'Lobby', tl: 'Lobby' },
   'screenshot.searchResults': { en: 'Search Results', tl: 'Mga Resulta ng Paghahanap' },
   'screenshot.bookDetails': { en: 'Book Details', tl: 'Detalye ng Libro' },

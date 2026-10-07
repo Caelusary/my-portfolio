@@ -1083,8 +1083,11 @@ html:not(.dark) #mainNav.nav-solid {
 .panel-brand {
   position: absolute;
   inset: 0;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1rem;
   padding-bottom: 14%;
   transition: opacity 350ms ease, transform 600ms cubic-bezier(0.23, 1, 0.32, 1);
 }
@@ -1144,62 +1147,131 @@ html:not(.dark) #mainNav.nav-solid {
   white-space: nowrap;
 }
 
-/* The summary shows where there's no hover (touch screens, phones). On
-   hover-capable desktops the panel opens to the recording instead. */
-.panel-more {
-  display: block;
-}
-
-.panel-desc {
-  display: block;
-  max-width: 40ch;
-  margin-top: 0.75rem;
-  font-size: 0.95rem;
-  line-height: 1.55;
-  opacity: 0.85;
-}
-
-.panel-tags {
+/* "Hover to preview" / "Hold to preview": a round hand icon with a small mono
+   caption under the logo, after Loadout's own "Drag to turn" hint. Only the
+   caption for the current kind of screen shows. */
+.panel-hint {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-top: 1rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.panel-tag {
-  padding: 0.3em 0.7em;
-  border-radius: 999px;
+.panel-hint-icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 50%;
+  font-size: 0.95rem;
+  color: var(--panel-fg);
+  background: color-mix(in srgb, var(--panel-fg) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--panel-fg) 22%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* A slow ring that pulses out of the icon, so the hint reads as "try me". */
+.panel-hint-icon::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--panel-accent, #fff) 70%, transparent);
+  animation: panel-hint-pulse 2.4s ease-out infinite;
+}
+
+@keyframes panel-hint-pulse {
+  0% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+
+/* While a finger is held down, a ring fills around the icon until it plays. */
+.panel-hint-icon::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: conic-gradient(var(--panel-accent, #fff) var(--hold, 0turn), transparent 0);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
+  opacity: 0;
+}
+
+.panel.is-holding .panel-hint-icon::after {
+  opacity: 1;
+  animation: panel-hold-fill var(--hold-time, 450ms) linear forwards;
+}
+
+@property --hold {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0turn;
+}
+
+@keyframes panel-hold-fill {
+  to {
+    --hold: 1turn;
+  }
+}
+
+.panel-hint-label {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.72rem;
-  font-weight: 500;
-  white-space: nowrap;
-  background: color-mix(in srgb, currentColor 10%, transparent);
-  border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--panel-fg) 70%, transparent);
 }
 
-/* Hover only (hover-capable screens). The panel widens at once; after a
-   short rest (.is-playing, set by initShowcaseVideos) the logo and text give
-   way and the recording plays full-bleed with nothing over it. */
+.panel-hint-label[data-when="hover"] {
+  display: none;
+}
+
 @media (hover: hover) and (min-width: 768px) {
-  .panel-more {
+  .panel-hint-label[data-when="hover"] {
+    display: inline;
+  }
+
+  .panel-hint-label[data-when="touch"] {
     display: none;
   }
+}
 
+/* Playing (.is-playing, set by initShowcaseVideos on any device): the logo,
+   hint and title give way and the recording plays full-bleed. */
+.panel.is-playing .panel-video {
+  opacity: 1;
+}
+
+.panel.is-playing .panel-brand {
+  opacity: 0;
+  transform: scale(0.92);
+}
+
+.panel.is-playing .panel-body {
+  opacity: 0;
+  transform: translateY(0.75rem);
+}
+
+/* Touch: a long press must not open the browser's link menu or select text. */
+.panel {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Hover (laptops): the panel widens at once and the others dim; the
+   recording starts after a short rest. */
+@media (hover: hover) and (min-width: 768px) {
   .panel:hover {
     flex-grow: 2.2;
-  }
-
-  .panel.is-playing .panel-video {
-    opacity: 1;
-  }
-
-  .panel.is-playing .panel-brand {
-    opacity: 0;
-    transform: scale(0.92);
-  }
-
-  .panel.is-playing .panel-body {
-    opacity: 0;
-    transform: translateY(0.75rem);
   }
 
   .showcase-track:hover .panel:not(:hover) {
@@ -1214,6 +1286,19 @@ html:not(.dark) #mainNav.nav-solid {
   .panel-body {
     transition: none;
   }
+
+  .panel-hint-icon::before {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* Hover never plays with reduced motion, so don't promise it. Holding on a
+   touch screen is a deliberate request and still plays. */
+@media (prefers-reduced-motion: reduce) and (hover: hover) and (min-width: 768px) {
+  .panel-hint {
+    display: none;
+  }
 }
 
 .panel:focus-visible {
@@ -1221,8 +1306,8 @@ html:not(.dark) #mainNav.nav-solid {
   outline-offset: -2px;
 }
 
-/* Phones and narrow tablets: a swipeable row of tall cards, the next one
-   peeking in from the right so it's clear there's more. */
+/* Phones: the same panels as a swipeable row, the next one peeking in from
+   the right so it's clear there's more. */
 @media (max-width: 767px) {
   .showcase-track {
     height: auto;

@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initProjectFilter,
     initCaseGallery,
     initContactForm,
+    initCertStack,
     initBackToTop,
     initCopyrightYear
   ].forEach((fn) => {
@@ -294,6 +295,89 @@ function initHashLanding() {
     target.scrollIntoView({ block: 'start' });
     root.style.scrollBehavior = '';
   }, { once: true });
+}
+
+/* =========================================================
+   CERTIFICATE STACK
+   Rotates every CERT_INTERVAL: the front card fades out and the rest move up
+   one place. Pauses while hovered, focused, off screen, or in a background
+   tab, and never auto-rotates with reduced motion. Prev/next buttons, dots,
+   arrow keys and horizontal swipes move it by hand.
+   ========================================================= */
+const CERT_INTERVAL = 4000;
+
+function initCertStack() {
+  const stack = document.querySelector('[data-cert-stack]');
+  if (!stack) return;
+  const slides = [...stack.querySelectorAll('.cert-slide')];
+  const dots = [...stack.querySelectorAll('.cert-dot')];
+  const n = slides.length;
+  if (!n) return;
+
+  let current = 0;
+  let outTimer;
+  const render = (leaving) => {
+    slides.forEach((slide, i) => {
+      const pos = (i - current + n) % n;
+      const isOut = i === leaving;
+      slide.dataset.pos = isOut ? 'out' : pos <= 2 ? String(pos) : 'hidden';
+      const front = pos === 0 && !isOut;
+      slide.inert = !front;
+      slide.setAttribute('aria-hidden', String(!front));
+    });
+    dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === current)));
+  };
+  const go = (next) => {
+    const leaving = current;
+    current = (next + n) % n;
+    if (current === leaving) return;
+    render(leaving);
+    clearTimeout(outTimer);
+    // Once the fade has finished, the old front card joins the back of the queue.
+    outTimer = setTimeout(() => render(), 650);
+  };
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let timer;
+  let hovered = false;
+  let focused = false;
+  let visible = false;
+  const schedule = () => {
+    clearInterval(timer);
+    if (reduce.matches || hovered || focused || !visible || document.hidden) return;
+    timer = setInterval(() => go(current + 1), CERT_INTERVAL);
+  };
+
+  stack.querySelector('[data-cert-prev]').addEventListener('click', () => { go(current - 1); schedule(); });
+  stack.querySelector('[data-cert-next]').addEventListener('click', () => { go(current + 1); schedule(); });
+  dots.forEach((dot, i) => dot.addEventListener('click', () => { go(i); schedule(); }));
+  stack.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') go(current - 1);
+    else if (e.key === 'ArrowRight') go(current + 1);
+  });
+
+  let startX = null;
+  const cards = stack.querySelector('.cert-stack-cards');
+  cards.addEventListener('pointerdown', (e) => { startX = e.clientX; });
+  cards.addEventListener('pointerup', (e) => {
+    if (startX === null) return;
+    const dx = e.clientX - startX;
+    startX = null;
+    if (Math.abs(dx) > 40) { go(current + (dx < 0 ? 1 : -1)); schedule(); }
+  });
+
+  stack.addEventListener('pointerenter', () => { hovered = true; schedule(); });
+  stack.addEventListener('pointerleave', () => { hovered = false; schedule(); });
+  stack.addEventListener('focusin', () => { focused = true; schedule(); });
+  stack.addEventListener('focusout', (e) => {
+    if (!stack.contains(e.relatedTarget)) { focused = false; schedule(); }
+  });
+  document.addEventListener('visibilitychange', schedule);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; schedule(); }, { threshold: 0.4 }).observe(stack);
+  }
+
+  render();
 }
 
 /* =========================================================

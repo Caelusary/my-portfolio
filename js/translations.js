@@ -49,34 +49,28 @@ const translations = {
   'filter.all': { en: 'All', tl: 'Lahat' },
   'filter.fullstack': { en: 'Full Stack', tl: 'Full Stack' },
   'filter.frontend': { en: 'Frontend', tl: 'Frontend' },
-  'filter.inProgress': { en: 'In Progress', tl: 'Isinasagawa' },
-  'project.trip.desc': {
-    en: 'A full-stack trip planner with accounts, multi-city itineraries, per-destination weather forecasts, and a 3D attraction carousel.',
-    tl: 'Isang full-stack na trip planner na may account, itinerary sa maraming lungsod, weather forecast bawat destinasyon, at 3D na carousel ng mga atraksyon.'
-  },
-  'project.weather.desc': {
-    en: 'An interactive weather dashboard with live maps, 5-day forecasts, and dynamic time-of-day backgrounds.',
-    tl: 'Isang interactive na weather dashboard na may live maps, 5-araw na forecast, at dynamic na background base sa oras ng araw.'
-  },
-  'project.mood.desc': {
-    en: 'A full-stack couples app for mood tracking, playful mini-games, and shared photo memories.',
-    tl: 'Isang full-stack na app para sa magkasintahan na may mood tracking, masasayang mini-games, at magkasamang alaala sa larawan.'
-  },
-  'project.shelf.desc': {
-    en: 'A React book search app powered by the Open Library API, with live suggestions, scoped search, and sorting.',
-    tl: 'Isang React na app para sa paghahanap ng libro gamit ang Open Library API, na may live na suggestion, scoped na paghahanap, at pag-sort.'
-  },
-  'project.budgy.desc': {
-    en: 'A personal budget tracker with category limits, recurring entries, spending summaries, and a savings goal.',
-    tl: 'Isang personal na budget tracker na may limit bawat kategorya, paulit-ulit na entry, buod ng gastos, at savings goal.'
-  },
-  'project.ambag.desc': {
-    en: 'A group-project tracker where a task only counts as done once proof is attached, backed by an immutable activity log.',
-    tl: 'Isang tracker para sa group project kung saan tapos lang ang task kapag may kalakip na patunay, kasama ang activity log na hindi nababago.'
-  },
-
-  // About section
-  'about.title': { en: 'About Me', tl: 'Tungkol sa Akin' },
+  'project.trip.desc': { en: 'A trip planner with private accounts, multi-city itineraries, a five-day forecast and weather-based suggestions for every stop, and a 3D attraction carousel.', tl: 'Isang trip planner na may pribadong account, itinerary sa maraming lungsod, 5-araw na forecast at mungkahi base sa panahon sa bawat hinto, at 3D na carousel ng mga pasyalan.' },
+  'project.mood.desc': { en: 'A private home for couples: pair with an invite code, share how you feel each day, play in a little playground, and keep a shared photo gallery.', tl: 'Isang pribadong tahanan para sa magkasintahan: mag-pair gamit ang invite code, ibahagi ang nararamdaman araw-araw, maglaro sa maliit na playground, at magtabi ng shared na photo gallery.' },
+  'project.shelf.desc': { en: 'A book search on the Open Library API with debounced suggestions, scoped search, sorting, and a page for every book.', tl: 'Isang paghahanap ng libro gamit ang Open Library API na may debounced na mungkahi, scoped na paghahanap, pag-sort, at sariling pahina para sa bawat libro.' },
+  'project.budgy.desc': { en: 'A budget tracker that lives in your browser: a limit for every category, entries that repeat on their own, a clear picture of where the money goes, and a bamboo that grows toward your savings goal.', tl: 'Isang budget tracker na nasa browser mo: may limit ang bawat kategorya, may mga entry na kusang umuulit, malinaw kung saan napupunta ang pera, at may kawayang lumalaki papunta sa savings goal mo.' },
+  'project.loadout.desc': { en: 'A multi-shop marketplace for PC peripherals: shoppers filter by real specs, check out from several shops at once, and turn every product in 3D.', tl: "Isang marketplace ng PC peripherals mula sa iba't ibang shop: nagfi-filter ayon sa totoong specs, isang checkout para sa ilang shop, at bawat produkto ay naiikot sa 3D." },
+  'project.cloud.desc': { en: "A weather app with an animated sky that follows each city's conditions and time of day, a five-day forecast, a live world map, and five languages.", tl: 'Isang weather app na may animated na langit na sumusunod sa panahon at oras ng bawat lungsod, 5-araw na forecast, live na mapa ng mundo, at limang wika.' },
+  'loadout.feature.1': { en: 'Spec-first catalog: switch type, layout, DPI and connectivity are all filters', tl: 'Catalog na nakabase sa specs: filter ang switch type, layout, DPI at connectivity' },
+  'loadout.feature.2': { en: '3D category stage on the homepage and a 3D view on every product', tl: '3D na stage ng mga kategorya sa homepage at 3D view sa bawat produkto' },
+  'loadout.feature.3': { en: 'One checkout split into one order per shop, inside a database transaction', tl: 'Isang checkout na hinahati sa tig-isang order bawat shop, sa loob ng database transaction' },
+  'loadout.feature.4': { en: 'Seller dashboard with product photos cut out in the browser', tl: 'Seller dashboard na tinatanggal ang background ng litrato sa browser mismo' },
+  'loadout.feature.5': { en: 'Admin approvals and moderation, every action logged and undoable', tl: 'Pag-apruba at moderasyon ng admin, bawat aksyon ay naka-log at puwedeng i-undo' },
+  'cloud.feature.1': { en: 'Search any city, with recent searches and your last city remembered', tl: 'Maghanap ng kahit anong lungsod; naaalala ang mga huling hinanap' },
+  'cloud.feature.2': { en: 'Five-day forecast plus a details panel that explains each reading', tl: '5-araw na forecast at panel na nagpapaliwanag sa bawat sukat' },
+  'cloud.feature.3': { en: 'Explore map with a temperature-coloured pin for every city', tl: 'Explore map na may pin na kulay-temperatura para sa bawat lungsod' },
+  'cloud.feature.4': { en: '°C/°F and five languages, switched without refetching', tl: '°C/°F at limang wika, napapalitan nang hindi nagre-refetch' },
+  'cloud.feature.5': { en: 'Animated sky driven by real weather, sunrise and sunset', tl: 'Animated na langit base sa totoong panahon, pagsikat at paglubog ng araw' },
+  'role.fullStackPm': { en: 'Full Stack Developer & Project Manager', tl: 'Full Stack Developer at Project Manager' },
+  'duration.threeWeeks': { en: '3 weeks', tl: '3 linggo' },
+  'screenshot.home3d': { en: 'Home & 3D Stage', tl: 'Home at 3D Stage' },
+  'screenshot.specFilters': { en: 'Spec Filters', tl: 'Mga Filter ng Specs' },
+  'screenshot.productPage': { en: 'Product Page', tl: 'Pahina ng Produkto' },
+  'project.ambag.desc': { en: 'A group-project tracker where a task only counts as done once proof is attached, with leader review, a live activity log, and a read-only view for the professor.', tl: 'Isang tracker para sa group project kung saan tapos lang ang task kapag may patunay, may review ng leader, live na activity log, at read-only na view para sa propesor.' },
   'about.text': {
     en: "I'm a 3rd year BS Computer Science student at De La Salle Lipa who enjoys turning ideas into clean, functional web experiences. I love working across the stack, from crafting responsive interfaces to wiring up APIs and databases, and I'm always looking for the next interesting problem to solve.",
     tl: 'Ako ay isang 3rd year BS Computer Science na estudyante sa De La Salle Lipa na mahilig gumawa ng malinis at functional na karanasan sa web mula sa mga simpleng ideya. Mahilig akong magtrabaho sa buong stack, mula sa paggawa ng responsive na interface hanggang sa pag-set up ng mga API at database, at lagi akong naghahanap ng susunod na kawili-wiling problema na lulutasin.'
@@ -84,6 +78,8 @@ const translations = {
   'about.viewCv': { en: 'View CV', tl: 'Tingnan ang CV' },
   'about.downloadCv': { en: 'Download CV', tl: 'I-download ang CV' },
   'about.certTitle': { en: 'Certifications', tl: 'Mga Sertipiko' },
+  'about.certPrev': { en: 'Previous certificate', tl: 'Nakaraang sertipiko' },
+  'about.certNext': { en: 'Next certificate', tl: 'Susunod na sertipiko' },
   'about.certInProgress': { en: 'Currently Working Toward', tl: 'Kasalukuyang Tinatapos' },
   'about.viewCert': { en: 'View Certificate', tl: 'Tingnan ang Sertipiko' },
   'about.inProgress': { en: 'In Progress', tl: 'Isinasagawa' },
@@ -116,7 +112,6 @@ const translations = {
   'duration.twoWeeks': { en: '2 weeks', tl: '2 linggo' },
   'duration.twoMonths': { en: '2 months', tl: '2 buwan' },
   'duration.oneMonth': { en: '1 month', tl: '1 buwan' },
-  'duration.ongoing': { en: 'Ongoing', tl: 'Kasalukuyang ginagawa' },
   'role.frontendDev': { en: 'Frontend Developer', tl: 'Frontend Developer' },
   'role.fullStackDev': { en: 'Full Stack Developer', tl: 'Full Stack Developer' },
 
@@ -147,10 +142,6 @@ const translations = {
   'trip.feature.5': { en: 'Saved attractions, trip history, and shareable trip links', tl: 'Mga naka-save na atraksyon, kasaysayan ng biyahe, at link ng biyaheng puwedeng i-share' },
 
   // Weather Dashboard features
-  'weather.feature.1': { en: 'Search weather by city', tl: 'Maghanap ng panahon ayon sa lungsod' },
-  'weather.feature.2': { en: '5-day forecast view', tl: '5-araw na pagtataya ng panahon' },
-  'weather.feature.3': { en: 'Interactive weather map', tl: 'Interactive na mapa ng panahon' },
-  'weather.feature.4': { en: 'Dynamic time-of-day backgrounds', tl: 'Dynamic na background base sa oras ng araw' },
 
   // Twogether features
   'mood.feature.1': { en: 'Couple signup and pairing', tl: 'Pagpaparehistro at pagpapares ng magkasintahan' },
@@ -164,24 +155,15 @@ const translations = {
   'shelf.feature.2': { en: 'Search everything, titles only, or authors only', tl: 'Maghanap sa lahat, sa pamagat lang, o sa may-akda lang' },
   'shelf.feature.3': { en: 'Sort by relevance, newest, or rating', tl: 'I-sort ayon sa relevance, pinakabago, o rating' },
   'shelf.feature.4': { en: 'Back button returns to the exact result set you came from', tl: 'Ibinabalik ka ng back button sa mismong resultang pinanggalingan mo' },
-  'shelf.feature.5': { en: 'Skeleton loading cards that keep the layout stable', tl: 'Skeleton loading cards para hindi gumalaw ang layout' },
-
-  // Budgy features
-  'budgy.feature.1': { en: 'Log income and expenses by category', tl: 'Itala ang kita at gastos ayon sa kategorya' },
-  'budgy.feature.2': { en: 'Monthly limit for every spending category', tl: 'Buwanang limit sa bawat kategorya ng gastos' },
-  'budgy.feature.3': { en: 'Recurring entries that post automatically', tl: 'Paulit-ulit na entry na awtomatikong naitatala' },
-  'budgy.feature.4': { en: 'Spending breakdown by category', tl: 'Hati-hati ng gastos ayon sa kategorya' },
-  'budgy.feature.5': { en: 'Savings goal with a bamboo progress meter', tl: 'Savings goal na may bamboo na progress meter' },
-
-  // Ambag features
-  'ambag.feature.1': { en: 'Claim open tasks from a shared pool', tl: 'Kumuha ng bukas na task mula sa shared pool' },
+  'shelf.feature.5': { en: 'A page for every book, with skeleton cards that keep the layout steady while loading', tl: 'Sariling pahina para sa bawat libro, may skeleton card na nagpapanatiling steady ng layout habang naglo-load' },
+  'budgy.feature.2': { en: 'A monthly limit for each of the twelve spending categories, with warnings when one runs over', tl: 'Buwanang limit para sa bawat isa sa labindalawang kategorya ng gastos, may babala kapag lumampas' },
+  'budgy.feature.3': { en: 'Recurring rules that post themselves monthly or on chosen weekdays', tl: 'Mga recurring rule na kusang nagpo-post buwan-buwan o sa piniling araw' },
+  'budgy.feature.4': { en: 'Spending donut with month-over-month change, in light and dark themes', tl: 'Donut ng gastos na may pagbabago bawat buwan, sa light at dark na tema' },
+  'budgy.feature.5': { en: 'Undo for deletions, a full activity log, and CSV export', tl: 'Undo sa pagbura, kumpletong activity log, at CSV export' },
   'ambag.feature.2': { en: 'Completion requires proof: a file, link, or text', tl: 'Kailangan ng patunay para matapos: file, link, o text' },
-  'ambag.feature.3': { en: 'Leader accepts or rejects proof, with a required reason on rejection', tl: 'Tinatanggap o tinatanggihan ng leader ang patunay, at kailangan ng dahilan kapag tinanggihan' },
-  'ambag.feature.4': { en: 'Per-member ledger of on-time, late, and overdue work', tl: 'Ledger ng bawat miyembro para sa on-time, late, at overdue na gawa' },
-  'ambag.feature.5': { en: 'Revocable read-only share links for a professor', tl: 'Read-only na share link para sa propesor na puwedeng bawiin' },
-
-  // Footer
-  'footer.rights': { en: 'All Rights Reserved.', tl: 'Nakalaan ang Lahat ng Karapatan.' },
+  'ambag.feature.3': { en: 'Leader accepts or rejects proof, with a required reason on rejection', tl: 'Tinatanggap o tinatanggihan ng leader ang patunay, may kailangang dahilan kapag tinanggihan' },
+  'ambag.feature.4': { en: 'Per-member ledger of on-time, late, and overdue work', tl: 'Ledger ng bawat miyembro para sa on-time, late, at overdue na trabaho' },
+  'ambag.feature.5': { en: 'Live updates between teammates, plus a demo that needs no account', tl: 'Live na updates sa pagitan ng magkakagrupo, at demo na hindi kailangan ng account' },
   'footer.builtWith': { en: 'Built with ❤️ and a lot of coffee.', tl: 'Ginawa nang may ❤️ at maraming kape.' },
 
   // Feedback widget

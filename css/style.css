@@ -125,7 +125,9 @@ textarea:focus-visible {
   top: 0;
   left: 0;
   height: 3px;
-  width: 0%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
   background: linear-gradient(90deg, var(--accent), var(--accent-cyan));
   z-index: 2000;
   pointer-events: none;
@@ -1168,8 +1170,6 @@ html:not(.dark) #mainNav.nav-solid {
   color: var(--panel-fg);
   background: color-mix(in srgb, var(--panel-fg) 10%, transparent);
   border: 1px solid color-mix(in srgb, var(--panel-fg) 22%, transparent);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 
 /* A slow ring that pulses out of the icon, so the hint reads as "try me". */
@@ -2490,6 +2490,35 @@ html.dark .alert-danger {
 }
 
 /* =========================================================
+   TOUCH-SCREEN PERFORMANCE
+   Fixed elements with backdrop blur repaint the blur on every scroll frame,
+   which phones feel as stutter. There they get a near-opaque fill instead.
+   ========================================================= */
+@media (hover: none), (max-width: 767px) {
+  #mainNav,
+  #mainNav.nav-scrolled,
+  #mainNav.nav-solid,
+  .feedback-toggle {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  #mainNav.nav-scrolled,
+  #mainNav.nav-solid {
+    background-color: rgba(10, 10, 26, 0.95);
+  }
+
+  html:not(.dark) #mainNav.nav-scrolled,
+  html:not(.dark) #mainNav.nav-solid {
+    background-color: rgba(248, 248, 253, 0.97);
+  }
+
+  .feedback-toggle {
+    background: rgba(10, 10, 26, 0.92);
+  }
+}
+
+/* =========================================================
    PAGE TRANSITIONS
    Moving between index.html and projects.html cross-fades the page with a
    slight rise, while the nav stays put. Uses cross-document view
@@ -2515,7 +2544,6 @@ html.dark .alert-danger {
   to {
     opacity: 0;
     transform: translateY(-10px);
-    filter: blur(6px);
   }
 }
 
@@ -2523,7 +2551,6 @@ html.dark .alert-danger {
   from {
     opacity: 0;
     transform: translateY(16px);
-    filter: blur(6px);
   }
 }
 

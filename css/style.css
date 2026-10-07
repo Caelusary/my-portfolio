@@ -1325,6 +1325,15 @@ html:not(.dark) #mainNav.nav-solid {
     min-height: 26rem;
     scroll-snap-align: start;
   }
+
+  /* A tall card would crop a wide recording to its middle half, so on phones
+     the whole frame shows, centred on the card's brand colour. */
+  .panel .panel-video,
+  .panel--budgy .panel-video,
+  .panel--loadout .panel-video {
+    object-fit: contain;
+    object-position: center;
+  }
 }
 
 .btn-view-all {

@@ -247,9 +247,9 @@ function initShowcaseShine() {
    DWELL_DELAY. Scrolling it away stops it. A hold never also opens the link.
    Reduced motion: hover and dwell never play; a deliberate hold still does.
    ========================================================= */
-const HOVER_DELAY = 700;
-const HOLD_DELAY = 450;
-const DWELL_DELAY = 2500;
+const HOVER_DELAY = 450;
+const HOLD_DELAY = 350;
+const DWELL_DELAY = 1500;
 
 function initShowcaseVideos() {
   const panels = [...document.querySelectorAll('.panel')].filter((p) => p.querySelector('video'));
@@ -327,9 +327,23 @@ function initShowcaseVideos() {
     });
   });
 
+  if (!('IntersectionObserver' in window)) return;
+
+  // Start downloading all three clips as the row comes near, so a hover or
+  // hold plays at once instead of waiting on the network. Skipped when the
+  // visitor asked to save data.
+  const saveData = navigator.connection && navigator.connection.saveData;
+  if (!saveData) {
+    const prefetch = new IntersectionObserver((entries, obs) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      panels.forEach((panel) => { panel.querySelector('video').preload = 'auto'; });
+      obs.disconnect();
+    }, { rootMargin: '400px 0px' });
+    prefetch.observe(panels[0].closest('.showcase'));
+  }
+
   // Touch: a panel that rests mostly on screen plays after a moment; one that
   // leaves stops.
-  if (!('IntersectionObserver' in window)) return;
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(({ target: panel, isIntersecting }) => {
       clearTimeout(panel._dwell);
@@ -887,7 +901,8 @@ function initHeroShader() {
     uniforms.uResolution.value.set(w, h);
   }
 
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+  const smallScreen = window.matchMedia('(max-width: 767px), (hover: none)').matches;
+  renderer.setPixelRatio(smallScreen ? 1 : Math.min(window.devicePixelRatio || 1, 1.5));
 
   // ResizeObserver (not a one-shot clientWidth read) so the canvas's drawing
   // buffer always matches its actual laid-out size, even if the first
@@ -1076,20 +1091,24 @@ function initCustomCursor() {
   let mouseY = window.innerHeight / 2;
   let ringX = mouseX;
   let ringY = mouseY;
+  let ringFrame = null;
+
+  // The ring eases toward the dot and the loop stops once it has caught up,
+  // so a still mouse costs nothing.
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.4;
+    ringY += (mouseY - ringY) * 0.4;
+    ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+    const settled = Math.abs(mouseX - ringX) < 0.3 && Math.abs(mouseY - ringY) < 0.3;
+    ringFrame = settled ? null : requestAnimationFrame(animateRing);
+  }
 
   window.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
     dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
-  });
-
-  function animateRing() {
-    ringX += (mouseX - ringX) * 0.4;
-    ringY += (mouseY - ringY) * 0.4;
-    ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
-    requestAnimationFrame(animateRing);
-  }
-  animateRing();
+    if (ringFrame === null) ringFrame = requestAnimationFrame(animateRing);
+  }, { passive: true });
 
   const hoverSelector = 'a, button, [role="button"], input, textarea';
   document.addEventListener('mouseover', (e) => {
@@ -1132,7 +1151,7 @@ function initScrollProgress() {
   const update = () => {
     const scrollable = document.documentElement.scrollHeight - window.innerHeight;
     const progress = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
-    bar.style.width = `${progress}%`;
+    bar.style.transform = `scaleX(${progress / 100})`;
     ticking = false;
   };
 

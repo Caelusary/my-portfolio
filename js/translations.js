@@ -73,6 +73,8 @@ const translations = {
   'screenshot.specFilters': { en: 'Spec Filters', tl: 'Mga Filter ng Specs' },
   'screenshot.productPage': { en: 'Product Page', tl: 'Pahina ng Produkto' },
   'project.ambag.desc': { en: 'A group-project tracker where a task only counts as done once proof is attached, with leader review, a live activity log, and a read-only view for the professor.', tl: 'Isang tracker para sa group project kung saan tapos lang ang task kapag may patunay, may review ng leader, live na activity log, at read-only na view para sa propesor.' },
+  // About section
+  'about.title': { en: 'About Me', tl: 'Tungkol sa Akin' },
   'about.text': {
     en: "I'm a 3rd year BS Computer Science student at De La Salle Lipa who enjoys turning ideas into clean, functional web experiences. I love working across the stack, from crafting responsive interfaces to wiring up APIs and databases, and I'm always looking for the next interesting problem to solve.",
     tl: 'Ako ay isang 3rd year BS Computer Science na estudyante sa De La Salle Lipa na mahilig gumawa ng malinis at functional na karanasan sa web mula sa mga simpleng ideya. Mahilig akong magtrabaho sa buong stack, mula sa paggawa ng responsive na interface hanggang sa pag-set up ng mga API at database, at lagi akong naghahanap ng susunod na kawili-wiling problema na lulutasin.'
@@ -146,11 +148,11 @@ const translations = {
   // Weather Dashboard features
 
   // Twogether features
-  'mood.feature.1': { en: 'Couple signup and pairing', tl: 'Pagpaparehistro at pagpapares ng magkasintahan' },
-  'mood.feature.2': { en: 'Daily mood tracking', tl: 'Araw-araw na pagsubaybay sa mood' },
-  'mood.feature.3': { en: 'Interactive playground / mini-games', tl: 'Interactive na palaruan / mini-games' },
-  'mood.feature.4': { en: 'Shared photo gallery', tl: 'Magkasamang gallery ng larawan' },
-  'mood.feature.5': { en: 'Strict per-couple data isolation via RLS', tl: 'Mahigpit na paghihiwalay ng datos ng bawat couple gamit ang RLS' },
+  'mood.feature.1': { en: 'Pair up with a short invite code, or join your partner later from your profile', tl: 'Mag-pair gamit ang maikling invite code, o sumali sa partner mo mamaya mula sa profile' },
+  'mood.feature.2': { en: "Eight moods that recolour the page, with your partner's mood shown alongside", tl: 'Walong mood na nagpapalit ng kulay ng pahina, kasama ang mood ng partner mo' },
+  'mood.feature.3': { en: "A playground face that mirrors your partner's mood and reacts to taps, pinches and boops", tl: 'Isang mukha sa playground na sumasalamin sa mood ng partner mo at tumutugon sa tap, kurot at boop' },
+  'mood.feature.4': { en: 'A private shared photo gallery served through short-lived signed links', tl: 'Pribadong shared photo gallery na binubuksan gamit ang panandaliang signed link' },
+  'mood.feature.5': { en: "Row Level Security and rate limits keep each couple's data to themselves", tl: 'Row Level Security at rate limit para sa sariling data lang ng bawat magkasintahan' },
 
   // Shelf Help features
   'shelf.feature.1': { en: 'Debounced autocomplete with keyboard navigation', tl: 'Debounced na autocomplete na may keyboard navigation' },
@@ -158,14 +160,17 @@ const translations = {
   'shelf.feature.3': { en: 'Sort by relevance, newest, or rating', tl: 'I-sort ayon sa relevance, pinakabago, o rating' },
   'shelf.feature.4': { en: 'Back button returns to the exact result set you came from', tl: 'Ibinabalik ka ng back button sa mismong resultang pinanggalingan mo' },
   'shelf.feature.5': { en: 'A page for every book, with skeleton cards that keep the layout steady while loading', tl: 'Sariling pahina para sa bawat libro, may skeleton card na nagpapanatiling steady ng layout habang naglo-load' },
+  'budgy.feature.1': { en: 'Add income and expenses with a live preview of your balance and budget', tl: 'Magdagdag ng kita at gastos na may live na preview ng balanse at budget' },
   'budgy.feature.2': { en: 'A monthly limit for each of the twelve spending categories, with warnings when one runs over', tl: 'Buwanang limit para sa bawat isa sa labindalawang kategorya ng gastos, may babala kapag lumampas' },
   'budgy.feature.3': { en: 'Recurring rules that post themselves monthly or on chosen weekdays', tl: 'Mga recurring rule na kusang nagpo-post buwan-buwan o sa piniling araw' },
   'budgy.feature.4': { en: 'Spending donut with month-over-month change, in light and dark themes', tl: 'Donut ng gastos na may pagbabago bawat buwan, sa light at dark na tema' },
   'budgy.feature.5': { en: 'Undo for deletions, a full activity log, and CSV export', tl: 'Undo sa pagbura, kumpletong activity log, at CSV export' },
+  'ambag.feature.1': { en: 'Claim open tasks from a shared pool', tl: 'Kumuha ng bukas na task mula sa shared pool' },
   'ambag.feature.2': { en: 'Completion requires proof: a file, link, or text', tl: 'Kailangan ng patunay para matapos: file, link, o text' },
   'ambag.feature.3': { en: 'Leader accepts or rejects proof, with a required reason on rejection', tl: 'Tinatanggap o tinatanggihan ng leader ang patunay, may kailangang dahilan kapag tinanggihan' },
   'ambag.feature.4': { en: 'Per-member ledger of on-time, late, and overdue work', tl: 'Ledger ng bawat miyembro para sa on-time, late, at overdue na trabaho' },
   'ambag.feature.5': { en: 'Live updates between teammates, plus a demo that needs no account', tl: 'Live na updates sa pagitan ng magkakagrupo, at demo na hindi kailangan ng account' },
+  'footer.rights': { en: 'All Rights Reserved.', tl: 'Nakalaan ang Lahat ng Karapatan.' },
   'footer.builtWith': { en: 'Built with ❤️ and a lot of coffee.', tl: 'Ginawa nang may ❤️ at maraming kape.' },
 
   // Feedback widget

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>All Projects | Zachary Scott</title>
-  <meta name="description" content="Every project by Zachary Scott: Trip Planner, Twogether, Ambag, Shelf Help, Budgy, and Weather Dashboard, with screenshots, stacks, and live demos.">
+  <meta name="description" content="Every project by Zachary Scott: Loadout, Budgy, Cloudbase, Ambag, Trip Planner, Twogether, and Shelf Help, with screenshots, stacks, and live demos.">
   <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
 
   <!-- Open Graph / Twitter Card: what link previews (LinkedIn, Discord,
@@ -12,14 +12,14 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://zacharyscott.vercel.app/projects.html">
   <meta property="og:title" content="All Projects | Zachary Scott">
-  <meta property="og:description" content="Every project by Zachary Scott: Trip Planner, Twogether, Ambag, Shelf Help, Budgy, and Weather Dashboard, with screenshots, stacks, and live demos.">
+  <meta property="og:description" content="Every project by Zachary Scott: Loadout, Budgy, Cloudbase, Ambag, Trip Planner, Twogether, and Shelf Help, with screenshots, stacks, and live demos.">
   <meta property="og:image" content="https://zacharyscott.vercel.app/images/og-projects.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="All Projects by Zachary Scott, with screenshots of Trip Planner, Twogether, and Ambag">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="All Projects | Zachary Scott">
-  <meta name="twitter:description" content="Every project by Zachary Scott: Trip Planner, Twogether, Ambag, Shelf Help, Budgy, and Weather Dashboard, with screenshots, stacks, and live demos.">
+  <meta name="twitter:description" content="Every project by Zachary Scott: Loadout, Budgy, Cloudbase, Ambag, Trip Planner, Twogether, and Shelf Help, with screenshots, stacks, and live demos.">
   <meta name="twitter:image" content="https://zacharyscott.vercel.app/images/og-projects.png">
 
   <!-- Applies the dark/light theme class before first paint, matching the
@@ -109,10 +109,9 @@
         <p class="projects-intro" data-i18n="projects.intro">Everything I've built and shipped so far, from vanilla JavaScript experiments to full-stack apps.</p>
 
         <div class="project-filters" role="group" data-i18n-aria-label="projects.filterLabel" aria-label="Filter projects">
-          <button type="button" class="filter-chip" data-filter="all" aria-pressed="true"><span data-i18n="filter.all">All</span> <span class="filter-count">6</span></button>
-          <button type="button" class="filter-chip" data-filter="fullstack" aria-pressed="false"><span data-i18n="filter.fullstack">Full Stack</span> <span class="filter-count">2</span></button>
+          <button type="button" class="filter-chip" data-filter="all" aria-pressed="true"><span data-i18n="filter.all">All</span> <span class="filter-count">7</span></button>
+          <button type="button" class="filter-chip" data-filter="fullstack" aria-pressed="false"><span data-i18n="filter.fullstack">Full Stack</span> <span class="filter-count">3</span></button>
           <button type="button" class="filter-chip" data-filter="frontend" aria-pressed="false"><span data-i18n="filter.frontend">Frontend</span> <span class="filter-count">4</span></button>
-          <button type="button" class="filter-chip" data-filter="inprogress" aria-pressed="false"><span data-i18n="filter.inProgress">In Progress</span> <span class="filter-count">1</span></button>
         </div>
       </div>
     </header>
@@ -123,7 +122,165 @@
     <section class="projects-list pb-6" aria-live="polite">
       <div class="site-container">
 
-        <!-- 01 Trip Planner -->
+        <!-- 01 Loadout -->
+        <article id="loadout" class="case-row reveal" data-tags="fullstack">
+          <div class="case-gallery">
+            <figure class="case-main">
+              <img src="project-screenshots/loadout(1).png" class="case-main-img" alt="Loadout homepage with the 3D category stage" width="1350" height="844">
+              <figcaption class="case-caption" data-i18n="screenshot.home3d">Home &amp; 3D Stage</figcaption>
+            </figure>
+            <div class="case-thumbs">
+              <button type="button" class="case-thumb" aria-pressed="true" data-src="project-screenshots/loadout(1).png" data-alt="Loadout homepage with the 3D category stage" data-caption="screenshot.home3d"><img src="project-screenshots/loadout(1).png" alt="" loading="lazy"><span class="sr-only" data-i18n="screenshot.home3d">Home &amp; 3D Stage</span></button>
+              <button type="button" class="case-thumb" aria-pressed="false" data-src="project-screenshots/loadout(2).png" data-alt="Loadout catalog filtered by switch type" data-caption="screenshot.specFilters"><img src="project-screenshots/loadout(2).png" alt="" loading="lazy"><span class="sr-only" data-i18n="screenshot.specFilters">Spec Filters</span></button>
+              <button type="button" class="case-thumb" aria-pressed="false" data-src="project-screenshots/loadout(3).png" data-alt="Loadout product page with specs and 3D view" data-caption="screenshot.productPage"><img src="project-screenshots/loadout(3).png" alt="" loading="lazy"><span class="sr-only" data-i18n="screenshot.productPage">Product Page</span></button>
+            </div>
+          </div>
+          <div class="case-info">
+            <span class="case-index">01</span>
+            <h2 class="case-title">Loadout</h2>
+            <p class="case-meta"><span data-i18n="role.fullStackPm">Full Stack Developer &amp; Project Manager</span> · <span data-i18n="duration.threeWeeks">3 weeks</span></p>
+            <p class="case-desc" data-i18n="project.loadout.desc">A multi-shop marketplace for PC peripherals: shoppers filter by real specs, check out from several shops at once, and turn every product in 3D.</p>
+            <ul class="case-features">
+              <li data-i18n="loadout.feature.1">Spec-first catalog: switch type, layout, DPI and connectivity are all filters</li>
+              <li data-i18n="loadout.feature.2">3D category stage on the homepage and a 3D view on every product</li>
+              <li data-i18n="loadout.feature.3">One checkout split into one order per shop, inside a database transaction</li>
+              <li data-i18n="loadout.feature.4">Seller dashboard with product photos cut out in the browser</li>
+              <li data-i18n="loadout.feature.5">Admin approvals and moderation, every action logged and undoable</li>
+            </ul>
+            <div class="card-tech-row">
+              <span class="badge tech-badge">MongoDB</span>
+              <span class="badge tech-badge">Express</span>
+              <span class="badge tech-badge">React</span>
+              <span class="badge tech-badge">Node.js</span>
+              <span class="badge tech-badge">Three.js</span>
+              <span class="badge tech-badge">Tailwind CSS</span>
+            </div>
+            <div class="case-actions">
+              <a href="https://loadout-brown.vercel.app" class="btn-view-details" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square me-1" aria-hidden="true"></i> <span data-i18n="modal.liveDemo">Live Demo</span></a>
+              <a href="https://github.com/Caelusary/loadout" class="btn-outline" target="_blank" rel="noopener"><i class="fa-brands fa-github me-1" aria-hidden="true"></i> <span data-i18n="modal.github">GitHub</span></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 02 Budgy -->
+        <article id="budgy" class="case-row reveal" data-tags="frontend">
+          <div class="case-gallery">
+            <figure class="case-main">
+              <img src="project-screenshots/budgy(1).png" class="case-main-img" alt="Budgy dashboard screenshot" width="1350" height="645" loading="lazy">
+              <figcaption class="case-caption" data-i18n="screenshot.dashboard">Dashboard</figcaption>
+            </figure>
+            <div class="case-thumbs">
+              <button type="button" class="case-thumb" aria-pressed="true" data-src="project-screenshots/budgy(1).png" data-alt="Budgy dashboard screenshot" data-caption="screenshot.dashboard"><img src="project-screenshots/budgy(1).png" alt="" loading="lazy"><span class="sr-only" data-i18n="screenshot.dashboard">Dashboard</span></button>
+              <button type="button" class="case-thumb" aria-pressed="false" data-src="project-screenshots/budgy(2).png" data-alt="Budgy spending summary screenshot" data-caption="screenshot.summary"><img src="project-screenshots/budgy(2).png" alt="" loading="lazy"><span class="sr-only" data-i18n="screenshot.summary">Spending Summary</span></button>
+              <button type="button" class="case-thumb" aria-pressed="false" data-src="project-screenshots/budgy(3).png" data-alt="Budgy category budgets screenshot" data-caption="screenshot.budgets"><img src="project-screenshots/budgy(3).png" alt="" loading="lazy"><span class="sr-only" data-i18n="screenshot.budgets">Category Budgets</span></button>
+            </div>
+          </div>
+          <div class="case-info">
+            <span class="case-index">02</span>
+            <h2 class="case-title">Budgy</h2>
+            <p class="case-meta"><span data-i18n="role.frontendDev">Frontend Developer</span> · <span data-i18n="duration.oneMonth">1 month</span></p>
+            <p class="case-desc" data-i18n="project.budgy.desc">A budget tracker that lives in your browser: a limit for every category, entries that repeat on their own, a clear picture of where the money goes, and a bamboo that grows toward your savings goal.</p>
+            <ul class="case-features">
+              <li data-i18n="budgy.feature.1">Add income and expenses with a live preview of your balance and budget</li>
+              <li data-i18n="budgy.feature.2">A monthly limit for each of the twelve spending categories, with warnings when one runs over</li>
+              <li data-i18n="budgy.feature.3">Recurring rules that post themselves monthly or on chosen weekdays</li>
+              <li data-i18n="budgy.feature.4">Spending donut with month-over-month change, in light and dark themes</li>
+              <li data-i18n="budgy.feature.5">Undo for deletions, a full activity log, and CSV export</li>
+            </ul>
+            <div class="card-tech-row">
+              <span class="badge tech-badge">React</span>
+              <span class="badge tech-badge">React Router</span>
+              <span class="badge tech-badge">Vite</span>
+              <span class="badge tech-badge">LocalStorage</span>
+              <span class="badge tech-badge">Vitest</span>
+            </div>
+            <div class="case-actions">
+              <a href="https://midterm-project-webdvt-two.vercel.app" class="btn-view-details" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square me-1" aria-hidden="true"></i> <span data-i18n="modal.liveDemo">Live Demo</span></a>
+              <a href="https://github.com/Caelusary/midterm-project-webdvt" class="btn-outline" target="_blank" rel="noopener"><i class="fa-brands fa-github me-1" aria-hidden="true"></i> <span data-i18n="modal.github">GitHub</span></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 03 Cloudbase -->
+        <article id="cloudbase" class="case-row reveal" data-tags="frontend">
+          <div class="case-gallery">
+            <figure class="case-main">
+              <img src="project-screenshots/cloudbase(1).png" class="case-main-img" alt="Cloudbase current weather on an animated sky" width="1350" height="844" loading="lazy">
+              <figcaption class="case-caption" data-i18n="screenshot.mainView">Main View</figcaption>
+            </figure>
+            <div class="case-thumbs">
+              <button type="button" class="case-thumb" aria-pressed="true" data-src="project-screenshots/cloudbase(1).png" data-alt="Cloudbase current weather on an animated sky" data-caption="screenshot.mainView"><img src="project-screenshots/cloudbase(1).png" alt="" loading="lazy"><span class="sr-only" data-i18n="screenshot.mainView">Main View</span></button>
+              <button type="button" class="case-thumb" aria-pressed="false" data-src="project-screenshots/cloudbase(2).png" data-alt="Cloudbase five-day forecast and details" data-caption="screenshot.forecast"><img src="project-screenshots/cloudbase(2).png" alt="" loading="lazy"><span class="sr-only" data-i18n="screenshot.forecast">Forecast</span></button>
+              <button type="button" class="case-thumb" aria-pressed="false" data-src="project-screenshots/cloudbase(3).png" data-alt="Cloudbase Explore map with city pins" data-caption="screenshot.weatherMap"><img src="project-screenshots/cloudbase(3).png" alt="" loading="lazy"><span class="sr-only" data-i18n="screenshot.weatherMap">Weather Map</span></button>
+            </div>
+          </div>
+          <div class="case-info">
+            <span class="case-index">03</span>
+            <h2 class="case-title">Cloudbase</h2>
+            <p class="case-meta"><span data-i18n="role.frontendDev">Frontend Developer</span> · <span data-i18n="duration.twoWeeks">2 weeks</span></p>
+            <p class="case-desc" data-i18n="project.cloud.desc">A weather app with an animated sky that follows each city's conditions and time of day, a five-day forecast, a live world map, and five languages.</p>
+            <ul class="case-features">
+              <li data-i18n="cloud.feature.1">Search any city, with recent searches and your last city remembered</li>
+              <li data-i18n="cloud.feature.2">Five-day forecast plus a details panel that explains each reading</li>
+              <li data-i18n="cloud.feature.3">Explore map with a temperature-coloured pin for every city</li>
+              <li data-i18n="cloud.feature.4">°C/°F and five languages, switched without refetching</li>
+              <li data-i18n="cloud.feature.5">Animated sky driven by real weather, sunrise and sunset</li>
+            </ul>
+            <div class="card-tech-row">
+              <span class="badge tech-badge">React</span>
+              <span class="badge tech-badge">Vite</span>
+              <span class="badge tech-badge">Tailwind CSS</span>
+              <span class="badge tech-badge">TanStack Query</span>
+              <span class="badge tech-badge">Leaflet</span>
+              <span class="badge tech-badge">OpenWeatherMap</span>
+            </div>
+            <div class="case-actions">
+              <a href="https://weather-dashboard-silk-kappa.vercel.app" class="btn-view-details" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square me-1" aria-hidden="true"></i> <span data-i18n="modal.liveDemo">Live Demo</span></a>
+              <a href="https://github.com/Caelusary/weather-dashboard" class="btn-outline" target="_blank" rel="noopener"><i class="fa-brands fa-github me-1" aria-hidden="true"></i> <span data-i18n="modal.github">GitHub</span></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 04 Ambag -->
+        <article id="ambag" class="case-row reveal" data-tags="frontend">
+          <div class="case-gallery">
+            <figure class="case-main">
+              <img src="project-screenshots/ambag(1).png" class="case-main-img" alt="Ambag task pool screenshot" width="1350" height="645" loading="lazy">
+              <figcaption class="case-caption" data-i18n="screenshot.taskPool">Task Pool</figcaption>
+            </figure>
+            <div class="case-thumbs">
+              <button type="button" class="case-thumb" aria-pressed="true" data-src="project-screenshots/ambag(1).png" data-alt="Ambag task pool screenshot" data-caption="screenshot.taskPool"><img src="project-screenshots/ambag(1).png" alt="" loading="lazy"><span class="sr-only" data-i18n="screenshot.taskPool">Task Pool</span></button>
+              <button type="button" class="case-thumb" aria-pressed="false" data-src="project-screenshots/ambag(2).png" data-alt="Ambag leader review screenshot" data-caption="screenshot.leaderReview"><img src="project-screenshots/ambag(2).png" alt="" loading="lazy"><span class="sr-only" data-i18n="screenshot.leaderReview">Leader Review</span></button>
+              <button type="button" class="case-thumb" aria-pressed="false" data-src="project-screenshots/ambag(3).png" data-alt="Ambag member ledger screenshot" data-caption="screenshot.memberLedger"><img src="project-screenshots/ambag(3).png" alt="" loading="lazy"><span class="sr-only" data-i18n="screenshot.memberLedger">Member Ledger</span></button>
+            </div>
+          </div>
+          <div class="case-info">
+            <span class="case-index">04</span>
+            <h2 class="case-title">Ambag</h2>
+            <p class="case-meta"><span data-i18n="role.frontendDev">Frontend Developer</span> · <span data-i18n="duration.twoWeeks">2 weeks</span></p>
+            <p class="case-desc" data-i18n="project.ambag.desc">A group-project tracker where a task only counts as done once proof is attached, with leader review, a live activity log, and a read-only view for the professor.</p>
+            <ul class="case-features">
+              <li data-i18n="ambag.feature.1">Claim open tasks from a shared pool</li>
+              <li data-i18n="ambag.feature.2">Completion requires proof: a file, link, or text</li>
+              <li data-i18n="ambag.feature.3">Leader accepts or rejects proof, with a required reason on rejection</li>
+              <li data-i18n="ambag.feature.4">Per-member ledger of on-time, late, and overdue work</li>
+              <li data-i18n="ambag.feature.5">Live updates between teammates, plus a demo that needs no account</li>
+            </ul>
+            <div class="card-tech-row">
+              <span class="badge tech-badge">Next.js</span>
+              <span class="badge tech-badge">TypeScript</span>
+              <span class="badge tech-badge">Supabase</span>
+              <span class="badge tech-badge">Tailwind CSS</span>
+              <span class="badge tech-badge">Vitest</span>
+            </div>
+            <div class="case-actions">
+              <a href="https://ambag-xi.vercel.app" class="btn-view-details" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square me-1" aria-hidden="true"></i> <span data-i18n="modal.liveDemo">Live Demo</span></a>
+              <a href="https://github.com/Caelusary/ambag" class="btn-outline" target="_blank" rel="noopener"><i class="fa-brands fa-github me-1" aria-hidden="true"></i> <span data-i18n="modal.github">GitHub</span></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 05 Trip Planner -->
         <article id="trip-planner" class="case-row reveal" data-tags="fullstack">
           <div class="case-gallery">
             <figure class="case-main">
@@ -137,10 +294,10 @@
             </div>
           </div>
           <div class="case-info">
-            <span class="case-index">01</span>
+            <span class="case-index">05</span>
             <h2 class="case-title">Trip Planner</h2>
             <p class="case-meta"><span data-i18n="role.fullStackDev">Full Stack Developer</span> · <span data-i18n="duration.oneMonth">1 month</span></p>
-            <p class="case-desc" data-i18n="project.trip.desc">A full-stack trip planner with accounts, multi-city itineraries, per-destination weather forecasts, and a 3D attraction carousel.</p>
+            <p class="case-desc" data-i18n="project.trip.desc">A trip planner with private accounts, multi-city itineraries, a five-day forecast and weather-based suggestions for every stop, and a 3D attraction carousel.</p>
             <ul class="case-features">
               <li data-i18n="trip.feature.1">Sign up and keep trips private to your account</li>
               <li data-i18n="trip.feature.2">Multi-city trips with stops, a map, and a packing list</li>
@@ -149,7 +306,7 @@
               <li data-i18n="trip.feature.5">Saved attractions, trip history, and shareable trip links</li>
             </ul>
             <div class="card-tech-row">
-              <span class="badge tech-badge">Next.js</span>
+              <span class="badge tech-badge">Next.js 16</span>
               <span class="badge tech-badge">TypeScript</span>
               <span class="badge tech-badge">Tailwind CSS</span>
               <span class="badge tech-badge">Supabase</span>
@@ -161,7 +318,7 @@
           </div>
         </article>
 
-        <!-- 02 Twogether -->
+        <!-- 06 Twogether -->
         <article id="twogether" class="case-row reveal" data-tags="fullstack">
           <div class="case-gallery">
             <figure class="case-main">
@@ -175,10 +332,10 @@
             </div>
           </div>
           <div class="case-info">
-            <span class="case-index">02</span>
+            <span class="case-index">06</span>
             <h2 class="case-title">Twogether</h2>
             <p class="case-meta"><span data-i18n="role.fullStackDev">Full Stack Developer</span> · <span data-i18n="duration.twoMonths">2 months</span></p>
-            <p class="case-desc" data-i18n="project.mood.desc">A full-stack couples app for mood tracking, playful mini-games, and shared photo memories.</p>
+            <p class="case-desc" data-i18n="project.mood.desc">A private home for couples: pair with an invite code, share how you feel each day, play in a little playground, and keep a shared photo gallery.</p>
             <ul class="case-features">
               <li data-i18n="mood.feature.1">Couple signup and pairing</li>
               <li data-i18n="mood.feature.2">Daily mood tracking</li>
@@ -200,45 +357,7 @@
           </div>
         </article>
 
-        <!-- 03 Ambag -->
-        <article id="ambag" class="case-row reveal" data-tags="frontend inprogress">
-          <div class="case-gallery">
-            <figure class="case-main">
-              <img src="project-screenshots/ambag(1).png" class="case-main-img" alt="Ambag task pool screenshot" width="1350" height="645" loading="lazy">
-              <figcaption class="case-caption" data-i18n="screenshot.taskPool">Task Pool</figcaption>
-            </figure>
-            <div class="case-thumbs">
-              <button type="button" class="case-thumb" aria-pressed="true" data-src="project-screenshots/ambag(1).png" data-alt="Ambag task pool screenshot" data-caption="screenshot.taskPool"><img src="project-screenshots/ambag(1).png" alt="" loading="lazy"><span class="sr-only" data-i18n="screenshot.taskPool">Task Pool</span></button>
-              <button type="button" class="case-thumb" aria-pressed="false" data-src="project-screenshots/ambag(2).png" data-alt="Ambag leader review screenshot" data-caption="screenshot.leaderReview"><img src="project-screenshots/ambag(2).png" alt="" loading="lazy"><span class="sr-only" data-i18n="screenshot.leaderReview">Leader Review</span></button>
-              <button type="button" class="case-thumb" aria-pressed="false" data-src="project-screenshots/ambag(3).png" data-alt="Ambag member ledger screenshot" data-caption="screenshot.memberLedger"><img src="project-screenshots/ambag(3).png" alt="" loading="lazy"><span class="sr-only" data-i18n="screenshot.memberLedger">Member Ledger</span></button>
-            </div>
-          </div>
-          <div class="case-info">
-            <span class="case-index">03</span>
-            <h2 class="case-title">Ambag <span class="case-status" data-i18n="filter.inProgress">In Progress</span></h2>
-            <p class="case-meta"><span data-i18n="role.frontendDev">Frontend Developer</span> · <span data-i18n="duration.ongoing">Ongoing</span></p>
-            <p class="case-desc" data-i18n="project.ambag.desc">A group-project tracker where a task only counts as done once proof is attached, backed by an immutable activity log.</p>
-            <ul class="case-features">
-              <li data-i18n="ambag.feature.1">Claim open tasks from a shared pool</li>
-              <li data-i18n="ambag.feature.2">Completion requires proof: a file, link, or text</li>
-              <li data-i18n="ambag.feature.3">Leader accepts or rejects proof, with a required reason on rejection</li>
-              <li data-i18n="ambag.feature.4">Per-member ledger of on-time, late, and overdue work</li>
-              <li data-i18n="ambag.feature.5">Revocable read-only share links for a professor</li>
-            </ul>
-            <div class="card-tech-row">
-              <span class="badge tech-badge">Next.js</span>
-              <span class="badge tech-badge">React</span>
-              <span class="badge tech-badge">TypeScript</span>
-              <span class="badge tech-badge">Tailwind CSS</span>
-              <span class="badge tech-badge">Vitest</span>
-            </div>
-            <div class="case-actions">
-              <a href="https://github.com/Caelusary/ambag" class="btn-outline" target="_blank" rel="noopener"><i class="fa-brands fa-github me-1" aria-hidden="true"></i> <span data-i18n="modal.github">GitHub</span></a>
-            </div>
-          </div>
-        </article>
-
-        <!-- 04 Shelf Help -->
+        <!-- 07 Shelf Help -->
         <article id="shelf-help" class="case-row reveal" data-tags="frontend">
           <div class="case-gallery">
             <figure class="case-main">
@@ -252,16 +371,16 @@
             </div>
           </div>
           <div class="case-info">
-            <span class="case-index">04</span>
+            <span class="case-index">07</span>
             <h2 class="case-title">Shelf Help</h2>
             <p class="case-meta"><span data-i18n="role.frontendDev">Frontend Developer</span> · <span data-i18n="duration.twoWeeks">2 weeks</span></p>
-            <p class="case-desc" data-i18n="project.shelf.desc">A React book search app powered by the Open Library API, with live suggestions, scoped search, and sorting.</p>
+            <p class="case-desc" data-i18n="project.shelf.desc">A book search on the Open Library API with debounced suggestions, scoped search, sorting, and a page for every book.</p>
             <ul class="case-features">
               <li data-i18n="shelf.feature.1">Debounced autocomplete with keyboard navigation</li>
               <li data-i18n="shelf.feature.2">Search everything, titles only, or authors only</li>
               <li data-i18n="shelf.feature.3">Sort by relevance, newest, or rating</li>
               <li data-i18n="shelf.feature.4">Back button returns to the exact result set you came from</li>
-              <li data-i18n="shelf.feature.5">Skeleton loading cards that keep the layout stable</li>
+              <li data-i18n="shelf.feature.5">A page for every book, with skeleton cards that keep the layout steady while loading</li>
             </ul>
             <div class="card-tech-row">
               <span class="badge tech-badge">React</span>
@@ -273,82 +392,6 @@
             <div class="case-actions">
               <a href="https://book-explorer-caelusary.vercel.app" class="btn-view-details" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square me-1" aria-hidden="true"></i> <span data-i18n="modal.liveDemo">Live Demo</span></a>
               <a href="https://github.com/Caelusary/book-explorer" class="btn-outline" target="_blank" rel="noopener"><i class="fa-brands fa-github me-1" aria-hidden="true"></i> <span data-i18n="modal.github">GitHub</span></a>
-            </div>
-          </div>
-        </article>
-
-        <!-- 05 Budgy -->
-        <article id="budgy" class="case-row reveal" data-tags="frontend">
-          <div class="case-gallery">
-            <figure class="case-main">
-              <img src="project-screenshots/budgy(1).png" class="case-main-img" alt="Budgy dashboard screenshot" width="1350" height="645" loading="lazy">
-              <figcaption class="case-caption" data-i18n="screenshot.dashboard">Dashboard</figcaption>
-            </figure>
-            <div class="case-thumbs">
-              <button type="button" class="case-thumb" aria-pressed="true" data-src="project-screenshots/budgy(1).png" data-alt="Budgy dashboard screenshot" data-caption="screenshot.dashboard"><img src="project-screenshots/budgy(1).png" alt="" loading="lazy"><span class="sr-only" data-i18n="screenshot.dashboard">Dashboard</span></button>
-              <button type="button" class="case-thumb" aria-pressed="false" data-src="project-screenshots/budgy(2).png" data-alt="Budgy spending summary screenshot" data-caption="screenshot.summary"><img src="project-screenshots/budgy(2).png" alt="" loading="lazy"><span class="sr-only" data-i18n="screenshot.summary">Spending Summary</span></button>
-              <button type="button" class="case-thumb" aria-pressed="false" data-src="project-screenshots/budgy(3).png" data-alt="Budgy category budgets screenshot" data-caption="screenshot.budgets"><img src="project-screenshots/budgy(3).png" alt="" loading="lazy"><span class="sr-only" data-i18n="screenshot.budgets">Category Budgets</span></button>
-            </div>
-          </div>
-          <div class="case-info">
-            <span class="case-index">05</span>
-            <h2 class="case-title">Budgy</h2>
-            <p class="case-meta"><span data-i18n="role.frontendDev">Frontend Developer</span> · <span data-i18n="duration.oneMonth">1 month</span></p>
-            <p class="case-desc" data-i18n="project.budgy.desc">A personal budget tracker with category limits, recurring entries, spending summaries, and a savings goal.</p>
-            <ul class="case-features">
-              <li data-i18n="budgy.feature.1">Log income and expenses by category</li>
-              <li data-i18n="budgy.feature.2">Monthly limit for every spending category</li>
-              <li data-i18n="budgy.feature.3">Recurring entries that post automatically</li>
-              <li data-i18n="budgy.feature.4">Spending breakdown by category</li>
-              <li data-i18n="budgy.feature.5">Savings goal with a bamboo progress meter</li>
-            </ul>
-            <div class="card-tech-row">
-              <span class="badge tech-badge">React</span>
-              <span class="badge tech-badge">React Router</span>
-              <span class="badge tech-badge">Vite</span>
-              <span class="badge tech-badge">LocalStorage</span>
-            </div>
-            <div class="case-actions">
-              <a href="https://midterm-project-webdvt-two.vercel.app" class="btn-view-details" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square me-1" aria-hidden="true"></i> <span data-i18n="modal.liveDemo">Live Demo</span></a>
-              <a href="https://github.com/Caelusary/midterm-project-webdvt" class="btn-outline" target="_blank" rel="noopener"><i class="fa-brands fa-github me-1" aria-hidden="true"></i> <span data-i18n="modal.github">GitHub</span></a>
-            </div>
-          </div>
-        </article>
-
-        <!-- 06 Weather Dashboard -->
-        <article id="weather-dashboard" class="case-row reveal" data-tags="frontend">
-          <div class="case-gallery">
-            <figure class="case-main">
-              <img src="project-screenshots/weather-dashboard(1).png" class="case-main-img" alt="Weather Dashboard main view screenshot" width="1350" height="645" loading="lazy">
-              <figcaption class="case-caption" data-i18n="screenshot.mainView">Main View</figcaption>
-            </figure>
-            <div class="case-thumbs">
-              <button type="button" class="case-thumb" aria-pressed="true" data-src="project-screenshots/weather-dashboard(1).png" data-alt="Weather Dashboard main view screenshot" data-caption="screenshot.mainView"><img src="project-screenshots/weather-dashboard(1).png" alt="" loading="lazy"><span class="sr-only" data-i18n="screenshot.mainView">Main View</span></button>
-              <button type="button" class="case-thumb" aria-pressed="false" data-src="project-screenshots/weather-dashboard(3).png" data-alt="Weather Dashboard weather map screenshot" data-caption="screenshot.weatherMap"><img src="project-screenshots/weather-dashboard(3).png" alt="" loading="lazy"><span class="sr-only" data-i18n="screenshot.weatherMap">Weather Map</span></button>
-              <button type="button" class="case-thumb" aria-pressed="false" data-src="project-screenshots/weather-dashboard(2).png" data-alt="Weather Dashboard forecast screenshot" data-caption="screenshot.forecast"><img src="project-screenshots/weather-dashboard(2).png" alt="" loading="lazy"><span class="sr-only" data-i18n="screenshot.forecast">Forecast</span></button>
-            </div>
-          </div>
-          <div class="case-info">
-            <span class="case-index">06</span>
-            <h2 class="case-title">Weather Dashboard</h2>
-            <p class="case-meta"><span data-i18n="role.frontendDev">Frontend Developer</span> · <span data-i18n="duration.twoWeeks">2 weeks</span></p>
-            <p class="case-desc" data-i18n="project.weather.desc">An interactive weather dashboard with live maps, 5-day forecasts, and dynamic time-of-day backgrounds.</p>
-            <ul class="case-features">
-              <li data-i18n="weather.feature.1">Search weather by city</li>
-              <li data-i18n="weather.feature.2">5-day forecast view</li>
-              <li data-i18n="weather.feature.3">Interactive weather map</li>
-              <li data-i18n="weather.feature.4">Dynamic time-of-day backgrounds</li>
-            </ul>
-            <div class="card-tech-row">
-              <span class="badge tech-badge">HTML/CSS</span>
-              <span class="badge tech-badge">Vanilla JS</span>
-              <span class="badge tech-badge">OpenWeatherMap</span>
-              <span class="badge tech-badge">Leaflet/OSM</span>
-              <span class="badge tech-badge">CSS Animations</span>
-            </div>
-            <div class="case-actions">
-              <a href="https://caelusary.github.io/weather-dashboard/" class="btn-view-details" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square me-1" aria-hidden="true"></i> <span data-i18n="modal.liveDemo">Live Demo</span></a>
-              <a href="https://github.com/Caelusary/weather-dashboard" class="btn-outline" target="_blank" rel="noopener"><i class="fa-brands fa-github me-1" aria-hidden="true"></i> <span data-i18n="modal.github">GitHub</span></a>
             </div>
           </div>
         </article>

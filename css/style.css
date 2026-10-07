@@ -1049,22 +1049,22 @@ html:not(.dark) #mainNav.nav-solid {
 
 /* Brand surfaces, taken from each app's own colors. --panel-fg is the text
    color while the logo shows; over the recording it's always white. */
-.panel--trip {
-  --panel-bg: radial-gradient(55% 45% at 50% 40%, rgba(72, 207, 190, 0.2), transparent 70%), #0F1322;
+.panel--loadout {
+  --panel-bg: radial-gradient(55% 45% at 50% 40%, rgba(0, 240, 255, 0.18), transparent 70%), #07060F;
   --panel-fg: #fff;
-  --panel-accent: #5FD4C4;
+  --panel-accent: #00F0FF;
 }
 
-.panel--twogether {
-  --panel-bg: radial-gradient(55% 45% at 50% 40%, rgba(255, 143, 168, 0.3), transparent 70%), linear-gradient(#FDF1E6, #FBE4D0);
-  --panel-fg: #4A3B33;
-  --panel-accent: #E8668A;
+.panel--cloudbase {
+  --panel-bg: radial-gradient(55% 45% at 50% 40%, rgba(125, 211, 252, 0.22), transparent 70%), linear-gradient(#0A1022, #162039);
+  --panel-fg: #fff;
+  --panel-accent: #7DD3FC;
 }
 
-.panel--ambag {
-  --panel-bg: radial-gradient(55% 45% at 50% 40%, rgba(221, 149, 99, 0.22), transparent 70%), #F4EADB;
-  --panel-fg: #2B2320;
-  --panel-accent: #C67139;
+.panel--budgy {
+  --panel-bg: radial-gradient(55% 45% at 50% 40%, rgba(47, 125, 79, 0.18), transparent 70%), linear-gradient(#F5F4EF, #E9EDE3);
+  --panel-fg: #1F2A22;
+  --panel-accent: #2F7D4F;
 }
 
 .panel {
@@ -1108,8 +1108,10 @@ html:not(.dark) #mainNav.nav-solid {
   transition: opacity 400ms ease;
 }
 
-/* Ambag's sidebar is on the left; keep it in frame when the panel crops. */
-.panel--ambag .panel-video {
+/* Budgy's sidebar and Loadout's headline sit on the left; keep them in frame
+   when the panel crops. */
+.panel--budgy .panel-video,
+.panel--loadout .panel-video {
   object-position: top left;
 }
 
@@ -1752,6 +1754,183 @@ html:not(.dark) #mainNav.nav-solid {
   font-size: 0.85rem;
   color: var(--text-muted);
   margin-bottom: 0.6rem;
+}
+
+/* Completed certificates: a stack of cards sharing one grid cell. data-pos
+   (set by initCertStack) places each: 0 is the front card, 1 and 2 peek out
+   below it, "out" is the card fading away, and the rest wait hidden. */
+.cert-stack {
+  max-width: 34rem;
+  margin: 0 auto;
+}
+
+.cert-stack-cards {
+  display: grid;
+  padding-bottom: 2.5rem; /* room for the peeking cards */
+  touch-action: pan-y;
+}
+
+.cert-slide {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 11.5rem;
+  padding: 1.5rem 1.6rem;
+  border-radius: 18px;
+  background: var(--bg-surface);
+  border: var(--border-width) solid var(--glass-border);
+  box-shadow: 0 14px 34px var(--shadow-color);
+  text-align: left;
+  transform-origin: 50% 100%;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(44px) scale(0.84);
+  transition:
+    opacity 550ms ease,
+    filter 550ms ease,
+    transform 650ms cubic-bezier(0.23, 1, 0.32, 1),
+    visibility 0s linear 650ms;
+}
+
+.cert-slide[data-pos="0"],
+.cert-slide[data-pos="1"],
+.cert-slide[data-pos="2"],
+.cert-slide[data-pos="out"] {
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.cert-slide[data-pos="0"] {
+  z-index: 3;
+  opacity: 1;
+  transform: none;
+}
+
+.cert-slide[data-pos="1"] {
+  z-index: 2;
+  opacity: 0.8;
+  transform: translateY(18px) scale(0.94);
+  filter: brightness(0.8);
+}
+
+.cert-slide[data-pos="2"] {
+  z-index: 1;
+  opacity: 0.5;
+  transform: translateY(36px) scale(0.88);
+  filter: brightness(0.65);
+}
+
+/* The card being replaced lifts and fades over the incoming front card. */
+.cert-slide[data-pos="out"] {
+  z-index: 4;
+  opacity: 0;
+  transform: translateY(-14px) scale(1.03);
+  pointer-events: none;
+}
+
+.cert-slide[data-pos="1"] *,
+.cert-slide[data-pos="2"] * {
+  pointer-events: none;
+}
+
+.cert-slide-icon {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-bottom: 0.9rem;
+  border-radius: 12px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-cyan));
+  box-shadow: 0 6px 16px var(--shadow-glow);
+}
+
+.cert-slide-issuer {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.cert-slide-title {
+  margin: 0.2rem 0 auto;
+  padding-bottom: 0.9rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text-main);
+}
+
+.cert-stack-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 0.75rem;
+}
+
+.cert-nav {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  color: var(--text-main);
+  border: var(--border-width) solid var(--glass-border);
+  background: var(--glass-bg);
+  transition: border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+}
+
+.cert-nav:hover {
+  color: var(--accent-text);
+  border-color: rgba(108, 99, 255, 0.45);
+}
+
+.cert-nav:active {
+  transform: scale(0.94);
+}
+
+.cert-dots {
+  display: flex;
+  gap: 0.45rem;
+}
+
+/* 24px tap target around a small visible dot. */
+.cert-dot {
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+
+.cert-dot::before {
+  content: '';
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--text-muted) 45%, transparent);
+  transition: width 300ms ease, margin 300ms ease, background-color 300ms ease;
+}
+
+.cert-dot[aria-current="true"]::before {
+  width: 22px;
+  margin-left: -11px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-cyan));
+}
+
+.cert-nav:focus-visible,
+.cert-dot:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 2px;
+  border-radius: 999px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cert-slide {
+    transition: opacity 200ms ease, visibility 0s linear 200ms;
+  }
 }
 
 .cert-card-link {

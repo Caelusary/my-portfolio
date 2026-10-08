@@ -8,3 +8,14 @@
   var isDark = stored ? stored === 'dark' : true;
   if (isDark) document.documentElement.classList.add('dark');
 })();
+
+// Arriving on a section link (index.html#contact, projects.html#ambag) would
+// otherwise paint the top of the page first and jump a moment later, once
+// script.js runs at the end of <body>. Hide the page until initHashLanding()
+// has pinned the target; the timeout is a safety net if script.js fails.
+(function () {
+  if (location.hash.length < 2) return;
+  var root = document.documentElement;
+  root.classList.add('hash-landing');
+  setTimeout(function () { root.classList.remove('hash-landing'); }, 1500);
+})();

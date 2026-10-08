@@ -366,14 +366,18 @@ function initShowcaseVideos() {
    instantly. A linked project row also skips its scroll-reveal fade.
    ========================================================= */
 function initHashLanding() {
+  const root = document.documentElement;
   const id = decodeURIComponent(location.hash.slice(1));
   const target = id && document.getElementById(id);
-  if (!target) return;
+  if (!target) {
+    root.classList.remove('hash-landing');
+    return;
+  }
 
   if (target.classList.contains('case-row')) target.classList.remove('reveal');
-  const root = document.documentElement;
   root.style.scrollBehavior = 'auto';
   target.scrollIntoView({ block: 'start' });
+  root.classList.remove('hash-landing'); // pinned, so show the page (hidden by theme-init.js)
   // Images above the row may still be loading; re-pin once they have.
   window.addEventListener('load', () => {
     target.scrollIntoView({ block: 'start' });

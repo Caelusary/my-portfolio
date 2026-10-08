@@ -690,6 +690,13 @@ function initContactForm() {
 
     if (!validateAll()) return;
 
+    // EmailJS comes from a CDN; if it was blocked, say so instead of
+    // throwing and leaving the button stuck on "Sending...".
+    if (!window.emailjs) {
+      showError();
+      return;
+    }
+
     sendBtn.disabled = true;
     sendBtnText.textContent = getTranslation('contact.sending');
 

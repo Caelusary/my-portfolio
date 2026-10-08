@@ -77,6 +77,12 @@ html.dark {
   --hero-social-color: rgba(255, 255, 255, 0.75);
 }
 
+/* Hidden for the instant between first paint and initHashLanding() pinning a
+   linked section, so the hero doesn't flash first (see js/theme-init.js). */
+html.hash-landing body {
+  visibility: hidden;
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;

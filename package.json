@@ -5,7 +5,8 @@
   "scripts": {
     "css": "tailwindcss -i css/tailwind.input.css -o css/tailwind.css --minify",
     "css:watch": "tailwindcss -i css/tailwind.input.css -o css/tailwind.css --watch",
-    "sync": "node scripts/sync-chrome.mjs"
+    "sync": "node scripts/sync-chrome.mjs",
+    "og:mp": "node scripts/og-machine-problems.mjs"
   },
   "devDependencies": {
     "tailwindcss": "3.4.17"

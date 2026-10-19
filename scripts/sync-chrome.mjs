@@ -1,9 +1,9 @@
-// Copies the shared nav and footer from index.html into projects.html.
+// Copies the shared nav and footer from index.html into the subpages.
 // index.html is the source of truth; run `npm run sync` after editing either block.
 import { readFileSync, writeFileSync } from 'node:fs';
 
 const SOURCE = 'index.html';
-const TARGETS = ['projects.html'];
+const TARGETS = ['projects.html', 'machine-problems.html'];
 const BLOCKS = ['nav', 'footer'];
 
 const blockPattern = (name) =>

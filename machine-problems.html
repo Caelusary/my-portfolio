@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Machine Problems | Zachary Scott</title>
+  <meta name="description" content="Three machine problems by Zachary Scott: FCFS and SJF CPU scheduling and the Banker&#39;s algorithm, rebuilt to run in the browser.">
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+
+  <!-- Open Graph / Twitter Card: what link previews (LinkedIn, Discord,
+       Slack, Twitter/X, etc.) show when this URL is shared. -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zacharyscott.vercel.app/machine-problems.html">
+  <meta property="og:title" content="Machine Problems | Zachary Scott">
+  <meta property="og:description" content="Three machine problems by Zachary Scott: FCFS and SJF CPU scheduling and the Banker&#39;s algorithm, rebuilt to run in the browser.">
+  <meta property="og:image" content="https://zacharyscott.vercel.app/images/og-machine-problems.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Machine Problems by Zachary Scott, with the FCFS, FCFS vs SJF and Banker&#39;s algorithm simulators">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Machine Problems | Zachary Scott">
+  <meta name="twitter:description" content="Three machine problems by Zachary Scott: FCFS and SJF CPU scheduling and the Banker&#39;s algorithm, rebuilt to run in the browser.">
+  <meta name="twitter:image" content="https://zacharyscott.vercel.app/images/og-machine-problems.png">
+
+  <!-- Applies the dark/light theme class before first paint, matching the
+       localStorage-persisted choice initDarkMode() (js/script.js) reads
+       later — otherwise the page briefly flashes the CSS defaults (light
+       theme) before JS catches up and switches to dark. Inline and placed
+       first so nothing else in <head> can render ahead of it. -->
+  <script src="js/theme-init.js"></script>
+
+  <!-- Google Fonts: Space Grotesk (headings) + Inter (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <!-- Custom CSS (only what Tailwind utilities can't express) -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Tailwind utilities, prebuilt by `npm run css` (see tailwind.config.js).
+       Loaded after style.css to keep the cascade the Play CDN had. -->
+  <link rel="stylesheet" href="css/tailwind.css">
+</head>
+<body class="font-sans transition-colors duration-300">
+
+  <!-- Skip link for keyboard/screen-reader users -->
+  <a class="skip-link" href="#main-content" data-i18n="a11y.skipLink">Skip to main content</a>
+
+  <!-- Scroll progress indicator -->
+  <div id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- Custom cursor (JS enables only on fine-pointer, hover-capable, non-reduced-motion devices) -->
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+  <!-- shared:nav:start (edit in index.html, then `npm run sync`) -->
+  <!-- ============ NAVIGATION BAR ============ -->
+  <nav id="mainNav" class="nav-solid site-nav" aria-label="Main navigation">
+    <div class="site-container nav-inner">
+      <a href="index.html#home" class="nav-logo">
+        <span class="nav-logo-mark" aria-hidden="true">ZS</span>
+        <span class="nav-logo-text">Zachary Scott</span>
+      </a>
+
+      <button id="navToggle" class="nav-toggle" type="button" aria-controls="navLinks" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars" aria-hidden="true"></i>
+      </button>
+
+      <!-- One glass group: links, then language and theme controls. On phones
+           it becomes the dropdown panel the hamburger opens. -->
+      <div id="navLinks" class="nav-panel hidden">
+        <div class="nav-links-group">
+          <a href="index.html#home" class="nav-link" data-i18n="nav.home">Home</a>
+          <a href="index.html#portfolio" class="nav-link active" aria-current="page" data-i18n="nav.portfolio">Portfolio</a>
+          <a href="index.html#about" class="nav-link" data-i18n="nav.about">About</a>
+          <a href="index.html#contact" class="nav-link" data-i18n="nav.contact">Contact</a>
+        </div>
+
+        <span class="nav-divider" aria-hidden="true"></span>
+
+        <div class="nav-controls">
+          <div class="lang-switch" role="group" data-i18n-aria-label="a11y.langSelector" aria-label="Language selector">
+            <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+            <button type="button" class="lang-btn" data-lang="tl" aria-pressed="false">FIL</button>
+          </div>
+
+          <button id="darkModeToggle" class="btn-dark-toggle" type="button"
+            data-i18n-aria-label="a11y.darkModeToggle" aria-label="Toggle dark mode" aria-pressed="false">
+            <span id="darkModeIcon" aria-hidden="true">🌙</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- shared:nav:end -->
+
+  <main id="main-content">
+
+    <!-- ============ MACHINE PROBLEMS HEADER ============ -->
+    <header class="projects-hero pt-32 md:pt-40 pb-10 md:pb-14">
+      <div class="site-container">
+        <a href="projects.html" class="projects-back">
+          <span data-i18n="projects.back">Back</span>
+        </a>
+        <p class="section-eyebrow" data-i18n="mp.eyebrow">Coursework</p>
+        <h1 class="projects-title" data-i18n="mp.title">Machine Problems</h1>
+        <p class="projects-intro" data-i18n="mp.intro">Three machine problems from my coursework, rebuilt to run right here. Change the numbers and press Run.</p>
+
+        <nav class="project-filters" data-i18n-aria-label="mp.jumpLabel" aria-label="Jump to a machine problem">
+          <a href="#mp1" class="filter-chip"><span class="filter-count">01</span> <span data-i18n="mp.1.short">FCFS</span></a>
+          <a href="#mp2" class="filter-chip"><span class="filter-count">02</span> <span data-i18n="mp.2.short">FCFS vs SJF</span></a>
+          <a href="#mp3" class="filter-chip"><span class="filter-count">03</span> <span data-i18n="mp.3.short">Banker's Algorithm</span></a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ============ MACHINE PROBLEMS ============ -->
+    <!-- Each row: a header (brief and stack), then the simulator with its inputs
+         beside the results. js/mp.js
+         builds every simulator into its [data-mp] element, using the same rules
+         as the original Node.js programs. -->
+    <section class="projects-list pb-6">
+      <div class="site-container">
+
+        <!-- MP 01 -->
+        <article id="mp1" class="mp-row reveal">
+          <div class="mp-brief">
+            <div class="mp-intro">
+              <span class="case-index">MP 01</span>
+              <h2 class="case-title" data-i18n="mp.1.title">FCFS CPU Scheduling</h2>
+              <p class="case-meta">Jul 27 &ndash; Aug 10, 2026</p>
+              <p class="case-desc" data-i18n="mp.1.desc">First Come, First Served: each process runs to completion in the order it arrived. The program finds every process's turnaround and waiting time, then the averages.</p>
+            </div>
+            <div class="card-tech-row">
+              <span class="badge tech-badge">Node.js</span>
+              <span class="badge tech-badge">Vanilla JS</span>
+            </div>
+            <!-- Rules: js/mp.js moves this into the simulator's Processes pane. -->
+            <div class="mp-rules-block">
+              <h3 class="mp-subhead" data-i18n="mp.rules">Rules</h3>
+              <ul class="mp-rules">
+                <li data-i18n="mp.rule.count">3 to 10 processes</li>
+                <li data-i18n="mp.rule.ids">Unique process IDs</li>
+                <li data-i18n="mp.rule.arrivals">Unique arrival times</li>
+                <li data-i18n="mp.rule.burst">Whole numbers only, with a burst of at least 1</li>
+              </ul>
+            </div>
+          </div>
+          <div class="mp-sim" data-mp="fcfs"></div>
+        </article>
+
+        <!-- MP 02 -->
+        <article id="mp2" class="mp-row reveal">
+          <div class="mp-brief">
+            <div class="mp-intro">
+              <span class="case-index">MP 02</span>
+              <h2 class="case-title" data-i18n="mp.2.title">FCFS vs SJF Scheduling</h2>
+              <p class="case-meta">Aug 25 &ndash; Sep 11, 2026</p>
+              <p class="case-desc" data-i18n="mp.2.desc">The same input under two non-preemptive schedulers. Shortest Job First picks the shortest burst among the processes that have arrived, and ties go to the earlier arrival. Compare puts both side by side.</p>
+            </div>
+            <div class="card-tech-row">
+              <span class="badge tech-badge">Node.js</span>
+              <span class="badge tech-badge">Vanilla JS</span>
+            </div>
+            <!-- Rules: js/mp.js moves this into the simulator's Processes pane. -->
+            <div class="mp-rules-block">
+              <h3 class="mp-subhead" data-i18n="mp.rules">Rules</h3>
+              <ul class="mp-rules">
+                <li data-i18n="mp.rule.count">3 to 10 processes</li>
+                <li data-i18n="mp.rule.ids">Unique process IDs</li>
+                <li data-i18n="mp.rule.arrivals">Unique arrival times</li>
+                <li data-i18n="mp.rule.burst">Whole numbers only, with a burst of at least 1</li>
+              </ul>
+            </div>
+          </div>
+          <div class="mp-sim" data-mp="sched"></div>
+        </article>
+
+        <!-- MP 03 -->
+        <article id="mp3" class="mp-row reveal">
+          <div class="mp-brief">
+            <div class="mp-intro">
+              <span class="case-index">MP 03</span>
+              <h2 class="case-title" data-i18n="mp.3.title">Banker's Algorithm</h2>
+              <p class="case-meta">Sep 18 &ndash; Oct 1, 2026</p>
+              <p class="case-desc" data-i18n="mp.3.desc">Deadlock avoidance with one resource type. From each process's maximum need and what it holds now, it tries every order of the processes and marks each one safe or unsafe.</p>
+            </div>
+            <div class="card-tech-row">
+              <span class="badge tech-badge">Node.js</span>
+              <span class="badge tech-badge">Vanilla JS</span>
+            </div>
+            <!-- Rules: js/mp.js moves this into the simulator's Processes pane. -->
+            <div class="mp-rules-block">
+              <h3 class="mp-subhead" data-i18n="mp.rules">Rules</h3>
+              <ul class="mp-rules">
+                <li data-i18n="mp.rule.count">3 to 10 processes</li>
+                <li data-i18n="mp.rule.ids">Unique process IDs</li>
+                <li data-i18n="mp.rule.max">Each maximum need within the total resources</li>
+                <li data-i18n="mp.rule.hold">Holdings within each maximum and the total</li>
+              </ul>
+            </div>
+          </div>
+          <div class="mp-sim" data-mp="bankers"></div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ============ CLOSING CTA ============ -->
+    <section class="projects-cta">
+      <div class="site-container projects-cta-inner reveal">
+        <h2 class="projects-cta-title" data-i18n="projects.ctaTitle">Like what you see?</h2>
+        <p class="projects-cta-text" data-i18n="projects.ctaText">Whether it's a project, a collaboration, or a question about one of these builds, I'd like to hear from you.</p>
+        <a href="index.html#contact" class="btn-view-details projects-cta-btn"><span data-i18n="projects.ctaButton">Get in touch</span></a>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- shared:footer:start (edit in index.html, then `npm run sync`) -->
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer py-10">
+    <div class="max-w-6xl mx-auto px-4 md:px-6 text-center">
+      <div class="footer-social mb-6">
+        <a href="https://www.facebook.com/zacharyscott.ruiz" class="social-link" aria-label="Facebook" target="_blank" rel="noopener">
+          <i class="fa-brands fa-facebook" aria-hidden="true"></i><span class="social-label">Facebook</span>
+        </a>
+        <a href="https://github.com/Caelusary" class="social-link" aria-label="GitHub" target="_blank" rel="noopener">
+          <i class="fa-brands fa-github" aria-hidden="true"></i><span class="social-label">GitHub</span>
+        </a>
+        <a href="https://www.instagram.com/definitely_notzach" class="social-link" aria-label="Instagram" target="_blank" rel="noopener">
+          <i class="fa-brands fa-instagram" aria-hidden="true"></i><span class="social-label">Instagram</span>
+        </a>
+        <a href="https://zacharyscottruiz.wordpress.com/" class="social-link" aria-label="WordPress" target="_blank" rel="noopener">
+          <i class="fa-brands fa-wordpress" aria-hidden="true"></i><span class="social-label">WordPress</span>
+        </a>
+        <a href="tel:+639454632859" class="social-link" aria-label="Phone">
+          <i class="fa-solid fa-phone" aria-hidden="true"></i><span class="social-label">(63) 9454632859</span>
+        </a>
+      </div>
+
+      <nav class="footer-links mb-6" aria-label="Footer quick navigation">
+        <a href="index.html#home" data-i18n="nav.home">Home</a>
+        <span aria-hidden="true">&middot;</span>
+        <a href="index.html#portfolio" data-i18n="nav.portfolio">Portfolio</a>
+        <span aria-hidden="true">&middot;</span>
+        <a href="index.html#contact" data-i18n="nav.contact">Contact</a>
+      </nav>
+
+      <p class="footer-copyright">
+        &copy; <span id="copyrightYear"></span> Zachary Scott D. Ruiz. <span data-i18n="footer.rights">All Rights Reserved.</span>
+      </p>
+      <p class="footer-built-with" data-i18n="footer.builtWith">Built with ❤️ and a lot of coffee.</p>
+    </div>
+  </footer>
+  <!-- shared:footer:end -->
+
+  <!-- ============ BACK TO TOP BUTTON ============ -->
+  <button id="backToTopBtn" type="button" data-i18n-aria-label="a11y.backToTop" data-i18n-title="a11y.backToTop" aria-label="Back to top" title="Back to top">
+    <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+  </button>
+
+  <!-- GSAP + ScrollTrigger (scroll animations) -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+  <!-- Translations (fill in the "tl" values with Filipino copy) -->
+  <script src="js/translations.js"></script>
+
+  <!-- Custom JS -->
+  <script src="js/script.js"></script>
+
+  <!-- Machine problem simulators -->
+  <script src="js/mp.js"></script>
+</body>
+</html>

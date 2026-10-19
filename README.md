@@ -1,6 +1,6 @@
 # Zachary Scott — Portfolio
 
-A cinematic personal portfolio for Zachary Scott (Full-Stack Developer & Creative Thinker), built with HTML, Tailwind CSS, custom CSS, and vanilla JavaScript. It showcases seven real projects (Loadout, Budgy, Cloudbase, Ambag, Trip Planner, Twogether, Shelf Help) on a home page that features the first three and a dedicated projects page with all seven, an About section with skills, CV, and certifications, and a working contact form powered by EmailJS.
+A cinematic personal portfolio for Zachary Scott (Full-Stack Developer & Creative Thinker), built with HTML, Tailwind CSS, custom CSS, and vanilla JavaScript. It showcases eight real projects (Loadout, Glitch, Ambag, Budgy, Cloudbase, Trip Planner, Twogether, Shelf Help) on a home page that features the first three and a dedicated projects page with all eight, an About section with skills, CV, and certifications, and a working contact form powered by EmailJS.
 
 ## Features
 
@@ -13,7 +13,8 @@ A cinematic personal portfolio for Zachary Scott (Full-Stack Developer & Creativ
 - **Scroll progress bar** showing how far down the page you are.
 - **EN / Filipino language toggle** with a full translation dictionary (`js/translations.js`), persisted in `localStorage`, falling back to English for any untranslated string.
 - **Portfolio section** featuring three projects (Loadout, Budgy, Cloudbase) as one full-width glass row of expanding panels, each on its app's brand colors with its logo. A light sweep crosses the row once when it scrolls into view. Each panel shows its logo, its number and title, and a hint modelled on Loadout's "Drag to turn": a pulsing hand icon with "Hover to preview" on laptops or "Hold to preview" on phones. On laptops, hovering a panel widens it and dims the other two, and resting on it for 0.7s plays a short recording of the app full-bleed (`project-videos/`); leaving stops and rewinds it. On touch screens the panels match the laptop look (phones get a swipeable row): holding a finger on one fills a ring around the hint and plays its recording after 0.45s without opening the link, and a panel that rests fully on screen for 2.5s plays on its own until it's swiped away. One recording plays at a time, and under `prefers-reduced-motion` only a deliberate hold plays one. Each panel links straight to that project on the projects page, which opens already scrolled to it, and a **View all projects** button beside the heading links to the full list.
-- **Projects page** (`projects.html`) listing all seven projects as alternating case-study rows, in the same order as the home page: a screenshot gallery (thumbnails swap the main image), role and duration, description, feature list, tech badges, and Live Demo / GitHub links. Filter chips narrow the list to Full Stack or Frontend (one swipeable row on phones), and a closing "Like what you see?" call to action links to the contact form. Its **Back** link returns to whichever page of the site you came from, at the spot you left it.
+- **Projects page** (`projects.html`) listing all eight projects as alternating case-study rows, ranked by polish, usefulness and scale: a screenshot gallery (thumbnails swap the main image), role and duration, description, feature list, tech badges, and Live Demo / GitHub links. Filter chips narrow the list to Full Stack or Frontend (one swipeable row on phones), and a closing "Like what you see?" call to action links to the contact form. Its **Back** link returns to whichever page of the site you came from, at the spot you left it.
+- **Machine problems page** (`machine-problems.html`) with three machine problems rebuilt from Node.js command-line programs into browser simulators: FCFS scheduling, FCFS vs SJF (with a side-by-side compare), and the Banker's algorithm, which marks every order of the processes safe or unsafe. Each one starts on its handout's sample input, checks the same rules as the original program, and draws a Gantt chart or a filterable list of orders. Linked from the home page's projects header and the projects page.
 - **About section** with a portrait tinted in the site palette beside the bio (stacked on phones), a real skills badge row, View/Download CV buttons (linking to an actual PDF résumé), and a Certifications area: completed certificates sit in a stack (newest first, the next two peeking out behind) that cross-fades to the next card every 4 seconds, pauses on hover, focus or when off screen, never auto-rotates under `prefers-reduced-motion`, and has prev/next buttons, dots, arrow keys and swipe. Each links to its real PDF. Certifications in progress are listed below it.
 - **Contact form** ("Get In Touch") with real-time client-side validation (valid/invalid field styling as you type or blur) and submission via the [EmailJS](https://www.emailjs.com/) browser SDK (`emailjs.sendForm`). Success and error alerts are shown after submission attempts.
 - **Footer** with social links (Facebook, GitHub, Instagram, WordPress, phone) and quick navigation.
@@ -43,16 +44,19 @@ There is no backend/server code in this project — form submissions are sent di
 portfolio/
 ├── index.html              # Home page: nav, hero, featured projects, about/CV/certs, contact form, footer
 ├── projects.html           # All projects: filterable case-study rows with screenshot galleries
+├── machine-problems.html   # Machine problems as live simulators
 ├── css/
 │   ├── style.css           # Theming (dark/light), hero shader/photo/particles, glassmorphism, project panels, cursor, scroll-reveal
 │   ├── tailwind.input.css  # Tailwind entry point
 │   └── tailwind.css        # Generated by `npm run css`; committed, since Vercel runs no build
 ├── js/
 │   ├── theme-init.js       # Sets the dark/light class before first paint (no theme flash)
+│   ├── mp.js               # Machine problem simulators (scheduling, Banker's algorithm)
 │   ├── script.js           # All feature init functions (cursor, shader, particles, cursor glow, forms, toggles, project filter, etc.)
 │   └── translations.js     # EN/Filipino translation dictionary
 ├── scripts/
-│   └── sync-chrome.mjs     # Copies the shared nav and footer from index.html into projects.html
+│   ├── sync-chrome.mjs     # Copies the shared nav and footer from index.html into the subpages
+│   └── og-machine-problems.mjs # Regenerates images/og-machine-problems.png (`npm run og:mp`)
 ├── tailwind.config.js      # Tailwind theme (fonts, colors) and the files it scans for classes
 ├── vercel.json             # /projects rewrite and security headers (CSP, frame, sniffing, referrer)
 ├── images/                 # Hero and About portraits (WebP, two sizes each), link preview images, favicon

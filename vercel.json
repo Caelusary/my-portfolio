@@ -4,6 +4,10 @@
     {
       "source": "/projects",
       "destination": "/projects.html"
+    },
+    {
+      "source": "/machine-problems",
+      "destination": "/machine-problems.html"
     }
   ],
   "headers": [
